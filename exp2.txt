@@ -1,0 +1,95 @@
+
+import time
+from pyModbusTCP.client import ModbusClient
+
+import time
+from pyModbusTCP.client import ModbusClient
+
+# init
+c = ModbusClient(host='192.168.1.77', port=502, auto_open=True, debug=False)
+
+def read_hreg():
+    regs = c.read_holding_registers(4676, 1)
+    print("reading register values")
+
+    if regs:
+        print(regs)
+    else:
+        print("error")
+
+def write_reg():
+    # Code for writing into register
+    print("write value to register")
+    a = int(input("Set hight level :"))
+    c.write_single_register(4676, a)
+
+def read_coil():
+    import time
+    from pyModbusTCP.client import ModbusClient
+
+    # init modbus client
+    c = ModbusClient(host='192.168.1.77', port=502, auto_open=True, debug=False)
+
+    coils_l = c.read_coils(1280, 1)
+
+    if coils_l:
+        print('coil ad #y0' % coils_l)
+    else:
+        print('unable to read coils')
+
+class writecoil:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+  def on(self):
+      bit = True
+      ad = 1280
+      ok = c.write_single_coil(ad, bit)
+      if ok:
+          print(bit)
+      else:
+          print(bit)
+
+      bits = c.read_coils(1280, 1)
+      if bits:
+          print(bits)
+      else:
+          print('coils #m10: unable to read')
+
+  def off(self):
+      bit = False
+      ad = 1280
+      ok = c.write_single_coil(ad, bit)
+
+
+
+print("\n\t\t*Sukrit Machine Tools*")
+print("\n\t\t**********************")
+print("\tFolow the instructions below:")
+print("1 For Read Hold Register")
+print("2 For Write Register")
+print("3 for Read Coil")
+print("4 for Write coil")
+choice=str(input("Enter your choice :"))
+
+if choice =="1":
+    read_hreg()
+
+elif choice =="2":
+    write_reg()
+
+elif choice =="3":
+    read_coil()
+
+elif choice== "4":
+    wc1=writecoil()
+    print('Write Coil')
+    status = str(input('Enter Coil Status: Y/N :'))
+
+    if status == "Y" or status == "y":
+        wc1.on()
+    elif status == 'N' or status == "n":
+        wc2.off()
+    else:
+        print("Enter Valid input!!")
