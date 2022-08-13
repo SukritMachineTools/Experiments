@@ -1,0 +1,22 @@
+import time
+from pyModbusTCP.client import ModbusClient
+
+import time
+from pyModbusTCP.client import ModbusClient
+
+# init
+c = ModbusClient(host='192.168.1.77', port=502, auto_open=True, debug=False)
+
+bit = False
+ad = 1280
+ok = c.write_single_coil(ad, bit)
+if ok:
+    print(bit)
+else:
+    print(bit)
+
+bits = c.read_coils(1280, 1)
+if bits:
+    print( bits)
+else:
+    print('coils #m10: unable to read')

@@ -1,0 +1,769 @@
+[
+    {
+        "id": "cd21fa8d.ed8198",
+        "type": "tab",
+        "label": "Sukrit",
+        "disabled": false,
+        "info": "Modbus serverIP address:192.168.1.77 port 502, you have to use yours\nPLC bits and coils: M, X, Y.\nPLC registers: D, T, C.\nFunctions: FC1, FC2, FC3."
+    },
+    {
+        "id": "6983a4d.ab2885c",
+        "type": "modbus-write",
+        "z": "cd21fa8d.ed8198",
+        "name": "write m10 bit",
+        "showStatusActivities": true,
+        "showErrors": true,
+        "unitid": "1",
+        "dataType": "Coil",
+        "adr": "2058",
+        "quantity": "1",
+        "server": "a0737e46.57122",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 410,
+        "y": 100,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "678daa54.855704",
+        "type": "modbus-write",
+        "z": "cd21fa8d.ed8198",
+        "name": "write m11 bit",
+        "showStatusActivities": true,
+        "showErrors": true,
+        "unitid": "1",
+        "dataType": "Coil",
+        "adr": "2059",
+        "quantity": "1",
+        "server": "a0737e46.57122",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 410,
+        "y": 200,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "ff5a19ec.a23128",
+        "type": "modbus-write",
+        "z": "cd21fa8d.ed8198",
+        "name": "write m16 bit",
+        "showStatusActivities": true,
+        "showErrors": true,
+        "unitid": "1",
+        "dataType": "Coil",
+        "adr": "2064",
+        "quantity": "1",
+        "server": "a0737e46.57122",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 410,
+        "y": 280,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "8d1d937d.6e09c",
+        "type": "modbus-write",
+        "z": "cd21fa8d.ed8198",
+        "name": "write m17 bit",
+        "showStatusActivities": true,
+        "showErrors": true,
+        "unitid": "1",
+        "dataType": "Coil",
+        "adr": "2065",
+        "quantity": "1",
+        "server": "a0737e46.57122",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 410,
+        "y": 360,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "6efa6c60.4cc3e4",
+        "type": "modbus-read",
+        "z": "cd21fa8d.ed8198",
+        "name": "Y0 lamp pump",
+        "topic": "",
+        "showStatusActivities": true,
+        "logIOActivities": false,
+        "showErrors": true,
+        "unitid": "1",
+        "dataType": "Coil",
+        "adr": "1280",
+        "quantity": "1",
+        "rate": "500",
+        "rateUnit": "ms",
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "server": "a0737e46.57122",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 220,
+        "y": 480,
+        "wires": [
+            [
+                "97e7fdd5.dcbbc"
+            ],
+            [
+                "64e97d0e.b8fe04"
+            ]
+        ]
+    },
+    {
+        "id": "64e97d0e.b8fe04",
+        "type": "modbus-response",
+        "z": "cd21fa8d.ed8198",
+        "name": "",
+        "registerShowMax": 20,
+        "x": 450,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "76ed59c.39a64a8",
+        "type": "modbus-read",
+        "z": "cd21fa8d.ed8198",
+        "name": "Y1 lamp solenoild",
+        "topic": "",
+        "showStatusActivities": true,
+        "logIOActivities": false,
+        "showErrors": true,
+        "unitid": "1",
+        "dataType": "Coil",
+        "adr": "1281",
+        "quantity": "1",
+        "rate": "500",
+        "rateUnit": "ms",
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "server": "a0737e46.57122",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 240,
+        "y": 660,
+        "wires": [
+            [
+                "66519109.d4d5"
+            ],
+            [
+                "c5a498da.1518b8"
+            ]
+        ]
+    },
+    {
+        "id": "c5a498da.1518b8",
+        "type": "modbus-response",
+        "z": "cd21fa8d.ed8198",
+        "name": "",
+        "registerShowMax": 20,
+        "x": 520,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "8799ae8b.1f6b8",
+        "type": "ui_led",
+        "z": "cd21fa8d.ed8198",
+        "group": "849ef9ac.e33228",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "label": "Solenoild",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "grey",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "green",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "name": "",
+        "x": 750,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "8757e58b.4e8dd8",
+        "type": "modbus-write",
+        "z": "cd21fa8d.ed8198",
+        "name": "write d580 register",
+        "showStatusActivities": true,
+        "showErrors": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "4676",
+        "quantity": "1",
+        "server": "a0737e46.57122",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 440,
+        "y": 780,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "1636162e.da84ba",
+        "type": "ui_numeric",
+        "z": "cd21fa8d.ed8198",
+        "name": "",
+        "label": "Set hight level",
+        "tooltip": "",
+        "group": "849ef9ac.e33228",
+        "order": 9,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1000",
+        "step": 1,
+        "x": 210,
+        "y": 786,
+        "wires": [
+            [
+                "8757e58b.4e8dd8"
+            ]
+        ]
+    },
+    {
+        "id": "f2f592c7.355e1",
+        "type": "modbus-write",
+        "z": "cd21fa8d.ed8198",
+        "name": "write d582 register",
+        "showStatusActivities": true,
+        "showErrors": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "4678",
+        "quantity": "1",
+        "server": "a0737e46.57122",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 440,
+        "y": 840,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "3fb35db7.a1a2a2",
+        "type": "ui_numeric",
+        "z": "cd21fa8d.ed8198",
+        "name": "",
+        "label": "Set low level",
+        "tooltip": "",
+        "group": "849ef9ac.e33228",
+        "order": 10,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1000",
+        "step": 1,
+        "x": 200,
+        "y": 846,
+        "wires": [
+            [
+                "f2f592c7.355e1"
+            ]
+        ]
+    },
+    {
+        "id": "3ca6f7e4.841578",
+        "type": "modbus-write",
+        "z": "cd21fa8d.ed8198",
+        "name": "write d310 register",
+        "showStatusActivities": true,
+        "showErrors": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "4406",
+        "quantity": "1",
+        "server": "a0737e46.57122",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 440,
+        "y": 920,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "1117b424.f3282c",
+        "type": "ui_numeric",
+        "z": "cd21fa8d.ed8198",
+        "name": "",
+        "label": "Tần số",
+        "tooltip": "",
+        "group": "849ef9ac.e33228",
+        "order": 11,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1000",
+        "step": 1,
+        "x": 180,
+        "y": 926,
+        "wires": [
+            [
+                "3ca6f7e4.841578"
+            ]
+        ]
+    },
+    {
+        "id": "622ca49f.d9b65c",
+        "type": "modbus-write",
+        "z": "cd21fa8d.ed8198",
+        "name": "write d502 register",
+        "showStatusActivities": true,
+        "showErrors": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "4598",
+        "quantity": "1",
+        "server": "a0737e46.57122",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 440,
+        "y": 980,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "59b11c55.bab9b4",
+        "type": "ui_numeric",
+        "z": "cd21fa8d.ed8198",
+        "name": "",
+        "label": "Kp",
+        "tooltip": "",
+        "group": "849ef9ac.e33228",
+        "order": 12,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1000",
+        "step": 1,
+        "x": 180,
+        "y": 986,
+        "wires": [
+            [
+                "622ca49f.d9b65c"
+            ]
+        ]
+    },
+    {
+        "id": "523e86d3.f408f8",
+        "type": "modbus-write",
+        "z": "cd21fa8d.ed8198",
+        "name": "write d504 register",
+        "showStatusActivities": true,
+        "showErrors": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "4600",
+        "quantity": "1",
+        "server": "a0737e46.57122",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 440,
+        "y": 1040,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "3b078c61.d51ed4",
+        "type": "ui_numeric",
+        "z": "cd21fa8d.ed8198",
+        "name": "",
+        "label": "Ti",
+        "tooltip": "",
+        "group": "849ef9ac.e33228",
+        "order": 13,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1000",
+        "step": 1,
+        "x": 180,
+        "y": 1046,
+        "wires": [
+            [
+                "523e86d3.f408f8"
+            ]
+        ]
+    },
+    {
+        "id": "c4d4b75c.163e38",
+        "type": "modbus-write",
+        "z": "cd21fa8d.ed8198",
+        "name": "write d506 register",
+        "showStatusActivities": true,
+        "showErrors": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "4602",
+        "quantity": "1",
+        "server": "a0737e46.57122",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 420,
+        "y": 1100,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "972530d2.55c33",
+        "type": "ui_numeric",
+        "z": "cd21fa8d.ed8198",
+        "name": "",
+        "label": "Td",
+        "tooltip": "",
+        "group": "849ef9ac.e33228",
+        "order": 14,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1000",
+        "step": 1,
+        "x": 160,
+        "y": 1106,
+        "wires": [
+            [
+                "c4d4b75c.163e38"
+            ]
+        ]
+    },
+    {
+        "id": "166ff414.447cfc",
+        "type": "ui_template",
+        "z": "cd21fa8d.ed8198",
+        "group": "849ef9ac.e33228",
+        "name": "Start Pump",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<div class=\"momentary0\">\n   <md-button> Start Pump</md-button>\n</div>\n\n<script>\n\n(function($scope) {\n    \n$('.momentary0').on('touchstart mousedown', function(e) {\n    e.preventDefault(); //prevent default behavior\n    $scope.send({\"payload\": true});\n});\n\n$('.momentary0').on('touchend mouseup', function(e) {\n    e.preventDefault(); //prevent default behavior\n    $scope.send({\"payload\":false });\n});\n    \n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 200,
+        "y": 100,
+        "wires": [
+            [
+                "6983a4d.ab2885c"
+            ]
+        ]
+    },
+    {
+        "id": "b99a9f12.e4df5",
+        "type": "ui_template",
+        "z": "cd21fa8d.ed8198",
+        "group": "849ef9ac.e33228",
+        "name": "Stop Pump",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "format": "<div class=\"momentary1\">\n   <md-button> Stop Pump</md-button>\n</div>\n\n<script>\n\n(function($scope) {\n    \n$('.momentary1').on('touchstart mousedown', function(e) {\n    e.preventDefault(); //prevent default behavior\n    $scope.send({\"payload\": true});\n});\n\n$('.momentary1').on('touchend mouseup', function(e) {\n    e.preventDefault(); //prevent default behavior\n    $scope.send({\"payload\":false });\n});\n    \n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 210,
+        "y": 200,
+        "wires": [
+            [
+                "678daa54.855704"
+            ]
+        ]
+    },
+    {
+        "id": "dc3226d0.c88bd8",
+        "type": "ui_template",
+        "z": "cd21fa8d.ed8198",
+        "group": "849ef9ac.e33228",
+        "name": "Start Solenoild",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "format": "<div class=\"momentary2\">\n   <md-button> Start Solenoild</md-button>\n</div>\n\n<script>\n\n(function($scope) {\n    \n$('.momentary2').on('touchstart mousedown', function(e) {\n    e.preventDefault(); //prevent default behavior\n    $scope.send({\"payload\": true});\n});\n\n$('.momentary2').on('touchend mouseup', function(e) {\n    e.preventDefault(); //prevent default behavior\n    $scope.send({\"payload\":false });\n});\n    \n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 220,
+        "y": 280,
+        "wires": [
+            [
+                "ff5a19ec.a23128"
+            ]
+        ]
+    },
+    {
+        "id": "373615ce.c6985a",
+        "type": "ui_template",
+        "z": "cd21fa8d.ed8198",
+        "group": "849ef9ac.e33228",
+        "name": "Stop Solenoild",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "format": "<div class=\"momentary3\">\n   <md-button> Stop Solenoild</md-button>\n</div>\n\n<script>\n\n(function($scope) {\n    \n$('.momentary3').on('touchstart mousedown', function(e) {\n    e.preventDefault(); //prevent default behavior\n    $scope.send({\"payload\": true});\n});\n\n$('.momentary3').on('touchend mouseup', function(e) {\n    e.preventDefault(); //prevent default behavior\n    $scope.send({\"payload\":false });\n});\n    \n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 220,
+        "y": 360,
+        "wires": [
+            [
+                "8d1d937d.6e09c"
+            ]
+        ]
+    },
+    {
+        "id": "ae274748.ba7ec8",
+        "type": "ui_led",
+        "z": "cd21fa8d.ed8198",
+        "group": "849ef9ac.e33228",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "label": "Pump",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "grey",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "green",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "name": "",
+        "x": 730,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "97e7fdd5.dcbbc",
+        "type": "function",
+        "z": "cd21fa8d.ed8198",
+        "name": "read coil status",
+        "func": "var x = [0,0,0,0,0,0,0,0];\nvar msg_o = [msg,msg,msg,msg,msg,msg,msg,msg,];\n\n    x[0] = msg.payload[0];\n    \n    if(x[0]==true){\n        msg_o[0] = {payload: true};\n    }\n    else{\n        msg_o[0] = {payload: false};\n    }\n    \n\n\n\nreturn msg_o[0];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 440,
+        "y": 440,
+        "wires": [
+            [
+                "33f7a1d8.fece1e",
+                "ae274748.ba7ec8"
+            ]
+        ]
+    },
+    {
+        "id": "33f7a1d8.fece1e",
+        "type": "debug",
+        "z": "cd21fa8d.ed8198",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "66519109.d4d5",
+        "type": "function",
+        "z": "cd21fa8d.ed8198",
+        "name": "read coil status",
+        "func": "var x = [0,0,0,0,0,0,0,0];\nvar msg_o = [msg,msg,msg,msg,msg,msg,msg,msg,];\n\n    x[0] = msg.payload[0];\n    \n    if(x[0]==true){\n        msg_o[0] = {payload: true};\n    }\n    else{\n        msg_o[0] = {payload: false};\n    }\n    \n\n\n\nreturn msg_o[0];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 480,
+        "y": 620,
+        "wires": [
+            [
+                "701b70de.1cca8",
+                "8799ae8b.1f6b8"
+            ]
+        ]
+    },
+    {
+        "id": "701b70de.1cca8",
+        "type": "debug",
+        "z": "cd21fa8d.ed8198",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "5132be22.7bfa",
+        "type": "modbus-write",
+        "z": "cd21fa8d.ed8198",
+        "name": "write D0 register",
+        "showStatusActivities": true,
+        "showErrors": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "4096",
+        "quantity": "1",
+        "server": "a0737e46.57122",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 400,
+        "y": 1360,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "e2fe0c19.d46d8",
+        "type": "ui_numeric",
+        "z": "cd21fa8d.ed8198",
+        "name": "",
+        "label": "Test D0",
+        "tooltip": "",
+        "group": "849ef9ac.e33228",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1000",
+        "step": 1,
+        "x": 160,
+        "y": 1366,
+        "wires": [
+            [
+                "5132be22.7bfa"
+            ]
+        ]
+    },
+    {
+        "id": "a0737e46.57122",
+        "type": "modbus-client",
+        "name": "modbus TCP client",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "tcpHost": "192.168.1.10",
+        "tcpPort": "502",
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "9600",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "unit_id": "1",
+        "commandDelay": "1",
+        "clientTimeout": "1000",
+        "reconnectOnTimeout": false,
+        "reconnectTimeout": "2000",
+        "parallelUnitIdsAllowed": false
+    },
+    {
+        "id": "849ef9ac.e33228",
+        "type": "ui_group",
+        "name": "Center Station",
+        "tab": "80f737c5.0293f8",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "80f737c5.0293f8",
+        "type": "ui_tab",
+        "name": "Đại Học Kỹ THuật Công Nghiệp Thái Nguyên",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
