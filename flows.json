@@ -1,0 +1,1 @@
+[{"id":"d380d327.9f698","type":"mysql","z":"4914f75c.920ce8","mydb":"3ad23060.c3831","name":"to database","x":790,"y":360,"wires":[[]]},{"id":"3ad23060.c3831","type":"MySQLdatabase","z":"","name":"","host":"127.0.0.1","port":"3306","db":"Energy_data2","tz":""}]
