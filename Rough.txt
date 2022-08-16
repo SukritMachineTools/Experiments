@@ -1,0 +1,102 @@
+#imported libraries
+import time
+from os import system
+from pyModbusTCP.client import ModbusClient
+from tkinter import *
+
+root=Tk()
+root.geometry("755x355")
+root.title("Sukrit Machine Tools")
+root.wm_iconbitmap("1.ico")
+
+# init
+c = ModbusClient(host='192.168.1.77', port=502, auto_open=True, debug=False)
+
+def click(event):
+    pass
+def read_hreg(event):
+    regs = c.read_holding_registers(4676, 1)
+    print("reading register values")
+
+    if regs:
+        print(regs)
+    else:
+        print("error")
+
+def write_reg(event):
+    # Code for writing into register
+    print("write value to register")
+    a = int(input("Set hight level :"))
+    c.write_single_register(4676, a)
+
+def read_coil(event):
+    coils_l = c.read_coils(1280, 1)
+
+    if coils_l:
+        print('coil  #y0: %s' % coils_l)
+    else:
+        print('unable to read coils')
+
+def on(event):
+    bit = True
+    ad = 1280
+    ok = c.write_single_coil(ad, bit)
+    if ok:
+        print(bit)
+    else:
+        print(bit)
+
+    bits = c.read_coils(1280, 1)
+    if bits:
+        print(bits)
+    else:
+        print('coils #m10: unable to read')
+
+def off(event):
+    bit = True
+    ad = 1280
+    ok = c.write_single_coil(ad, bit)
+    if ok:
+        print(bit)
+    else:
+        print(bit)
+
+    bits = c.read_coils(1280, 1)
+    if bits:
+        print(bits)
+    else:
+        print('coils #m10: unable to read')
+
+
+
+
+f=Frame(root,bg="grey")
+brhr=Button(root,text="Read Holding Register",padx=27,pady=18,font="lucida 16 bold")
+brhr.pack(side=LEFT,padx=18,pady=5)
+brhr.bind("<Button-1>",read_hreg)
+
+
+bwr=Button(root,text="Write Register",padx=27,pady=18,font="lucida 16 bold")
+bwr.pack(side=LEFT,padx=18,pady=5)
+bwr.bind("<Button-1>",write_reg)
+f.pack()
+
+f=Frame(root,bg="grey")
+brc=Button(root,text="Read Coil",padx=27,pady=18,font="lucida 16 bold")
+brc.pack(side=LEFT,padx=18,pady=5)
+brc.bind("<Button-1>",read_coil)
+f.pack()
+
+f=Frame(root,bg="grey")
+bonc=Button(root,text="On Coil",padx=27,pady=18,font="lucida 16 bold")
+bonc.pack(side=LEFT,padx=18,pady=5)
+bonc.bind("<Button-1>",on)
+f.pack()
+
+f=Frame(root,bg="grey")
+bofc=Button(root,text="Off Coil",padx=27,pady=18,font="lucida 16 bold")
+bofc.pack(side=LEFT,padx=18,pady=5)
+bofc.bind("<Button-1>",on)
+f.pack()
+
+root.mainloop()

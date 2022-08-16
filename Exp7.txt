@@ -1,0 +1,70 @@
+import time
+from os import system
+from pyModbusTCP.client import ModbusClient
+from tkinter import *
+
+
+root=Tk()
+root.geometry("455x355")
+root.title("Sukrit Machine Tools")
+root.wm_iconbitmap("1.ico")
+root.configure(background="orange")
+
+Label(root,text="Sukrit Machine Tools",font="comicsans 13 bold",padx=55,pady=15).grid(row=0,column=3)
+# init
+c = ModbusClient(host='192.168.1.77', port=502, auto_open=True, debug=False)
+
+def writeregv():
+    #print(f"{regvalue.get()}")
+    a=int(f"{regvalue.get()}")
+    c.write_single_register(4676, a)
+
+def read_hreg():
+    regs = c.read_holding_registers(4676, 1)
+    Label(text="reading register values :").grid(row=6,column=0)
+    #print("reading register values")
+
+    if regs:
+        #print(regs)
+        rhr = Label(text=f"{regs}").grid(row=6,column=1)
+    else:
+        #print("error")
+        Label(text="reading register values :").grid(row=6, column=0)
+
+def write_reg():
+    # Code for writing into register
+    #print("write value to register")
+    Label(text="Write Coil values :").grid(row=7, column=0)
+    regentry=Entry(root,textvariable=regvalue).grid(row=7, column=1)
+    Button(text="Submit",command=writeregv).grid(row=7,column=2)
+
+
+def read_coil():
+    coils_l = c.read_coils(1280, 1)
+    Label(text="reading Coil values :").grid(row=8, column=0)
+
+    if coils_l:
+        #print('coil  #y0: %s' % coils_l)
+        Label(text=f" %s" % coils_l).grid(row=8, column=1)
+    else:
+        #print('unable to read coils')
+        Label(text="unable to read coils").grid(row=8, column=1)
+
+def on():
+    bit = True
+    ad = 1280
+    ok = c.write_single_coil(ad, bit)
+
+def off():
+    bit = False
+    ad = 1280
+    ok = c.write_single_coil(ad, bit)
+
+#buttons
+b1=Button(text="Read H Register",command=read_hreg,bg="pink",padx=5,pady=5).grid(row=1,column=0)
+b2=Button(text="Write Register",command=write_reg,bg="pink",padx=10,pady=5).grid(row=2,column=0)
+b3=Button(text="Read Coil",command=read_coil,bg="pink",padx=20,pady=5).grid(row=3,column=0)
+b4=Button(text="On Coil",command=on,bg="pink",padx=25,pady=5).grid(row=4,column=0)
+b5=Button(text="Off Coil",command=off,bg="pink",padx=24,pady=5).grid(row=5,column=0)
+regvalue=StringVar()
+root.mainloop()
