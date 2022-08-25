@@ -1,0 +1,41 @@
+import time
+from os import system
+from pyModbusTCP.client import ModbusClient
+from tkinter import *
+
+
+root=Tk()
+root.geometry("455x355")
+root.title("Sukrit Machine Tools")
+root.wm_iconbitmap("1.ico")
+root.configure(background="orange")
+
+Label(root,text="Sukrit Machine Tools",font="comicsans 13 bold",padx=15,pady=15).grid(row=0,column=1)
+# init
+def writeiport():
+    ipa = f"{ipvalue.get()}"
+    ipp = f"{portvalue.get()}"
+    return ipa,ipp
+
+def ip():
+    x='192.168.1.77'
+    y=502
+    c = ModbusClient(host=str(x), port=y, auto_open=True)
+    return c
+
+
+ipvalue=StringVar()
+portvalue=StringVar()
+Label(text="Enter Ip value :").grid(row=1, column=0)
+ipentry=Entry(root,textvariable=ipvalue).grid(row=1, column=1,padx=15)
+Label(text="Port :").grid(row=1, column=2)
+portentry=Entry(root,textvariable=portvalue).grid(row=1, column=3,padx=15)
+Button(text="Submit",command=writeiport).grid(row=1,column=4)
+#x=input("Enter value")
+#y=502
+x,y=writeiport()
+
+c=ip()
+
+
+root.mainloop()

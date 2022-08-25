@@ -1,0 +1,22 @@
+
+import csv
+
+# field names
+fields = ['Bend', 'D1', 'D2', 'D3','D4']
+
+# data rows of csv file
+rows = [['Bend1', '17', 'True', '17','17'],
+        ['Bend2', '17', 'False', '9','17'],
+        ['Bend3', '17', 'True', '9','17']]
+
+# name of csv file
+filename = "Program1.csv"
+
+
+f = open(filename, "w")
+csvwriter = csv.writer(f)
+csvwriter.writerow(fields)
+csvwriter.writerows(rows)
+f.close()
+f = open(filename, "r")
+print(f.read())
