@@ -1,0 +1,55 @@
+from tkinter import *
+from PIL import Image, ImageTk
+from tkinter import ttk
+
+
+root=Tk()
+root.geometry("800x480")
+root.title("Sukrit Machine Tools")
+root.wm_iconbitmap('D:\Software Development\hello\sukrit_Logo.ico')
+root.configure(background="orange")
+
+
+frame1= Frame(root,highlightbackground="blue", highlightthickness=2,bg="orange")
+logoimg=ImageTk.PhotoImage(Image.open('D:\Software Development\hello\sukrit_Logo.png').resize((150,70), Image.ANTIALIAS))
+loglabel=Label(frame1,image=logoimg).grid(row=0,column=0)
+Label(frame1,text="Punch Data",font="Algerian 27 bold",padx=15,pady=15, bg="orange").grid(row=0,column=1,padx=10)
+frame1.pack(fill=X)
+
+frame2=Frame(root,bg="blue",height=10)
+# wlabel=Label(frame2,text="",bg="blue",height=10).grid(row=1)
+frame2.pack(fill=X)
+
+frame3= Frame(root,highlightbackground="blue", highlightthickness=2,bg="orange")
+pnlable=Label(frame3,text="Punch Name",font="Stencil 25 bold",padx=15,pady=15, bg="orange",fg="green").grid(row=0,column=0)
+pnvalue=StringVar()
+pnentry = Entry(frame3, textvariable=pnvalue,font="Arial_Black 25 bold").grid(row=0,column=1)
+phlable=Label(frame3,text="Punch Height",font="Stencil 25 bold",padx=15,pady=15, bg="orange",fg="green").grid(row=1,column=0)
+phvalue=StringVar()
+phentry = Entry(frame3, textvariable=phvalue,font="Arial_Black 25 bold").grid(row=1,column=1)
+palable=Label(frame3,text="Punch Angle",font="Stencil 25 bold",padx=15,pady=15, bg="orange",fg="green").grid(row=2,column=0)
+pavalue=StringVar()
+paentry = Entry(frame3, textvariable=pavalue,font="Arial_Black 25 bold").grid(row=2,column=1)
+prlable=Label(frame3,text="Punch Radius",font="Stencil 25 bold",padx=15,pady=15, bg="orange",fg="green").grid(row=3,column=0)
+prvalue=StringVar()
+prentry = Entry(frame3, textvariable=prvalue,font="Arial_Black 25 bold").grid(row=3,column=1)
+frame3.pack(fill=X)
+
+
+frame4=Frame(root,bg="blue",height=10)
+# wlabel=Label(frame2,text="",bg="blue",height=10).grid(row=1)
+frame4.pack(fill=X)
+
+frame5= Frame(root,highlightbackground="blue", highlightthickness=2,bg="orange")
+settingimg=ImageTk.PhotoImage(Image.open('D:\Software Development\hello\home.png').resize((150,80), Image.ANTIALIAS))
+#settinglabel=Label(frame5,image=settingimg).grid(row=0,column=0,padx=50)
+settingbutton=Button(frame5,image=settingimg,borderwidth=0).grid(row=0,column=0,padx=50)
+pdimg=ImageTk.PhotoImage(Image.open('D:\Software Development\hello\puchlist.png').resize((150,80), Image.ANTIALIAS))
+#pdlabel=Label(frame5,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
+pdbutton=Button(frame5,image=pdimg,borderwidth=0).grid(row=0,column=1,padx=50,columnspan=2)
+plimg=ImageTk.PhotoImage(Image.open('D:\Software Development\hello\settings.png').resize((150,80), Image.ANTIALIAS))
+#pllabel=Label(frame5,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
+plButton=Button(frame5,image=plimg,borderwidth=0).grid(row=0,column=4,padx=50,columnspan=2)
+frame5.pack(fill=X)
+
+root.mainloop()
