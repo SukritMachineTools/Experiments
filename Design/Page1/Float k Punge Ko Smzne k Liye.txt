@@ -1,0 +1,73 @@
+
+from pyModbusTCP.client import ModbusClient
+from pyModbusTCP.utils import encode_ieee, decode_ieee, \
+                              long_list_to_word, word_list_to_long
+
+
+class FloatModbusClient(ModbusClient):
+    """A ModbusClient class with float support."""
+
+    def read_float(self, address, number=1):
+        """Read float(s) with read holding registers."""
+        reg_l = self.read_holding_registers(address, number * 2)
+        if reg_l:
+            return [decode_ieee(f) for f in word_list_to_long(reg_l)]
+        else:
+            return None
+
+    def write_float(self, address, floats_list):
+        """Write float(s) with write multiple registers."""
+        b32_l = [encode_ieee(f) for f in floats_list]
+        b16_l = long_list_to_word(b32_l)
+        return self.write_multiple_registers(address, b16_l)
+
+
+if __name__ == '__main__':
+    # init modbus client
+    c = FloatModbusClient(host='192.168.1.77', port=502, auto_open=True)
+
+    # write 10.0 at @4676 d580
+    #c.write_float(4676, [17.010000000000000])
+
+    # read @0 to 9
+    float_l = c.read_float(4676, 5)
+    print(float_l)
+    x=float_l[0]+0.010000000000000
+    print(type(float_l[0]))
+    print(x)
+    # y=str(x)
+    # print(y[3:18])
+    # a= 0
+    # b=0
+    # while b<15:
+    #     print(0, end="")
+    #     b+=1
+    # l=0
+    # for i in y:
+    #     print(i)
+    #     l=l+1
+    # print(l)
+    reg_l = c.read_holding_registers(4676,  2)
+    reg_l1 = c.read_holding_registers(4677,  2)
+    print(reg_l)
+    print(reg_l1)
+    if reg_l:
+        print(reg_l)
+        print(type(reg_l[0]))
+
+        print( [decode_ieee(f) for f in word_list_to_long(reg_l)])
+        for f in word_list_to_long(reg_l):
+            x = decode_ieee(f, double=False)
+            print(x)
+        print("-------------")
+        print("int value or word ", reg_l[0])
+        print("word to long list ",word_list_to_long(reg_l))
+        a=word_list_to_long(reg_l)[0]
+        print("float value ",decode_ieee(a, double=False))
+        print("float value of 16777",decode_ieee(16777, double=False))
+        print("-----------")
+        print("int value or word ", reg_l[0])
+        print("fpt",decode_ieee(reg_l[0],double=False))
+    # a= word_list_to_long([168], big_endian=True, long_long=False)
+    # print(a)
+    c.close()
