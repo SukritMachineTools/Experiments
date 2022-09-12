@@ -49,7 +49,7 @@ def xsub():
     global x1value
     x1value=x1value-0.01
     #c.write_single_register(4676, xvalue)
-    k.write_float(4676, [17.12])
+    k.write_float(4676, [x1value])
     xxvalue.set(x1value)
     #xyz.set(xxvalue.get())
 
