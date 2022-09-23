@@ -1,0 +1,1 @@
+To understand the working of Delta 12 se
