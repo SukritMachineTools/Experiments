@@ -1,0 +1,59 @@
+[
+    {
+        "id": "80a86d8b8d4727d1",
+        "type": "modbus-getter",
+        "z": "fef880db2286aa00",
+        "name": "d588",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "logIOActivities": false,
+        "unitid": "",
+        "dataType": "HoldingRegister",
+        "adr": "4684",
+        "quantity": "2",
+        "server": "a0737e46.57122",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 290,
+        "y": 520,
+        "wires": [
+            [
+                "529d271e5f7f7c90",
+                "4def46fe44c083eb",
+                "8ec4fe54dde10872",
+                "20793e1a79cb602d"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "a0737e46.57122",
+        "type": "modbus-client",
+        "name": "modbus TCP client",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "failureLogEnabled": false,
+        "tcpHost": "192.168.1.77",
+        "tcpPort": "502",
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "9600",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "serialAsciiResponseStartDelimiter": "",
+        "unit_id": "1",
+        "commandDelay": "1",
+        "clientTimeout": "1000",
+        "reconnectOnTimeout": false,
+        "reconnectTimeout": "2000",
+        "parallelUnitIdsAllowed": false
+    }
+]
