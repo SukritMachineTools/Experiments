@@ -1,0 +1,506 @@
+#---------------------------import----------------------------------------------------------
+from tkinter import *
+from PIL import Image, ImageTk
+from tkinter import ttk
+from pyModbusTCP.client import ModbusClient
+from pyModbusTCP.client import ModbusClient
+from pyModbusTCP.utils import encode_ieee, decode_ieee, \
+                              long_list_to_word, word_list_to_long
+#-----------------------float class-----------------------------------------------------------------
+class FloatModbusClient(ModbusClient):
+    """A ModbusClient class with float support."""
+
+    def read_float(self, address, number=1):
+        """Read float(s) with read holding registers."""
+        reg_l = self.read_holding_registers(address, number * 2)
+        if reg_l:
+            return [decode_ieee(f) for f in word_list_to_long(reg_l)]
+        else:
+            return None
+
+    def read_floatrev(self, address, number=1):
+        """Read float(s) with read holding registers."""
+        reg_l = self.read_holding_registers(address, number * 2)
+        if reg_l:
+            reg_l.reverse()
+            return [decode_ieee(f) for f in word_list_to_long(reg_l)]
+        else:
+            return None
+
+    def write_float(self, address, floats_list):
+        """Write float(s) with write multiple registers."""
+        b32_l = [encode_ieee(f) for f in floats_list]
+        b16_l = long_list_to_word(b32_l)
+        return self.write_multiple_registers(address, b16_l)
+
+    def write_floatrev(self, address, floats_list):
+        """Write float(s) with write multiple registers."""
+        b32_l = [encode_ieee(f) for f in floats_list]
+        b16_l = long_list_to_word(b32_l)
+        b16_l.reverse()
+        return self.write_multiple_registers(address, b16_l)
+#-------------------------initial code------------------------------------------------------------
+root=Tk()
+root.geometry("800x480")
+root.title("Sukrit Machine Tools")
+root.wm_iconbitmap('D:\Software Development\hello\sukrit_Logo.ico')
+root.configure(background="orange")
+
+c = ModbusClient(host='192.168.1.77', port=502, auto_open=True, debug=False)
+k = FloatModbusClient(host='192.168.1.77', port=502, auto_open=True)
+
+#---------------------writing operations ---------------------------------------------------------
+global xvalue
+def xadd():
+    global x1value
+    x1value=x1value+0.0100
+    x1value = round(x1value, 3)
+    #c.write_single_register(4676, xvalue)
+    k.write_floatrev(4676, [x1value])
+    xxvalue.set(x1value)
+    #xyz.set(xxvalue.get())
+
+def radd():
+    global r1value
+    r1value=r1value+0.0100
+    r1value = round(r1value, 3)
+    #c.write_single_register(4676, xvalue)
+    k.write_floatrev(4688, [r1value])
+    rrvalue.set(r1value)
+    #xyz.set(xxvalue.get())
+
+
+def yadd():
+    global y1value
+    y1value=y1value+0.0100
+    y1value = round(y1value, 3)
+    #c.write_single_register(4676, xvalue)
+    k.write_floatrev(4684, [y1value])
+    yyvalue.set(y1value)
+    #xyz.set(xxvalue.get())
+
+def xsub():
+    global x1value
+    x1value=x1value-0.0100
+    x1value = round(x1value, 3)
+    #c.write_single_register(4676, xvalue)
+    k.write_floatrev(4676, [x1value])
+    xxvalue.set(x1value)
+    #xyz.set(xxvalue.get())
+
+def rsub():
+    global r1value
+    r1value=r1value-0.0100
+    r1value = round(r1value, 3)
+    #c.write_single_register(4676, xvalue)
+    k.write_floatrev(4688, [r1value])
+    rrvalue.set(r1value)
+    #xyz.set(xxvalue.get())
+
+def ysub():
+    global y1value
+    y1value=y1value-0.0100
+    y1value = round(y1value, 3)
+    #c.write_single_register(4676, xvalue)
+    k.write_floatrev(4684, [y1value])
+    yyvalue.set(y1value)
+    #xyz.set(xxvalue.get())
+#-----------------------------------page 1-----------------------------------------------------------------------
+class ff1():
+    def f1():
+        global xvalue
+
+        def xadd():
+            global x1value
+            x1value = x1value + 0.0100
+            x1value = round(x1value, 3)
+            # c.write_single_register(4676, xvalue)
+            k.write_floatrev(4676, [x1value])
+            xxvalue.set(x1value)
+            # xyz.set(xxvalue.get())
+
+        def radd():
+            global r1value
+            r1value = r1value + 0.0100
+            r1value = round(r1value, 3)
+            # c.write_single_register(4676, xvalue)
+            k.write_floatrev(4688, [r1value])
+            rrvalue.set(r1value)
+            # xyz.set(xxvalue.get())
+
+        def yadd():
+            global y1value
+            y1value = y1value + 0.0100
+            y1value = round(y1value, 3)
+            # c.write_single_register(4676, xvalue)
+            k.write_floatrev(4684, [y1value])
+            yyvalue.set(y1value)
+            # xyz.set(xxvalue.get())
+
+        def xsub():
+            global x1value
+            x1value = x1value - 0.0100
+            x1value = round(x1value, 3)
+            # c.write_single_register(4676, xvalue)
+            k.write_floatrev(4676, [x1value])
+            xxvalue.set(x1value)
+            # xyz.set(xxvalue.get())
+
+        def rsub():
+            global r1value
+            r1value = r1value - 0.0100
+            r1value = round(r1value, 3)
+            # c.write_single_register(4676, xvalue)
+            k.write_floatrev(4688, [r1value])
+            rrvalue.set(r1value)
+            # xyz.set(xxvalue.get())
+
+        def ysub():
+            global y1value
+            y1value = y1value - 0.0100
+            y1value = round(y1value, 3)
+            # c.write_single_register(4676, xvalue)
+            k.write_floatrev(4684, [y1value])
+            yyvalue.set(y1value)
+            # xyz.set(xxvalue.get())
+        global frame3
+        global redimg
+        global frame3
+        global frame3
+        frame3.destroy()
+        frame3 = Frame(root, highlightbackground="blue", highlightthickness=2, bg="orange")
+
+        # x
+        xxvalue = StringVar()
+        global xvalue
+        global x1value
+        # xlist=c.read_holding_registers(4676, 1)
+        x1list = k.read_floatrev(4676, 1)
+        # xvalue=xlist[0]
+        x1value = round(x1list[0], 3)
+        xxvalue.set(str(x1value))
+        redimg = ImageTk.PhotoImage(Image.open('D:\Software Development\hello\\redd.png'))
+        redlabel = Label(frame3, image=redimg, bg="orange")
+        redlabel.image = redimg
+        redlabel.grid(row=0, column=0, padx=10)
+        Label(frame3, text="X", font="Algerian 42 bold", padx=15, pady=15, bg="orange", fg="red").grid(row=0, column=1,
+                                                                                                       padx=10)
+        larimg = ImageTk.PhotoImage(
+            Image.open('D:\Software Development\hello\\arrow1.png').resize((150, 70), Image.Resampling.LANCZOS))
+        # larlabel=Label(frame3,image=larimg,bg="orange").grid(row=0,column=2,padx=10)
+        larbutton = Button(frame3, image=larimg, bg="orange", borderwidth=0, command=xsub)
+        larbutton.image = larimg
+        larbutton.grid(row=0, column=2, padx=10)
+        # xvalue= IntVar()
+        xlabel = Label(frame3, textvariable=xxvalue, font="Arial_Black 17 bold", bg="orange", borderwidth=1,
+                       relief="solid").grid(row=0, column=3, ipadx=5, padx=10)
+        rarimg = ImageTk.PhotoImage(
+            Image.open('D:\Software Development\hello\\arrow.png').resize((150, 70), Image.Resampling.LANCZOS))
+        # rarlabel=Label(frame3,image=rarimg,bg="orange").grid(row=0,column=4,padx=10)
+        rarbutton = Button(frame3, image=rarimg, bg="orange", borderwidth=0, command=xadd)
+        rarbutton.image = rarimg
+        rarbutton.grid(row=0, column=4, padx=10)
+
+        # R
+        rrvalue = StringVar()
+        global rvalue
+        global r1value
+        # xlist=c.read_holding_registers(4676, 1)
+        r1list = k.read_floatrev(4688, 1)
+        # xvalue=xlist[0]
+        r1value = round(r1list[0], 3)
+        rrvalue.set(str(r1value))
+        blueimg = ImageTk.PhotoImage(Image.open('D:\Software Development\hello\\bluee.png'))
+        loglabel = Label(frame3, image=blueimg, bg="orange")
+        loglabel.image = blueimg
+        loglabel.grid(row=1, column=0, padx=10)
+        Label(frame3, text="R", font="Algerian 42 bold", padx=15, pady=15, bg="orange", fg="red").grid(row=1, column=1,
+                                                                                                       padx=10)
+        # lar1label=Label(frame3,image=larimg,bg="orange").grid(row=1,column=2,padx=10)
+        lar1button = Button(frame3, image=larimg, bg="orange", borderwidth=0, command=rsub)
+        lar1button.image = larimg
+        lar1button.grid(row=1, column=2, padx=10)
+        rlabel = Label(frame3, textvariable=rrvalue, font="Arial_Black 17 bold", bg="orange", borderwidth=1,
+                       relief="solid").grid(row=1, column=3, ipadx=5, padx=10)
+        # rar1label=Label(frame3,image=rarimg,bg="orange").grid(row=1,column=4,padx=10)
+        rar1button = Button(frame3, image=rarimg, bg="orange", borderwidth=0, command=radd)
+        rar1button.image = rarimg
+        rar1button.grid(row=1, column=4, padx=10)
+
+        # Y
+        yyvalue = StringVar()
+        global yvalue
+        global y1value
+        # xlist=c.read_holding_registers(4676, 1)
+        y1list = k.read_floatrev(4684, 1)
+        # xvalue=xlist[0]
+        y1value = round(y1list[0], 3)
+        yyvalue.set(str(y1value))
+        greenimg = ImageTk.PhotoImage(Image.open('D:\Software Development\hello\greenn.png'))
+        loglabel = Label(frame3, image=greenimg, bg="orange")
+        loglabel.image = greenimg
+        loglabel.grid(row=2, column=0, padx=10)
+        Label(frame3, text="Y", font="Algerian 42 bold", padx=15, pady=15, bg="orange", fg="red").grid(row=2, column=1,
+                                                                                                       padx=10)
+        # lar2label=Label(frame3,image=larimg,bg="orange").grid(row=2,column=2,padx=10)
+        lar2button = Button(frame3, image=larimg, bg="orange", borderwidth=0, command=ysub)
+        lar2button.image = larimg
+        lar2button.grid(row=2, column=2, padx=10)
+        ylabel = Label(frame3, textvariable=yyvalue, font="Arial_Black 17 bold", bg="orange", borderwidth=1,
+                       relief="solid").grid(row=2, column=3, ipadx=5, padx=10)
+        rar2label = Label(frame3, image=rarimg, bg="orange").grid(row=2, column=4, padx=10)
+        rar2button = Button(frame3, image=rarimg, bg="orange", borderwidth=0, command=yadd)
+        rar2button.image = rarimg
+        rar2button.grid(row=2, column=4, padx=10)
+        frame3.grid(row=2, ipadx=56.3)
+
+#-----------------------------------page 2-------------------------------------------------------------------------
+def f2():
+    global frame3
+    frame3.destroy()
+    frame3 = Frame(root, highlightbackground="blue", highlightthickness=2, bg="orange")
+    pnlable = Label(frame3, text="Punch Name", font="Stencil 25 bold", padx=15, pady=15, bg="orange",
+                    fg="green").grid(row=0, column=0)
+    pnvalue = StringVar()
+    pnentry = Entry(frame3, textvariable=pnvalue, font="Arial_Black 25 bold").grid(row=0, column=1)
+    phlable = Label(frame3, text="Punch Height", font="Stencil 25 bold", padx=15, pady=15, bg="orange",
+                    fg="green").grid(row=1, column=0)
+    phvalue = StringVar()
+    phentry = Entry(frame3, textvariable=phvalue, font="Arial_Black 25 bold").grid(row=1, column=1)
+    palable = Label(frame3, text="Punch Angle", font="Stencil 25 bold", padx=15, pady=15, bg="orange",
+                    fg="green").grid(row=2, column=0)
+    pavalue = StringVar()
+    paentry = Entry(frame3, textvariable=pavalue, font="Arial_Black 25 bold").grid(row=2, column=1)
+    prlable = Label(frame3, text="Punch Radius", font="Stencil 25 bold", padx=15, pady=15, bg="orange",
+                    fg="green").grid(row=3, column=0)
+    prvalue = StringVar()
+    prentry = Entry(frame3, textvariable=prvalue, font="Arial_Black 25 bold").grid(row=3, column=1)
+    frame3.grid(row=2,ipadx=73.5)
+#-----------------------------------page 3-----------------------------------------------------------------------
+def f3():
+    global frame3
+    frame3.destroy()
+    frame3 = Frame(root, highlightbackground="blue", highlightthickness=2, bg="#b3ffe0")
+    Label(frame3, text="No.", font="Stencil 15 bold", padx=5, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                        column=0)
+    Label(frame3, text="Name", font="Stencil 15 bold", padx=5, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                         column=1)
+    Label(frame3, text="Height", font="Stencil 15 bold", padx=5, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                           column=2)
+    Label(frame3, text="Angel", font="Stencil 15 bold", padx=5, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                          column=3)
+    Label(frame3, text="Radius", font="Stencil 15 bold", padx=5, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                           column=4)
+    Label(frame3, text="No.", font="Stencil 15 bold", padx=5, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                        column=5)
+    Label(frame3, text="Name", font="Stencil 15 bold", padx=5, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                         column=6)
+    Label(frame3, text="Height", font="Stencil 15 bold", padx=5, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                           column=7)
+    Label(frame3, text="Angel", font="Stencil 15 bold", padx=5, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                          column=8)
+    Label(frame3, text="Radius", font="Stencil 15 bold", padx=5, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                           column=9)
+
+    # Label(frame2,text="",bg="blue",height=10).grid(row=1)
+
+    # 1,6
+    Label(frame3, text="1", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=1,
+                                                                                                      column=0)
+    n1 = StringVar()
+    h1 = StringVar()
+    a1 = StringVar()
+    r1 = StringVar()
+    Entry(frame3, textvariable=n1, font="Calibri 11", width=11).grid(row=1, column=1)
+    Entry(frame3, textvariable=h1, font="Calibri 11", width=9).grid(row=1, column=2)
+    Entry(frame3, textvariable=a1, font="Calibri 11", width=9).grid(row=1, column=3)
+    Entry(frame3, textvariable=r1, font="Calibri 11", width=9).grid(row=1, column=4)
+    Label(frame3, text="6", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=1,
+                                                                                                      column=5)
+    n1 = StringVar()
+    h1 = StringVar()
+    a1 = StringVar()
+    r1 = StringVar()
+    Entry(frame3, textvariable=n1, font="Calibri 11", width=11).grid(row=1, column=6)
+    Entry(frame3, textvariable=h1, font="Calibri 11", width=9).grid(row=1, column=7)
+    Entry(frame3, textvariable=a1, font="Calibri 11", width=9).grid(row=1, column=8)
+    Entry(frame3, textvariable=r1, font="Calibri 11", width=9).grid(row=1, column=9)
+    # 2,7
+    Label(frame3, text="2", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=2,
+                                                                                                      column=0)
+    n2 = StringVar()
+    h2 = StringVar()
+    a2 = StringVar()
+    r2 = StringVar()
+    Entry(frame3, textvariable=n2, font="Calibri 11", width=11).grid(row=2, column=1)
+    Entry(frame3, textvariable=h2, font="Calibri 11", width=9).grid(row=2, column=2)
+    Entry(frame3, textvariable=a2, font="Calibri 11", width=9).grid(row=2, column=3)
+    Entry(frame3, textvariable=r2, font="Calibri 11", width=9).grid(row=2, column=4)
+    Label(frame3, text="7", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=2,
+                                                                                                      column=5)
+    n7 = StringVar()
+    h7 = StringVar()
+    a7 = StringVar()
+    r7 = StringVar()
+    Entry(frame3, textvariable=n7, font="Calibri 11", width=11).grid(row=2, column=6)
+    Entry(frame3, textvariable=h7, font="Calibri 11", width=9).grid(row=2, column=7)
+    Entry(frame3, textvariable=a7, font="Calibri 11", width=9).grid(row=2, column=8)
+    Entry(frame3, textvariable=r7, font="Calibri 11", width=9).grid(row=2, column=9)
+    # 3,8
+    Label(frame3, text="3", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=3,
+                                                                                                      column=0)
+    n3 = StringVar()
+    h3 = StringVar()
+    a3 = StringVar()
+    r3 = StringVar()
+    Entry(frame3, textvariable=n3, font="Calibri 11", width=11).grid(row=3, column=1)
+    Entry(frame3, textvariable=h3, font="Calibri 11", width=9).grid(row=3, column=2)
+    Entry(frame3, textvariable=a3, font="Calibri 11", width=9).grid(row=3, column=3)
+    Entry(frame3, textvariable=r3, font="Calibri 11", width=9).grid(row=3, column=4)
+    Label(frame3, text="8", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=3,
+                                                                                                      column=5)
+    n8 = StringVar()
+    h8 = StringVar()
+    a8 = StringVar()
+    r8 = StringVar()
+    Entry(frame3, textvariable=n8, font="Calibri 11", width=11).grid(row=3, column=6)
+    Entry(frame3, textvariable=h8, font="Calibri 11", width=9).grid(row=3, column=7)
+    Entry(frame3, textvariable=a8, font="Calibri 11", width=9).grid(row=3, column=8)
+    Entry(frame3, textvariable=r8, font="Calibri 11", width=9).grid(row=3, column=9)
+    # 4,9
+    Label(frame3, text="4", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=4,
+                                                                                                      column=0)
+    n4 = StringVar()
+    h4 = StringVar()
+    a4 = StringVar()
+    r4 = StringVar()
+    Entry(frame3, textvariable=n4, font="Calibri 11", width=11).grid(row=4, column=1)
+    Entry(frame3, textvariable=h4, font="Calibri 11", width=9).grid(row=4, column=2)
+    Entry(frame3, textvariable=a4, font="Calibri 11", width=9).grid(row=4, column=3)
+    Entry(frame3, textvariable=r4, font="Calibri 11", width=9).grid(row=4, column=4)
+    Label(frame3, text="9", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=4,
+                                                                                                      column=5)
+    n9 = StringVar()
+    h9 = StringVar()
+    a9 = StringVar()
+    r9 = StringVar()
+    Entry(frame3, textvariable=n9, font="Calibri 11", width=11).grid(row=4, column=6)
+    Entry(frame3, textvariable=h9, font="Calibri 11", width=9).grid(row=4, column=7)
+    Entry(frame3, textvariable=a9, font="Calibri 11", width=9).grid(row=4, column=8)
+    Entry(frame3, textvariable=r9, font="Calibri 11", width=9).grid(row=4, column=9)
+    # 5,10
+    Label(frame3, text="5", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=5,
+                                                                                                      column=0)
+    n5 = StringVar()
+    h5 = StringVar()
+    a5 = StringVar()
+    r5 = StringVar()
+    Entry(frame3, textvariable=n5, font="Calibri 11", width=11).grid(row=5, column=1)
+    Entry(frame3, textvariable=h5, font="Calibri 11", width=9).grid(row=5, column=2)
+    Entry(frame3, textvariable=a5, font="Calibri 11", width=9).grid(row=5, column=3)
+    Entry(frame3, textvariable=r5, font="Calibri 11", width=9).grid(row=5, column=4)
+    Label(frame3, text="10", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=5,
+                                                                                                       column=5)
+    n10 = StringVar()
+    h10 = StringVar()
+    a10 = StringVar()
+    r10 = StringVar()
+    Entry(frame3, textvariable=n10, font="Calibri 11", width=11).grid(row=5, column=6)
+    Entry(frame3, textvariable=h10, font="Calibri 11", width=9).grid(row=5, column=7)
+    Entry(frame3, textvariable=a10, font="Calibri 11", width=9).grid(row=5, column=8)
+    Entry(frame3, textvariable=r10, font="Calibri 11", width=9).grid(row=5, column=9)
+    frame3.grid(row=2,ipadx=2.5)
+
+#---------------------Gui------------------------------------------------------------------------------------------------
+frame1= Frame(root,highlightbackground="blue", highlightthickness=2,bg="orange")
+logoimg=ImageTk.PhotoImage(Image.open('D:\Software Development\hello\sukrit_Logo.png').resize((150,70), Image.Resampling.LANCZOS))
+loglabel=Label(frame1,image=logoimg).grid(row=0,column=0)
+Label(frame1,text="Servo Electric PressBrake",font="Algerian 17 bold",padx=15,pady=15, bg="orange").grid(row=0,column=1,padx=10)
+frame1.grid(row=0,ipadx=50)
+
+frame2=Frame(root,bg="blue",height=10)
+# wlabel=Label(frame2,text="",bg="blue",height=10).grid(row=1)
+frame2.grid(row=1,ipadx=400)
+
+frame3= Frame(root,highlightbackground="blue", highlightthickness=2,bg="orange")
+
+#x
+xxvalue= StringVar()
+global xvalue
+global x1value
+#xlist=c.read_holding_registers(4676, 1)
+x1list=k.read_floatrev(4676, 1)
+#xvalue=xlist[0]
+x1value=round(x1list[0], 3)
+xxvalue.set(str(x1value))
+redimg=ImageTk.PhotoImage(Image.open('D:\Software Development\hello\\redd.png'))
+redlabel=Label(frame3,image=redimg,bg="orange")
+redlabel.image=redimg
+redlabel.grid(row=0,column=0,padx=10)
+Label(frame3,text="X",font="Algerian 42 bold",padx=15,pady=15, bg="orange",fg="red").grid(row=0,column=1,padx=10)
+larimg=ImageTk.PhotoImage(Image.open('D:\Software Development\hello\\arrow1.png').resize((150,70), Image.Resampling.LANCZOS))
+#larlabel=Label(frame3,image=larimg,bg="orange").grid(row=0,column=2,padx=10)
+larbutton=Button(frame3,image=larimg,bg="orange",borderwidth=0,command=xsub)
+larbutton.image=larimg
+larbutton.grid(row=0,column=2,padx=10)
+#xvalue= IntVar()
+xlabel=Label(frame3,textvariable=xxvalue,font="Arial_Black 17 bold",bg="orange",borderwidth=1, relief="solid").grid(row=0,column=3,ipadx=5,padx=10)
+rarimg=ImageTk.PhotoImage(Image.open('D:\Software Development\hello\\arrow.png').resize((150,70), Image.Resampling.LANCZOS))
+#rarlabel=Label(frame3,image=rarimg,bg="orange").grid(row=0,column=4,padx=10)
+rarbutton=Button(frame3,image=rarimg,bg="orange",borderwidth=0,command=xadd).grid(row=0,column=4,padx=10)
+
+#R
+rrvalue= StringVar()
+global rvalue
+global r1value
+#xlist=c.read_holding_registers(4676, 1)
+r1list=k.read_floatrev(4688, 1)
+#xvalue=xlist[0]
+r1value=round(r1list[0], 3)
+rrvalue.set(str(r1value))
+blueimg=ImageTk.PhotoImage(Image.open('D:\Software Development\hello\\bluee.png'))
+loglabel=Label(frame3,image=blueimg,bg="orange").grid(row=1,column=0,padx=10)
+Label(frame3,text="R",font="Algerian 42 bold",padx=15,pady=15, bg="orange",fg="red").grid(row=1,column=1,padx=10)
+#lar1label=Label(frame3,image=larimg,bg="orange").grid(row=1,column=2,padx=10)
+lar1button=Button(frame3,image=larimg,bg="orange",borderwidth=0,command=rsub).grid(row=1,column=2,padx=10)
+rlabel=Label(frame3,textvariable=rrvalue,font="Arial_Black 17 bold",bg="orange",borderwidth=1, relief="solid").grid(row=1,column=3,ipadx=5,padx=10)
+#rar1label=Label(frame3,image=rarimg,bg="orange").grid(row=1,column=4,padx=10)
+rar1button=Button(frame3,image=rarimg,bg="orange",borderwidth=0,command=radd).grid(row=1,column=4,padx=10)
+
+#Y
+yyvalue= StringVar()
+global yvalue
+global y1value
+#xlist=c.read_holding_registers(4676, 1)
+y1list=k.read_floatrev(4684, 1)
+#xvalue=xlist[0]
+y1value=round(y1list[0], 3)
+yyvalue.set(str(y1value))
+greenimg=ImageTk.PhotoImage(Image.open('D:\Software Development\hello\greenn.png'))
+loglabel=Label(frame3,image=greenimg,bg="orange").grid(row=2,column=0,padx=10)
+Label(frame3,text="Y",font="Algerian 42 bold",padx=15,pady=15, bg="orange",fg="red").grid(row=2,column=1,padx=10)
+#lar2label=Label(frame3,image=larimg,bg="orange").grid(row=2,column=2,padx=10)
+lar2button=Button(frame3,image=larimg,bg="orange",borderwidth=0,command=ysub).grid(row=2,column=2,padx=10)
+ylabel=Label(frame3,textvariable=yyvalue,font="Arial_Black 17 bold",bg="orange",borderwidth=1, relief="solid").grid(row=2,column=3,ipadx=5,padx=10)
+rar2label=Label(frame3,image=rarimg,bg="orange").grid(row=2,column=4,padx=10)
+rar2button=Button(frame3,image=rarimg,bg="orange",borderwidth=0,command=yadd).grid(row=2,column=4,padx=10)
+frame3.grid(row=2,ipadx=56.3)
+
+
+frame4=Frame(root,bg="blue",height=10)
+# wlabel=Label(frame2,text="",bg="blue",height=10).grid(row=1)
+frame4.grid(row=3,ipadx=400)
+
+frame5= Frame(root,highlightbackground="blue", highlightthickness=2,bg="orange")
+settingimg=ImageTk.PhotoImage(Image.open('D:\Software Development\hello\punchdata.png').resize((150,80), Image.Resampling.LANCZOS))
+#settinglabel=Label(frame5,image=settingimg).grid(row=0,column=0,padx=50)
+settingbutton=Button(frame5,command=ff1.f1,image=settingimg,borderwidth=0).grid(row=0,column=0,padx=50)
+pdimg=ImageTk.PhotoImage(Image.open('D:\Software Development\hello\puchlist.png').resize((150,80), Image.Resampling.LANCZOS))
+#pdlabel=Label(frame5,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
+pdbutton=Button(frame5,command=f2,image=pdimg,borderwidth=0).grid(row=0,column=1,padx=50,columnspan=2)
+plimg=ImageTk.PhotoImage(Image.open('D:\Software Development\hello\settings.png').resize((150,80), Image.Resampling.LANCZOS))
+#pllabel=Label(frame5,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
+plButton=Button(frame5,command=f3,image=plimg,borderwidth=0).grid(row=0,column=4,padx=50,columnspan=2)
+frame5.grid(row=4,ipadx=20)
+
+root.mainloop()
