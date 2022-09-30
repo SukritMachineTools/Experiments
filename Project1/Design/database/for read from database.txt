@@ -1,0 +1,78 @@
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="sukrit",
+  database="test786"
+)
+
+
+mycursor = mydb.cursor()
+l=0
+try:
+    n=5
+    pn="1"
+    ph=5.2
+    pa=30
+    pr=50
+    sql="""INSERT INTO punchlist(Num,PunchName,PunchHeight,PunchAngle,PunchRadius) VALUES (%s,%s,%s,%s,%s)"""
+    val=[n,pn,ph,pa,pr]
+
+    mycursor.execute("SELECT * FROM punchlist")
+
+    myresult = mycursor.fetchall()
+    print(type(myresult))
+    yy=myresult[0]
+
+    print(yy)
+    n = yy[0]
+    pn = yy[1]
+    ph = yy[2]
+    pa = yy[3]
+    pr = yy[4]
+
+    print(n,pn,ph,pa,pr)
+    i=0
+    j=0
+    # while i<5:
+    #     yy = myresult[i]
+    #     n = yy[0]
+    #     pn = yy[1]
+    #     ph = yy[2]
+    #     pa = yy[3]
+    #     pr = yy[4]
+    #     i=i+1
+
+    i = 0
+    while i < 5:
+        # print(myresult[i])
+        yy=myresult[i]
+        #print(yy)
+        n = yy[0]
+        pn = yy[1]
+        ph = yy[2]
+        pa = yy[3]
+        pr = yy[4]
+        print(n, pn, ph, pa, pr)
+        i += 1
+
+
+    # for c in yy:
+    #     n = c
+    #     pn = "1"
+    #     ph = 5.2
+    #     pa = 30
+    #     pr = 50
+
+
+    # for x in myresult:
+    #
+    #     print(x)
+    #     # for y in x:
+    #     #     print(y)
+
+
+
+except Exception as e:
+    print(e)

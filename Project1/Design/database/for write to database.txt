@@ -1,0 +1,29 @@
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="sukrit",
+  database="test786"
+)
+
+mycursor = mydb.cursor()
+l=0
+try:
+    n=5
+    pn="1"
+    ph=5.2
+    pa=30
+    pr=50
+    sql="""INSERT INTO punchlist(Num,PunchName,PunchHeight,PunchAngle,PunchRadius) VALUES (%s,%s,%s,%s,%s)"""
+    val=[n,pn,ph,pa,pr]
+
+    mycursor.execute(sql,val)
+    mydb.commit()
+
+    print(mycursor.rowcount, "record inserted.")
+
+
+
+except Exception as e:
+    print(e)
