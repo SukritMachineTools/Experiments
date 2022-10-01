@@ -1,6 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import ttk
+import mysql.connector
 
 
 class page3():
@@ -50,20 +51,41 @@ class page3():
         # 1,6
         Label(frame3, text="1", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=1,
                                                                                                           column=0)
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="sukrit",
+            database="test786"
+        )
+
+        mycursor = mydb.cursor()
+        mycursor.execute("SELECT * FROM punchlist")
+        myresult = mycursor.fetchall()
+
+        rs1 = myresult[0]
         n1 = StringVar()
+        n1.set(rs1[1])
         h1 = StringVar()
+        h1.set(rs1[2])
         a1 = StringVar()
+        a1.set(rs1[3])
         r1 = StringVar()
+        r1.set(rs1[4])
         Entry(frame3, textvariable=n1, font="Calibri 11", width=11).grid(row=1, column=1)
         Entry(frame3, textvariable=h1, font="Calibri 11", width=9).grid(row=1, column=2)
         Entry(frame3, textvariable=a1, font="Calibri 11", width=9).grid(row=1, column=3)
         Entry(frame3, textvariable=r1, font="Calibri 11", width=9).grid(row=1, column=4)
         Label(frame3, text="6", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=1,
                                                                                                           column=5)
+        rs6 = myresult[5]
         n6 = StringVar()
+        n6.set(rs6[1])
         h6 = StringVar()
+        h6.set(rs6[2])
         a6 = StringVar()
+        a6.set(rs6[3])
         r6 = StringVar()
+        r6.set(rs6[4])
         Entry(frame3, textvariable=n6, font="Calibri 11", width=11).grid(row=1, column=6)
         Entry(frame3, textvariable=h6, font="Calibri 11", width=9).grid(row=1, column=7)
         Entry(frame3, textvariable=a6, font="Calibri 11", width=9).grid(row=1, column=8)
@@ -71,20 +93,30 @@ class page3():
         # 2,7
         Label(frame3, text="2", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=2,
                                                                                                           column=0)
+        rs2 = myresult[1]
         n2 = StringVar()
+        n2.set(rs2[1])
         h2 = StringVar()
+        h2.set(rs2[2])
         a2 = StringVar()
+        a2.set(rs2[3])
         r2 = StringVar()
+        r2.set(rs2[4])
         Entry(frame3, textvariable=n2, font="Calibri 11", width=11).grid(row=2, column=1)
         Entry(frame3, textvariable=h2, font="Calibri 11", width=9).grid(row=2, column=2)
         Entry(frame3, textvariable=a2, font="Calibri 11", width=9).grid(row=2, column=3)
         Entry(frame3, textvariable=r2, font="Calibri 11", width=9).grid(row=2, column=4)
         Label(frame3, text="7", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=2,
                                                                                                           column=5)
+        rs7 = myresult[6]
         n7 = StringVar()
+        n7.set(rs7[1])
         h7 = StringVar()
+        h7.set(rs7[2])
         a7 = StringVar()
+        a7.set(rs7[3])
         r7 = StringVar()
+        r7.set(rs7[4])
         Entry(frame3, textvariable=n7, font="Calibri 11", width=11).grid(row=2, column=6)
         Entry(frame3, textvariable=h7, font="Calibri 11", width=9).grid(row=2, column=7)
         Entry(frame3, textvariable=a7, font="Calibri 11", width=9).grid(row=2, column=8)
@@ -92,20 +124,30 @@ class page3():
         # 3,8
         Label(frame3, text="3", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=3,
                                                                                                           column=0)
+        rs3 = myresult[2]
         n3 = StringVar()
+        n3.set(rs3[1])
         h3 = StringVar()
+        h3.set(rs3[2])
         a3 = StringVar()
+        a3.set(rs3[3])
         r3 = StringVar()
+        r3.set(rs3[4])
         Entry(frame3, textvariable=n3, font="Calibri 11", width=11).grid(row=3, column=1)
         Entry(frame3, textvariable=h3, font="Calibri 11", width=9).grid(row=3, column=2)
         Entry(frame3, textvariable=a3, font="Calibri 11", width=9).grid(row=3, column=3)
         Entry(frame3, textvariable=r3, font="Calibri 11", width=9).grid(row=3, column=4)
         Label(frame3, text="8", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=3,
                                                                                                           column=5)
+        rs8 = myresult[7]
         n8 = StringVar()
+        n8.set(rs8[1])
         h8 = StringVar()
+        h8.set(rs8[2])
         a8 = StringVar()
+        a8.set(rs8[3])
         r8 = StringVar()
+        r8.set(rs8[4])
         Entry(frame3, textvariable=n8, font="Calibri 11", width=11).grid(row=3, column=6)
         Entry(frame3, textvariable=h8, font="Calibri 11", width=9).grid(row=3, column=7)
         Entry(frame3, textvariable=a8, font="Calibri 11", width=9).grid(row=3, column=8)
@@ -113,20 +155,30 @@ class page3():
         # 4,9
         Label(frame3, text="4", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=4,
                                                                                                           column=0)
+        rs4 = myresult[3]
         n4 = StringVar()
+        n4.set(rs4[1])
         h4 = StringVar()
+        h4.set(rs4[2])
         a4 = StringVar()
+        a4.set(rs4[3])
         r4 = StringVar()
+        r4.set(rs4[4])
         Entry(frame3, textvariable=n4, font="Calibri 11", width=11).grid(row=4, column=1)
         Entry(frame3, textvariable=h4, font="Calibri 11", width=9).grid(row=4, column=2)
         Entry(frame3, textvariable=a4, font="Calibri 11", width=9).grid(row=4, column=3)
         Entry(frame3, textvariable=r4, font="Calibri 11", width=9).grid(row=4, column=4)
         Label(frame3, text="9", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=4,
                                                                                                           column=5)
+        rs9 = myresult[8]
         n9 = StringVar()
+        n9.set(rs9[1])
         h9 = StringVar()
+        h9.set(rs9[2])
         a9 = StringVar()
+        a9.set(rs9[3])
         r9 = StringVar()
+        r9.set(rs9[4])
         Entry(frame3, textvariable=n9, font="Calibri 11", width=11).grid(row=4, column=6)
         Entry(frame3, textvariable=h9, font="Calibri 11", width=9).grid(row=4, column=7)
         Entry(frame3, textvariable=a9, font="Calibri 11", width=9).grid(row=4, column=8)
@@ -134,20 +186,30 @@ class page3():
         # 5,10
         Label(frame3, text="5", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=5,
                                                                                                           column=0)
+        rs5 = myresult[4]
         n5 = StringVar()
+        n5.set(rs5[1])
         h5 = StringVar()
+        h5.set(rs5[2])
         a5 = StringVar()
+        a5.set(rs5[3])
         r5 = StringVar()
+        r5.set(rs5[4])
         Entry(frame3, textvariable=n5, font="Calibri 11", width=11).grid(row=5, column=1)
         Entry(frame3, textvariable=h5, font="Calibri 11", width=9).grid(row=5, column=2)
         Entry(frame3, textvariable=a5, font="Calibri 11", width=9).grid(row=5, column=3)
         Entry(frame3, textvariable=r5, font="Calibri 11", width=9).grid(row=5, column=4)
         Label(frame3, text="10", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=5,
                                                                                                            column=5)
+        rs10 = myresult[9]
         n10 = StringVar()
+        n10.set(rs10[1])
         h10 = StringVar()
+        h10.set(rs10[2])
         a10 = StringVar()
+        a10.set(rs10[3])
         r10 = StringVar()
+        r10.set(rs10[4])
         Entry(frame3, textvariable=n10, font="Calibri 11", width=11).grid(row=5, column=6)
         Entry(frame3, textvariable=h10, font="Calibri 11", width=9).grid(row=5, column=7)
         Entry(frame3, textvariable=a10, font="Calibri 11", width=9).grid(row=5, column=8)
