@@ -1,0 +1,170 @@
+from tkinter import *
+from PIL import Image, ImageTk
+from tkinter import ttk
+import mysql.connector
+
+mydb = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="sukrit",
+            database="test786"
+        )
+mycursor = mydb.cursor()
+
+def enterp2(event):
+    update()
+
+def update():
+    global pnch
+    pn=pnvalue.get()
+    ph=phvalue.get()
+    pa=pavalue.get()
+    pr=prvalue.get()
+    try:
+        sql = """UPDATE punchlist SET PunchName= %s, PunchHeight = %s, PunchAngle= %s, PunchRadius= %s WHERE Num = %s;"""
+        result = [pn,ph,pa,pr,pnch]
+        mycursor.execute(sql, result)
+        mydb.commit()
+
+    except Exception as e:
+        print(e)
+
+    pass
+
+def plus():
+    global pnch
+    pnch=punch.get()
+    pnch=int(pnch)
+    if pnch <10:
+        pnch=pnch+1
+        try:
+            sql = """SELECT * FROM punchlist WHERE num= %s"""
+            val = [pnch]
+            mycursor.execute(sql, val)
+            myresult = mycursor.fetchall()
+            yy = myresult[0]
+            pn = yy[1]
+            pnvalue.set(pn)
+            ph = yy[2]
+            phvalue.set(ph)
+            pa = yy[3]
+            pavalue.set(pa)
+            pr = yy[4]
+            prvalue.set(pr)
+
+        except Exception as e:
+            print(e)
+        pnch=str(pnch)
+        punch.set(pnch)
+
+    pass
+
+def minus():
+    global pnch
+    pnch=punch.get()
+    pnch=int(pnch)
+    if pnch >1:
+        pnch=pnch-1
+        try:
+            sql = """SELECT * FROM punchlist WHERE num= %s"""
+            val = [pnch]
+            mycursor.execute(sql, val)
+            myresult = mycursor.fetchall()
+            yy = myresult[0]
+            pn = yy[1]
+            pnvalue.set(pn)
+            ph = yy[2]
+            phvalue.set(ph)
+            pa = yy[3]
+            pavalue.set(pa)
+            pr = yy[4]
+            prvalue.set(pr)
+
+        except Exception as e:
+            print(e)
+        pnch=str(pnch)
+        punch.set(pnch)
+
+    pass
+
+root = Tk()
+root.geometry("800x480")
+root.title("Sukrit Machine Tools")
+root.wm_iconbitmap('D:\Software Development\hello\sukrit_Logo.ico')
+root.configure(background="orange")
+
+frame1 = Frame(root, highlightbackground="blue", highlightthickness=2, bg="orange")
+logoimg = ImageTk.PhotoImage(
+            Image.open('D:\Software Development\hello\sukrit_Logo.png').resize((150, 70), Image.Resampling.LANCZOS))
+loglabel = Label(frame1, image=logoimg).grid(row=0, column=0,ipadx=10)
+Label(frame1, text="Punch Data", font="Algerian 27 bold", padx=15, pady=15, bg="orange").grid(row=0, column=1,
+                                                                                                      padx=10,ipadx=10)
+frame1.grid(ipadx=100)
+
+frame2 = Frame(root, bg="blue", height=10)
+# wlabel=Label(frame2,text="",bg="blue",height=10).grid(row=1)
+frame2.grid(ipadx=400)
+
+frame3 = Frame(root, highlightbackground="blue", highlightthickness=2, bg="orange")
+
+root.bind('<Return>', enterp2)
+
+pnlable = Label(frame3, text="Punch Name", font="Stencil 25 bold", padx=15, pady=15, bg="orange",
+                        fg="green").grid(row=0, column=0)
+pnvalue = StringVar()
+pnentry = Entry(frame3,width=10, textvariable=pnvalue, font="Arial_Black 25 bold",).grid(row=0, column=1)
+phlable = Label(frame3, text="Punch Height", font="Stencil 25 bold", padx=15, pady=15, bg="orange",
+                        fg="green").grid(row=1, column=0)
+phvalue = StringVar()
+phentry = Entry(frame3,width=10, textvariable=phvalue, font="Arial_Black 25 bold").grid(row=1, column=1)
+palable = Label(frame3, text="Punch Angle", font="Stencil 25 bold", padx=15, pady=15, bg="orange",
+                        fg="green").grid(row=2, column=0)
+pavalue = StringVar()
+paentry = Entry(frame3,width=10, textvariable=pavalue, font="Arial_Black 25 bold").grid(row=2, column=1)
+prlable = Label(frame3, text="Punch Radius", font="Stencil 25 bold", padx=15, pady=15, bg="orange",
+                        fg="green").grid(row=3, column=0)
+prvalue = StringVar()
+prentry = Entry(frame3,width=10, textvariable=prvalue, font="Arial_Black 25 bold").grid(row=3, column=1)
+Button(frame3,text="+",command=plus,padx=30).grid(row=0,column=3)
+Label(frame3,text=" ",fg="orange",bg="orange").grid(row=0,column=2)
+punch=StringVar()
+pnch=1
+punch.set(pnch)
+sql = """SELECT * FROM punchlist WHERE num= %s"""
+val = [pnch]
+mycursor.execute(sql, val)
+myresult = mycursor.fetchall()
+yy = myresult[0]
+pn = yy[1]
+pnvalue.set(pn)
+ph = yy[2]
+phvalue.set(ph)
+pa = yy[3]
+pavalue.set(pa)
+pr = yy[4]
+prvalue.set(pr)
+Label(frame3,textvariable=punch,font="Stencil 25 bold",fg="Black",bg="orange").grid(row=1,column=3)
+Button(frame3,command=minus,text="-",padx=30).grid(row=2,column=3)
+Button(frame3,command=update,text="Update",padx=30).grid(row=3,column=3)
+frame3.grid(ipadx=73.5)
+
+frame5 = Frame(root, bg="blue", height=10)
+        # wlabel=Label(frame2,text="",bg="blue",height=10).grid(row=1)
+frame5.grid(ipadx=400)
+
+frame6 = Frame(root, highlightbackground="blue", highlightthickness=2, bg="orange")
+settingimg = ImageTk.PhotoImage(
+            Image.open('D:\Software Development\hello\home.png').resize((150, 80), Image.Resampling.LANCZOS))
+        # settinglabel=Label(frame6,image=settingimg).grid(row=0,column=0,padx=50)
+settingbutton = Button(frame6, image=settingimg, borderwidth=0).grid(row=0, column=0, padx=50)
+pdimg = ImageTk.PhotoImage(
+            Image.open('D:\Software Development\hello\puchlist.png').resize((150, 80), Image.Resampling.LANCZOS))
+        # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
+pdbutton = Button(frame6, image=pdimg, borderwidth=0).grid(row=0, column=1, padx=50, columnspan=2)
+plimg = ImageTk.PhotoImage(
+            Image.open('D:\Software Development\hello\settings.png').resize((150, 80), Image.Resampling.LANCZOS))
+        # pllabel=Label(frame6,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
+plButton = Button(frame6, image=plimg, borderwidth=0).grid(row=0, column=4, padx=50, columnspan=2)
+frame6.grid(ipadx=20)
+
+root.mainloop()
