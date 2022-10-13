@@ -1,0 +1,65 @@
+import csv
+import os
+
+directory = "dsys"
+parent_dir = "D:\Software Development\project2\dirs"
+
+newpath = os.path.join(parent_dir, directory)
+
+try:
+    if not os.path.exists(newpath):
+        os.makedirs(newpath)
+        print("Directory '% s' created" % directory)
+        os.makedirs(newpath+"\lib")
+        die=newpath+"\lib\die.csv"
+        dl = [
+            {'no.': 1, 'name': 'd1', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+            {'no.': 2, 'name': 'd2', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+            {'no.': 3, 'name': 'd3', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+            {'no.': 4, 'name': 'd4', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+        ]
+        with open(die, 'w', newline='') as file:
+            f = ['no.', 'name', 'p1', 'p2', 'p3', 'p4']
+            w = csv.DictWriter(file, fieldnames=f)
+            w.writeheader()
+            w.writerows(dl)
+        punch=newpath+"\lib\punch.csv"
+        pl = [
+            {'no.': 1, 'name': 'p1', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+            {'no.': 2, 'name': 'p2', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+            {'no.': 3, 'name': 'p3', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+            {'no.': 4, 'name': 'p4', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+        ]
+        with open(punch, 'w', newline='') as file:
+            f = ['no.', 'name', 'p1', 'p2', 'p3', 'p4']
+            w = csv.DictWriter(file, fieldnames=f)
+            w.writeheader()
+            w.writerows(pl)
+        material=newpath+"\lib\material.csv"
+        ml = [
+            {'no.': 1, 'name': 'm1', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+            {'no.': 2, 'name': 'm2', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+            {'no.': 3, 'name': 'm3', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+            {'no.': 4, 'name': 'm4', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+        ]
+        with open(material, 'w', newline='') as file:
+            f = ['no.', 'name', 'p1', 'p2', 'p3', 'p4']
+            w = csv.DictWriter(file, fieldnames=f)
+            w.writeheader()
+            w.writerows(ml)
+        bend=newpath+"\\bend.csv"
+        bl = [
+            {'no.': 1, 'link':'d1','name': 'Bend1', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+            {'no.': 2, 'link':'p3','name': 'Bend2', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+            {'no.': 3, 'link':'m1','name': 'Bend3', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+            {'no.': 4, 'link':'d3','name': 'Bend4', 'p1': '00', 'p2': '00', 'p3': '00', 'p4': '00'},
+        ]
+        with open(bend, 'w', newline='') as file:
+            f = ['no.','link', 'name', 'p1', 'p2', 'p3', 'p4']
+            w = csv.DictWriter(file, fieldnames=f)
+            w.writeheader()
+            w.writerows(bl)
+
+
+except Exception as e:
+    print(e)
