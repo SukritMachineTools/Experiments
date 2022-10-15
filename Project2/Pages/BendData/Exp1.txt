@@ -23,7 +23,7 @@ class benddata():
         frame1 = Frame(root, highlightbackground="blue", highlightthickness=1, bg="#b3ffe0")
         logoimg = ImageTk.PhotoImage(
             Image.open('sukrit_Logo.png').resize((150, 70), Image.Resampling.LANCZOS))
-        loglabel = Label(frame1, image=logoimg).grid(row=0, column=0)
+        Label(frame1, image=logoimg,bg="#b3ffe0").grid(row=0, column=0)
         Label(frame1, text="               ", font="Algerian 27 bold", padx=7, pady=7, bg="#b3ffe0").grid(row=0, column=1,
                                                                                                       padx=10)
         Entry(frame1,  font="Calibri 11", width=11).grid(row=0, column=2)
