@@ -1,0 +1,178 @@
+from tkinter import *
+from PIL import Image, ImageTk
+from tkinter import ttk
+import mysql.connector
+import time
+import threading
+
+
+
+class operation():
+    def start(self):
+        root = Tk()
+        root.geometry("800x480")
+        root.title("Sukrit Machine Tools")
+        root.wm_iconbitmap('sukrit_Logo.ico')
+        root.configure(background="#b3ffe0")
+
+        return root
+
+    def operationframe(self):
+        root = operation.start(self)
+        frame1 = Frame(root, highlightbackground="blue", highlightthickness=1, bg="#b3ffe0")
+        logoimg = ImageTk.PhotoImage(
+            Image.open('sukrit_Logo.png').resize((150, 70), Image.Resampling.LANCZOS))
+        loglabel = Label(frame1, image=logoimg).grid(row=0, column=0)
+        Label(frame1, text="               ", font="Algerian 27 bold", padx=4.5,pady=4.5, bg="#b3ffe0").grid(row=0,
+                                                                                                          column=1,
+                                                                                                          padx=10)
+        currTime= time.strftime("%H:%M:%S", time.localtime())
+        Label(frame1,text=currTime, font="Calibri 18",bg="#b3ffe0", width=11).grid(row=0, column=2)
+        Label(frame1, text="Operation", font="Algerian 27 bold", padx=4.5,pady=4.5, bg="#b3ffe0").grid(row=0, column=3,
+                                                                                                    padx=10)
+        frame1.grid(row=0, ipadx=50, sticky="ew")
+        frame2 = Frame(root, bg="blue", height=15)
+        frame2.grid(row=1, ipadx=400, sticky='ew')
+
+        frame3 = Frame(root, highlightbackground="blue", width=300, height=100, highlightthickness=2, bg="#b3ffe0")
+        framei1 = Frame(frame3, highlightbackground="blue", width=300, height=100, highlightthickness=2, bg="#b3ffe0")
+        Label(framei1, text="Angle", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=0, column=0)
+        anglev = StringVar()
+        Entry(framei1, width=10, textvariable=anglev, font="Arial_Black 12 bold", ).grid(row=0, column=1)
+
+        Label(framei1, text="Length", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=1, column=0)
+        lengthv = StringVar()
+        Entry(framei1, width=10, textvariable=lengthv, font="Arial_Black 12 bold", ).grid(row=1, column=1)
+        Label(framei1, text="B.Gauge", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=2, column=0)
+        bgaugev = StringVar()
+        Entry(framei1, width=10, textvariable=bgaugev, font="Arial_Black 12 bold", ).grid(row=2, column=1)
+        Label(framei1, text="Retract", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=3, column=0)
+        retractv = StringVar()
+        Entry(framei1, width=10, textvariable=retractv, font="Arial_Black 12 bold", ).grid(row=3, column=1)
+        Label(framei1, text="Opening", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=4, column=0)
+        openingv = StringVar()
+        Entry(framei1, width=10, textvariable=openingv, font="Arial_Black 12 bold", ).grid(row=4, column=1)
+        Label(framei1, text="R Position", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=5, column=0)
+        rpositionv = StringVar()
+        Entry(framei1, width=10, textvariable=rpositionv, font="Arial_Black 12 bold", ).grid(row=5, column=1)
+        Label(framei1, text="Thick", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=6, column=0)
+        thickv = StringVar()
+        Entry(framei1, width=10, textvariable=thickv, font="Arial_Black 12 bold", ).grid(row=6, column=1)
+        Label(framei1, text="Force", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=7, column=0)
+        forcev = StringVar()
+        Entry(framei1, width=10, textvariable=forcev, font="Arial_Black 12 bold", ).grid(row=7, column=1)
+        framei1.grid(row=0, column=0, sticky="e")
+        #-------Framei2---------------------
+        framei2 = Frame(frame3, highlightbackground="blue", highlightthickness=2, bg="#b3ffe0")
+        #frameA
+        frameA = Frame(framei2, highlightbackground="blue", highlightthickness=2, bg="#b3ffe0")
+        Label(frameA, text="Programme", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=0, column=0)
+        Label(frameA, text="1", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=0, column=1)
+        frameA.grid(row=0,sticky="n")
+        #FrameB
+        frameB = Frame(framei2, highlightbackground="blue", highlightthickness=2, bg="#b3ffe0")
+        #FrameB1
+        frameB1 = Frame(frameB, highlightbackground="blue", highlightthickness=2, bg="#b3ffe0")
+        Label(frameB1, text="Last Force", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=0, column=0)
+        lastforcev = StringVar()
+        Entry(frameB1, width=10, textvariable=lastforcev, font="Arial_Black 12 bold", ).grid(row=0, column=1)
+
+        Label(frameB1, text="Pinch", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=1, column=0)
+        pinchv = StringVar()
+        Entry(frameB1, width=10, textvariable=pinchv, font="Arial_Black 12 bold", ).grid(row=1, column=1)
+        Label(frameB1, text="Bend", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=2, column=0)
+        bendv = StringVar()
+        Entry(frameB1, width=10, textvariable=bendv, font="Arial_Black 12 bold", ).grid(row=2, column=1)
+        Label(frameB1, text="Dwell", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=3, column=0)
+        dwellv = StringVar()
+        Entry(frameB1, width=10, textvariable=dwellv, font="Arial_Black 12 bold", ).grid(row=3, column=1)
+        Label(frameB1, text="X", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=4, column=0)
+        xv = StringVar()
+        Entry(frameB1, width=10, textvariable=xv, font="Arial_Black 12 bold", ).grid(row=4, column=1)
+        Label(frameB1, text="R", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=5, column=0)
+        rv = StringVar()
+        Entry(frameB1, width=10, textvariable=rv, font="Arial_Black 12 bold", ).grid(row=5, column=1)
+        Label(frameB1, text="Y", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+              fg="blue").grid(row=6, column=0)
+        yv = StringVar()
+        Entry(frameB1, width=10, textvariable=yv, font="Arial_Black 12 bold", ).grid(row=6, column=1)
+        frameB1.grid(row=0,column=0, sticky="ws")
+        #FrameB2
+        frameB2 = Frame(frameB, highlightbackground="blue", highlightthickness=2, bg="#b3ffe0")
+        frameB2i = Frame(frameB2, highlightbackground="blue", highlightthickness=2, bg="#b3ffe0")
+        Label(frameB2i, text="Act Force", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+              fg="blue").grid(row=0, column=0)
+        actforcev = StringVar()
+        Entry(frameB2i, width=10, textvariable=actforcev, font="Arial_Black 12 bold", ).grid(row=0, column=1)
+        Label(frameB2i, text="(Ton)", font="Calibri 8 bold", padx=7, pady=7, bg="#b3ffe0",
+              fg="blue").grid(row=0, column=2)
+        frameB2i.grid(row=0 )
+
+        frameB2ii = Frame(frameB2, highlightbackground="blue", highlightthickness=2, bg="#b3ffe0")
+        splimg = ImageTk.PhotoImage(
+            Image.open('spb machine.png').resize((100, 150), Image.Resampling.LANCZOS))
+        Label(frameB2ii,image=splimg).grid()
+        frameB2ii.grid(row=1)
+
+        frameB2iii = Frame(frameB2, highlightbackground="blue", highlightthickness=2, bg="#b3ffe0")
+        Label(frameB2iii, text="55.57", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+              fg="blue").grid(row=0, column=0)
+        Button(frameB2iii,text="Ok",font="Calibri 13 bold").grid(row=0,column=1)
+        frameB2iii.grid(row=2, sticky="s")
+        frameB2.grid(row=0, column=1 ,sticky="es")
+
+        frameB.grid(row=1, ipadx=33.5,sticky="s")
+        framei2.grid(row=0, column=1)
+        #--------------Framei3-------------
+        framei3 = Frame(frame3, highlightbackground="blue", highlightthickness=2, bg="#b3ffe0")
+        Button(framei3,text="EMG PRESSSED").grid(row=0)
+        Button(framei3,text="Count").grid(row=1)
+        countv=StringVar()
+        Entry(framei3, width=10, textvariable=countv, font="Arial_Black 12 bold", ).grid(row=2)
+        Button(framei3,text="Hand").grid(row=3)
+        framei3.grid(row=0, column=2, sticky="e")
+
+        frame3.grid(row=2, column=0, ipadx=33.5, sticky="ew")
+
+        frame5 = Frame(root, bg="blue", height=10)
+        frame5.grid(row=3, ipadx=400, sticky='ew')
+
+        frame6 = Frame(root, highlightbackground="blue", highlightthickness=2, bg="#b3ffe0")
+        settingimg = ImageTk.PhotoImage(
+            Image.open('home.png').resize((150, 90), Image.Resampling.LANCZOS))
+        # settinglabel=Label(frame6,image=settingimg).grid(row=0,column=0,padx=50)
+        Button(frame6, image=settingimg, borderwidth=0, bg="#b3ffe0").grid(row=0, column=0, padx=15)
+        pgimg = ImageTk.PhotoImage(
+            Image.open('program.png').resize((150, 90), Image.Resampling.LANCZOS))
+        # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
+        Button(frame6, image=pgimg, font="Calibri 13 bold", borderwidth=0, bg="#b3ffe0").grid(row=0, column=1, padx=15)
+        blimg = ImageTk.PhotoImage(
+            Image.open('bendlist.png').resize((150, 90), Image.Resampling.LANCZOS))
+        # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
+        Button(frame6, image=blimg, borderwidth=0, bg="#b3ffe0").grid(row=0, column=2, padx=15)
+        plimg = ImageTk.PhotoImage(
+            Image.open('operation.png').resize((150, 90), Image.Resampling.LANCZOS))
+        # pllabel=Label(frame6,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
+        Button(frame6, image=plimg, borderwidth=0, bg="#b3ffe0").grid(row=0, column=4, padx=15)
+        frame6.grid(row=4, ipadx=20, sticky='ew')
+
+        root.mainloop()
+
+op=operation()
+op.operationframe()
