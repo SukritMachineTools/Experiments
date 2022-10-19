@@ -1,0 +1,157 @@
+from tkinter import *
+from PIL import Image, ImageTk
+from tkinter import ttk
+import mysql.connector
+import time
+import threading
+
+class programList():
+    def start(self):
+        root = Tk()
+        root.geometry("800x480")
+        root.title("Sukrit Machine Tools")
+        root.wm_iconbitmap('sukrit_Logo.ico')
+        root.configure(background="#b3ffe0")
+
+        return root
+
+    def prolistFrame(self):
+        root = programList.start(self)
+        frame1 = Frame(root, highlightbackground="blue", highlightthickness=1, bg="#b3ffe0")
+        logoimg = ImageTk.PhotoImage(
+            Image.open('sukrit_Logo.png').resize((150, 70), Image.Resampling.LANCZOS))
+        Label(frame1, image=logoimg, bg="#b3ffe0").grid(row=0, column=0)
+        Label(frame1, text="               ", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0,
+                                                                                                              column=1,
+                                                                                                              padx=10)
+        Label(frame1, text="Operation List-1", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0, column=3,
+                                                                                                        padx=10)
+        frame1.grid(row=0, ipadx=50, sticky="ew")
+
+        frame2 = Frame(root, bg="blue", height=15)
+        frame2.grid(row=1, ipadx=400, sticky='ew')
+
+        frame3 = Frame(root, highlightbackground="blue", width=300, height=100, highlightthickness=2, bg="#b3ffe0")
+        Label(frame3, text="No.", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=0)
+        Label(frame3, text="Name", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=1)
+        Label(frame3, text="Thick", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=2)
+        Label(frame3, text="No. of Bend", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=3)
+        Label(frame3, text="Punch", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=4)
+        Label(frame3, text="Die", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=5)
+        Label(frame3, text="Material", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=6)
+        Label(frame3, text="Res", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=7)
+
+        Label(frame3, text="1", font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=0)
+        pln1=StringVar()
+        pln1.set("Hellooooo")
+        Label(frame3, textvariable=pln1, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=1)
+        th1=StringVar()
+        Label(frame3, textvariable=th1, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=2)
+        nob1=StringVar()
+        Label(frame3, textvariable=nob1, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=3)
+        pun1=StringVar()
+        Label(frame3, textvariable=pun1, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=4)
+        die1=StringVar()
+        Label(frame3, textvariable=die1, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=5)
+        mat1=StringVar()
+        Label(frame3, textvariable=mat1, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=6)
+        res1=StringVar()
+        Label(frame3, textvariable=res1, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=7)
+
+        Label(frame3, text="2", font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=0)
+        pln2 = StringVar()
+        Label(frame3, textvariable=pln2, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=1)
+        th2 = StringVar()
+        Label(frame3, textvariable=th2, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=2)
+        nob2 = StringVar()
+        Label(frame3, textvariable=nob2, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=3)
+        pun2 = StringVar()
+        Label(frame3, textvariable=pun2, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=4)
+        die2 = StringVar()
+        Label(frame3, textvariable=die2, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=5)
+        mat2 = StringVar()
+        Label(frame3, textvariable=mat2, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=6)
+        res2 = StringVar()
+        Label(frame3, textvariable=res2, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=7)
+
+        Label(frame3, text="3", font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=0)
+        pln3 = StringVar()
+        Label(frame3, textvariable=pln3, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=1)
+        th3 = StringVar()
+        Label(frame3, textvariable=th3, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=2)
+        nob3 = StringVar()
+        Label(frame3, textvariable=nob3, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=3)
+        pun3 = StringVar()
+        Label(frame3, textvariable=pun3, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=4)
+        die3 = StringVar()
+        Label(frame3, textvariable=die3, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=5)
+        mat3 = StringVar()
+        Label(frame3, textvariable=mat3, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=6)
+        res3 = StringVar()
+        Label(frame3, textvariable=res3, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=7)
+
+        Label(frame3, text="4", font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=0)
+        pln4 = StringVar()
+        Label(frame3, textvariable=pln4, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=1)
+        th4 = StringVar()
+        Label(frame3, textvariable=th4, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=2)
+        nob4 = StringVar()
+        Label(frame3, textvariable=nob4, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=3)
+        pun4 = StringVar()
+        Label(frame3, textvariable=pun4, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=4)
+        die4 = StringVar()
+        Label(frame3, textvariable=die4, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=5)
+        mat4 = StringVar()
+        Label(frame3, textvariable=mat4, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=6)
+        res4 = StringVar()
+        Label(frame3, textvariable=res4, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=7)
+
+        Label(frame3, text="5", font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=0)
+        pln5 = StringVar()
+        Label(frame3, textvariable=pln5, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=1)
+        th5 = StringVar()
+        Label(frame3, textvariable=th5, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=2)
+        nob5 = StringVar()
+        Label(frame3, textvariable=nob5, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=3)
+        pun5 = StringVar()
+        Label(frame3, textvariable=pun5, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=4)
+        die5 = StringVar()
+        Label(frame3, textvariable=die5, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=5)
+        mat5 = StringVar()
+        Label(frame3, textvariable=mat5, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=6)
+        res5 = StringVar()
+        Label(frame3, textvariable=res5, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=7)
+
+        frame3.grid(row=2, column=0, ipadx=33.5, sticky="ew")
+
+        frame5 = Frame(root, bg="blue", height=15)
+        frame5.grid(row=3, ipadx=150, sticky='ew')
+
+        frame6 = Frame(root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
+        settingimg = ImageTk.PhotoImage(
+            Image.open('home.png').resize((130, 80), Image.Resampling.LANCZOS))
+        # settinglabel=Label(frame6,image=settingimg).grid(row=0,column=0,padx=50)
+        Button(frame6, image=settingimg, borderwidth=0, bg="#b3ffe0").grid(row=0, column=2, padx=15)
+
+
+        rrimg = ImageTk.PhotoImage(
+            Image.open('arrow.png').resize((130, 80), Image.Resampling.LANCZOS))
+        # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
+        Button(frame6, image=rrimg, borderwidth=0, bg="#b3ffe0").grid(row=0, column=0, padx=15)
+        pgimg = ImageTk.PhotoImage(
+            Image.open('program.png').resize((130, 80), Image.Resampling.LANCZOS))
+        Button(frame6, image=pgimg, borderwidth=0,  bg="#b3ffe0").grid(row=0, column=4, padx=15,ipadx=5)
+        frame6.grid(row=4, ipadx=20, sticky='e')
+
+        root.mainloop()
+
+prlt=programList()
+prlt.prolistFrame()
