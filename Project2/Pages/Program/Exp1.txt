@@ -23,7 +23,7 @@ class program():
         Label(frame1, text="               ", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0,
                                                                                                               column=1,
                                                                                                               padx=10)
-        Label(frame1, text="Job Setup", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0,
+        Label(frame1, text="Job Setup",fg="#cc3300", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0,
                                                                                                                column=3,
                                                                                                                padx=10)
         frame1.grid(row=0, ipadx=50, sticky="ew")

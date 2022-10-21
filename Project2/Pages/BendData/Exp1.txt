@@ -27,7 +27,7 @@ class benddata():
         Label(frame1, text="               ", font="Algerian 27 bold", padx=7, pady=7, bg="#b3ffe0").grid(row=0, column=1,
                                                                                                       padx=10)
         Entry(frame1,  font="Calibri 11", width=11).grid(row=0, column=2)
-        Label(frame1, text="Bend Data", font="Algerian 27 bold", padx=7, pady=7, bg="#b3ffe0").grid(row=0, column=3,
+        Label(frame1, text="Bend Data",fg="#cc3300", font="Algerian 27 bold", padx=7, pady=7, bg="#b3ffe0").grid(row=0, column=3,
                                                                                                        padx=10)
         frame1.grid(row=0,ipadx=50,sticky="ew")
         frame2 = Frame(root, bg="blue", height=15)

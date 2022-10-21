@@ -111,7 +111,7 @@ class punchData():
         Label(frame1, text="               ", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0,
                                                                                                               column=1,
                                                                                                               padx=10)
-        Label(frame1, text="Punch Data",fg="#b32d00", font="Algerian 27 bold", padx=15, pady=15, bg="#b3ffe0").grid(row=0, column=2,
+        Label(frame1, text="Punch Data",fg="#cc3300", font="Algerian 27 bold", padx=15, pady=15, bg="#b3ffe0").grid(row=0, column=2,
                                                                                                       padx=10, ipadx=10)
         frame1.grid(row=0,sticky="w")
 

@@ -28,7 +28,7 @@ class operation():
                                                                                                           padx=10)
         currTime= time.strftime("%H:%M:%S", time.localtime())
         Label(frame1,text=currTime, font="Calibri 18",bg="#b3ffe0", width=11).grid(row=0, column=2)
-        Label(frame1, text="Operation", font="Algerian 27 bold", padx=4.5,pady=4.5, bg="#b3ffe0").grid(row=0, column=3,
+        Label(frame1, text="Operation",fg="#cc3300", font="Algerian 27 bold", padx=4.5,pady=4.5, bg="#b3ffe0").grid(row=0, column=3,
                                                                                                     padx=10)
         frame1.grid(row=0, ipadx=50, sticky="ew")
         frame2 = Frame(root, bg="blue", height=5)
