@@ -1,0 +1,9 @@
+from pressBrake import pressBrake
+
+class home():
+    def home(self):
+        try:
+            pressBrake.pressBrakeFrame(self)
+
+        except Exception as e:
+            print(e)
