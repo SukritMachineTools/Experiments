@@ -49,7 +49,7 @@ class programList():
         Label(frame3, text="Res", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
                                                                                                             column=7)
 
-        Label(frame3, text="6", font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=0)
+        Label(frame3, text="6", font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0",fg="#e68a00").grid(row=1, column=0)
         pln6=StringVar()
         pln6.set("Hellooooo")
         Label(frame3, textvariable=pln6, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=1)
@@ -66,7 +66,7 @@ class programList():
         res6=StringVar()
         Label(frame3, textvariable=res6, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=7)
 
-        Label(frame3, text="7", font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=0)
+        Label(frame3, text="7", font="Stencil 15 bold", padx=12, pady=10, bg="#b3ffe0",fg="#e68a00").grid(row=2, column=0)
         pln7 = StringVar()
         Label(frame3, textvariable=pln7, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=1)
         th7 = StringVar()
@@ -82,7 +82,7 @@ class programList():
         res7 = StringVar()
         Label(frame3, textvariable=res7, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=7)
 
-        Label(frame3, text="8", font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=0)
+        Label(frame3, text="8", font="Stencil 15 bold", padx=12, pady=10, bg="#b3ffe0",fg="#e68a00").grid(row=3, column=0)
         pln8 = StringVar()
         Label(frame3, textvariable=pln8, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=1)
         th8 = StringVar()
@@ -98,7 +98,7 @@ class programList():
         res8 = StringVar()
         Label(frame3, textvariable=res8, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=7)
 
-        Label(frame3, text="9", font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=0)
+        Label(frame3, text="9", font="Stencil 15 bold", padx=12, pady=10, bg="#b3ffe0",fg="#e68a00").grid(row=4, column=0)
         pln9 = StringVar()
         Label(frame3, textvariable=pln9, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=1)
         th9 = StringVar()
@@ -114,7 +114,7 @@ class programList():
         res9 = StringVar()
         Label(frame3, textvariable=res9, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=7)
 
-        Label(frame3, text="10", font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=0)
+        Label(frame3, text="10", font="Stencil 15 bold", padx=12, pady=10, bg="#b3ffe0",fg="#e68a00").grid(row=5, column=0)
         pln10 = StringVar()
         Label(frame3, textvariable=pln10, font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=1)
         th10 = StringVar()
