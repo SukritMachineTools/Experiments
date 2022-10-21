@@ -22,7 +22,7 @@ class punchData():
         mycursor = mydb.cursor()
         return mycursor,mydb
 
-    def punchDataFRAME(self):
+    def punchDataFrame(self):
         root = punchData.start(self)
         mycursor , mydb = punchData.database(self)
 
@@ -183,4 +183,4 @@ class punchData():
         root.mainloop()
 
 pd=punchData()
-pd.punchDataFRAME()
+pd.punchDataFrame()
