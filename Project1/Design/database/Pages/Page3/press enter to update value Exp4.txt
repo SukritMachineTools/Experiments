@@ -194,7 +194,7 @@ class page3():
         a2.set(rs2[3])
         r2 = StringVar()
         r2.set(rs2[4])
-        Entry(frame3, textvar=n2, font="Calibri 11", width=11).grid(row=2, column=1)
+        Entry(frame3, textvariable=n2, font="Calibri 11", width=11).grid(row=2, column=1)
         Entry(frame3, textvariable=h2, font="Calibri 11", width=9).grid(row=2, column=2)
         Entry(frame3, textvariable=a2, font="Calibri 11", width=9).grid(row=2, column=3)
         Entry(frame3, textvariable=r2, font="Calibri 11", width=9).grid(row=2, column=4)
