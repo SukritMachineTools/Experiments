@@ -220,10 +220,10 @@ class pressBrake():
             Image.open('login.png').resize((130, 70), Image.Resampling.LANCZOS))
         # settinglabel=Label(frame5,image=settingimg).grid(row=0,column=0,padx=50)
         Button(frame5, image=loginimg, bg="orange", borderwidth=0).grid(row=0, column=0,padx=10,pady=10)
-        pglimg = ImageTk.PhotoImage(
-            Image.open('programlist.png').resize((130, 70), Image.Resampling.LANCZOS))
+        oplimg = ImageTk.PhotoImage(
+            Image.open('operationlist.png').resize((130, 70), Image.Resampling.LANCZOS))
         # pdlabel=Label(frame5,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
-        Button(frame5, image=pglimg,command=pglist,bg="orange", borderwidth=0).grid(row=0, column=1,padx=10,pady=10)
+        Button(frame5, image=oplimg,command=pglist,bg="orange", borderwidth=0).grid(row=0, column=1,padx=10,pady=10)
         dieimg = ImageTk.PhotoImage(
             Image.open('die.png').resize((130, 70), Image.Resampling.LANCZOS))
         # pllabel=Label(frame5,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
