@@ -15,7 +15,7 @@ class operationList():
             root.destroy()
             from pressBrakeP import pressBrake
             pass
-        def opl2():
+        def opList2():
             root.destroy()
             from operationList2 import operationList2
             pass
@@ -152,7 +152,7 @@ class operationList():
         rrimg = ImageTk.PhotoImage(
             Image.open('arrow.png').resize((130, 80), Image.Resampling.LANCZOS))
         # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
-        Button(frame6, image=rrimg, command=opl2, borderwidth=0, bg="#b3ffe0").grid(row=0, column=0, padx=15)
+        Button(frame6, image=rrimg, command=opList2, borderwidth=0, bg="#b3ffe0").grid(row=0, column=0, padx=15)
         pgimg = ImageTk.PhotoImage(
             Image.open('program.png').resize((130, 80), Image.Resampling.LANCZOS))
         Button(frame6, image=pgimg, command=prog, borderwidth=0,  bg="#b3ffe0").grid(row=0, column=4, padx=15,ipadx=5)

@@ -2,35 +2,32 @@ from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import ttk
 import mysql.connector
+from initialP import home
 
 class punchList():
-    def start(self):
-        root = Tk()
-        root.geometry("800x480")
-        root.title("Sukrit Machine Tools")
-        root.wm_iconbitmap('sukrit_Logo.ico')
-        root.configure(background="#b3ffe0")
 
-        return root
-    def db(self):
-        mydb = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="sukrit",
-            database="test786"
-        )
-
-        mycursor = mydb.cursor()
-        mycursor.execute("SELECT * FROM punchlist")
-        myresult = mycursor.fetchall()
-        return mydb, mycursor, myresult
     def punchListFrame(self):
-        root = punchList.start(self)
+        root = home.start(self)
+        mydb, mycursor, myresult=home.db(self)
+
+        def pBrake():
+            root.destroy()
+            from pressBrakeP import pressBrake
+            pass
+        def pnData():
+            root.destroy()
+            from punchDataP import punchData
+            pass
+        def op():
+            root.destroy()
+            from operationP import operation
+            pass
+
         def enter(event):
             updatedb()
         def updatedb():
             try:
-                mydb, mycursor, myresult = punchList.db(self)
+                mydb, mycursor, myresult = home.db(self)
                 name1 = n1.get()
                 hs1 = h1.get()
                 as1 = a1.get()
@@ -139,7 +136,7 @@ class punchList():
         Label(frame3, text="1", font="Stencil 12 bold", padx=5, pady=10, bg="#b3ffe0", fg="#e68a00").grid(row=1,
                                                                                                           column=0)
         try:
-            mydb, mycursor, myresult = punchList.db(self)
+            mydb, mycursor, myresult = home.db(self)
             rs1 = myresult[0]
         except:
             mycursor = mydb.cursor()
@@ -319,15 +316,15 @@ class punchList():
         homeimg = ImageTk.PhotoImage(
             Image.open('home.png').resize((120, 80), Image.Resampling.LANCZOS))
         # settinglabel=Label(frame6,image=settingimg).grid(row=0,column=0,padx=50)
-        Button(frame6, image=homeimg,bg="#b3ffe0", borderwidth=0).grid(row=0, column=0, padx=50)
+        Button(frame6, image=homeimg, command=pBrake,bg="#b3ffe0", borderwidth=0).grid(row=0, column=0, padx=50)
         pdimg = ImageTk.PhotoImage(
             Image.open('punchdata.png').resize((120, 80), Image.Resampling.LANCZOS))
         # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
-        Button(frame6, image=pdimg,bg="#b3ffe0", borderwidth=0).grid(row=0, column=1, padx=50, columnspan=2)
+        Button(frame6, image=pdimg, command=pnData,bg="#b3ffe0", borderwidth=0).grid(row=0, column=1, padx=50, columnspan=2)
         opimg = ImageTk.PhotoImage(
             Image.open('operation.png').resize((120, 80), Image.Resampling.LANCZOS))
         # pllabel=Label(frame6,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
-        Button(frame6, image=opimg,bg="#b3ffe0", borderwidth=0).grid(row=0, column=4, padx=50, columnspan=2)
+        Button(frame6, image=opimg, command=op,bg="#b3ffe0", borderwidth=0).grid(row=0, column=4, padx=50, columnspan=2)
         frame6.grid(row=4,ipadx=20)
 
         root.mainloop()

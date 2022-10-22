@@ -4,21 +4,23 @@ from tkinter import ttk
 import mysql.connector
 import time
 import threading
-
+from initialP import home
 
 
 class operation():
-    def start(self):
-        root = Tk()
-        root.geometry("800x480")
-        root.title("Sukrit Machine Tools")
-        root.wm_iconbitmap('sukrit_Logo.ico')
-        root.configure(background="#b3ffe0")
-
-        return root
 
     def operationframe(self):
-        root = operation.start(self)
+        root = home.start(self)
+
+        def pBrake():
+            root.destroy()
+            from pressBrakeP import pressBrake
+            pass
+        def prog():
+            root.destroy()
+            from programP import program
+            pass
+
         frame1 = Frame(root, highlightbackground="blue", highlightthickness=1, bg="#b3ffe0")
         logoimg = ImageTk.PhotoImage(
             Image.open('sukrit_Logo.png').resize((150, 70), Image.Resampling.LANCZOS))
@@ -187,10 +189,10 @@ class operation():
         frame5.grid(row=3, ipadx=150, sticky='ew')
 
         frame6 = Frame(root, highlightbackground="blue",    highlightthickness=2, bg="#b3ffe0")
-        settingimg = ImageTk.PhotoImage(
+        homeimg = ImageTk.PhotoImage(
             Image.open('home.png').resize((100, 70), Image.Resampling.LANCZOS))
         # settinglabel=Label(frame6,image=settingimg).grid(row=0,column=0,padx=50)
-        Button(frame6, image=settingimg, borderwidth=0, bg="#b3ffe0").grid(row=0, column=0, padx=15)
+        Button(frame6, image=homeimg, command=pBrake,borderwidth=0, bg="#b3ffe0").grid(row=0, column=0, padx=15)
         lrimg = ImageTk.PhotoImage(
             Image.open('arrow1.png').resize((100, 70), Image.Resampling.LANCZOS))
         # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
@@ -202,7 +204,7 @@ class operation():
         Button(frame6, image=rrimg, borderwidth=0, bg="#b3ffe0").grid(row=0, column=3, padx=15)
         pgimg = ImageTk.PhotoImage(
             Image.open('program.png').resize((100, 70), Image.Resampling.LANCZOS))
-        Button(frame6, image=pgimg, borderwidth=0, bg="#b3ffe0").grid(row=0, column=4, padx=15)
+        Button(frame6, image=pgimg, command=prog,borderwidth=0, bg="#b3ffe0").grid(row=0, column=4, padx=15)
         frame6.grid(row=4, ipadx=20, sticky='ew')
 
         root.mainloop()
