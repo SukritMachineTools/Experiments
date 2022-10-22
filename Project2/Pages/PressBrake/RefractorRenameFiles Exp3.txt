@@ -53,16 +53,21 @@ class pressBrake():
         def pndata():
             # pass
             root.destroy()
-            from punchDataP import punchData
+            import punchDataP
+            punchDataP.punchData()
             pass
 
-        def opList():
+        def prog():
             root.destroy()
-            from operationListP import operationList
+            from programP import program
             pass
         def op():
             root.destroy()
             from operationP import operation
+            pass
+        def bData():
+            root.destroy()
+            from bendataP import benddata
             pass
 
         c = ModbusClient(host='192.168.1.77', port=502, auto_open=True, debug=False)
@@ -220,14 +225,14 @@ class pressBrake():
             Image.open('login.png').resize((130, 70), Image.Resampling.LANCZOS))
         # settinglabel=Label(frame5,image=settingimg).grid(row=0,column=0,padx=50)
         Button(frame5, image=loginimg, bg="orange", borderwidth=0).grid(row=0, column=0,padx=10,pady=10)
-        oplimg = ImageTk.PhotoImage(
-            Image.open('operationlist.png').resize((130, 70), Image.Resampling.LANCZOS))
+        primg = ImageTk.PhotoImage(
+            Image.open('program.png').resize((130, 70), Image.Resampling.LANCZOS))
         # pdlabel=Label(frame5,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
-        Button(frame5, image=oplimg,command=opList,bg="orange", borderwidth=0).grid(row=0, column=1,padx=10,pady=10)
-        dieimg = ImageTk.PhotoImage(
-            Image.open('die.png').resize((130, 70), Image.Resampling.LANCZOS))
+        Button(frame5, image=primg,command=prog,bg="orange", borderwidth=0).grid(row=0, column=1,padx=10,pady=10)
+        bdimg = ImageTk.PhotoImage(
+            Image.open('benddata.png').resize((130, 70), Image.Resampling.LANCZOS))
         # pllabel=Label(frame5,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
-        Button(frame5, image=dieimg,bg="orange", borderwidth=0).grid(row=0, column=2,padx=10,pady=10)
+        Button(frame5, image=bdimg, command=bData, bg="orange", borderwidth=0).grid(row=0, column=2,padx=10,pady=10)
         pdimg = ImageTk.PhotoImage(
             Image.open('punchdata.png').resize((130, 70), Image.Resampling.LANCZOS))
         # pllabel=Label(frame5,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
