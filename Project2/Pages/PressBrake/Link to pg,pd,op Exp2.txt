@@ -45,16 +45,6 @@ class FloatModbusClient(ModbusClient):
 
 
 class pressBrake():
-    # def start(self):
-    #     root = Tk()
-    #     root.geometry("800x480")
-    #     root.title("Sukrit Machine Tools")
-    #     root.wm_iconbitmap('sukrit_Logo.ico')
-    #     root.configure(background="orange")
-    #     return root
-    # def pnlist(self):
-    #     pn=punchData
-    #     pn.punchDataFrame(self)
 
     def pressBrakeFrame(self):
         root = home.start(self)
@@ -68,7 +58,7 @@ class pressBrake():
 
         def pglist():
             root.destroy()
-            from programList import programList
+            from operationList import operationList
             pass
         def op():
             root.destroy()
