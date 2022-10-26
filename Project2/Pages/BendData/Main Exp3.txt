@@ -21,11 +21,11 @@ class benddata():
             pg=program()
             pg.programFrame()
             pass
-        def opList():
+        def pgList():
             self.root.destroy()
-            from operationListP import operationList
-            ol=operationList()
-            ol.oplistFrame()
+            from programListP import programList
+            ol=programList()
+            ol.pglistFrame()
             pass
         def op():
             self.root.destroy()
@@ -151,10 +151,10 @@ class benddata():
             Image.open('program.png').resize((150, 90), Image.Resampling.LANCZOS))
         # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
         Button(frame6, image=pgimg, command=prog,font="Calibri 13 bold", borderwidth=0,bg="#b3ffe0").grid(row=0, column=1,padx=15)
-        blimg = ImageTk.PhotoImage(
-            Image.open('bendlist.png').resize((150, 90), Image.Resampling.LANCZOS))
+        pglimg = ImageTk.PhotoImage(
+            Image.open('programlist.png').resize((150, 90), Image.Resampling.LANCZOS))
         # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
-        Button(frame6, image=blimg, command=opList,borderwidth=0,bg="#b3ffe0").grid(row=0, column=2,padx=15)
+        Button(frame6, image=pglimg, command=pgList,borderwidth=0,bg="#b3ffe0").grid(row=0, column=2,padx=15)
         plimg = ImageTk.PhotoImage(
             Image.open('operation.png').resize((150, 90), Image.Resampling.LANCZOS))
         # pllabel=Label(frame6,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)

@@ -6,9 +6,9 @@ import time
 import threading
 from initialP import home
 
-class operationList():
+class programList():
 
-    def oplistFrame(self):
+    def pglistFrame(self):
         self.root = home.start(self)
 
         def pBrake():
@@ -17,9 +17,9 @@ class operationList():
             pb=pressBrake()
             pb.pressBrakeFrame()
             pass
-        def opList2():
+        def pgList2():
             self.root.destroy()
-            from operationList2 import operationList2
+            from programList2P import operationList2
             ol2=operationList2()
             ol2.oplistFrame()
             pass
@@ -37,7 +37,7 @@ class operationList():
         Label(frame1, text="               ", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0,
                                                                                                               column=1,
                                                                                                               padx=10)
-        Label(frame1, text="Operation List-1",fg="#cc3300", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0, column=3,
+        Label(frame1, text="Program List-1",fg="#cc3300", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0, column=3,
                                                                                                         padx=10)
         frame1.grid(row=0, ipadx=50, sticky="ew")
 
@@ -158,7 +158,7 @@ class operationList():
         rrimg = ImageTk.PhotoImage(
             Image.open('arrow.png').resize((130, 80), Image.Resampling.LANCZOS))
         # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
-        Button(frame6, image=rrimg, command=opList2, borderwidth=0, bg="#b3ffe0").grid(row=0, column=0, padx=15)
+        Button(frame6, image=rrimg, command=pgList2, borderwidth=0, bg="#b3ffe0").grid(row=0, column=0, padx=15)
         pgimg = ImageTk.PhotoImage(
             Image.open('program.png').resize((130, 80), Image.Resampling.LANCZOS))
         Button(frame6, image=pgimg, command=prog, borderwidth=0,  bg="#b3ffe0").grid(row=0, column=4, padx=15,ipadx=5)
@@ -167,5 +167,5 @@ class operationList():
         self.root.mainloop()
 
 if __name__=='__main__':
-    prlt=operationList()
-    prlt.oplistFrame()
+    prlt=programList()
+    prlt.pglistFrame()

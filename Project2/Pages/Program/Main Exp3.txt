@@ -12,11 +12,11 @@ class program():
     def programFrame(self):
         self.root = home.start(self)
 
-        def opList():
+        def pgList():
             self.root.destroy()
-            from operationListP import operationList
-            ol=operationList()
-            ol.oplistFrame()
+            from programListP import programList
+            ol=programList()
+            ol.pglistFrame()
             pass
 
         def pBrake():
@@ -103,10 +103,10 @@ class program():
 
         frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
 
-        oplimg = ImageTk.PhotoImage(
-            Image.open('operationlist.png').resize((130, 80), Image.Resampling.LANCZOS))
+        pglimg = ImageTk.PhotoImage(
+            Image.open('programlist.png').resize((130, 80), Image.Resampling.LANCZOS))
         # settinglabel=Label(frame6,image=settingimg).grid(row=0,column=0,padx=50)
-        Button(frame6, image=oplimg, command=opList,borderwidth=0, bg="#b3ffe0").grid(row=0, column=0, padx=15,sticky="e")
+        Button(frame6, image=pglimg, command=pgList,borderwidth=0, bg="#b3ffe0").grid(row=0, column=0, padx=15,sticky="e")
         Label(frame6,text="                                                   ",bg="#b3ffe0").grid(row=0,column=1)
         Label(frame6,text="                                                   ",bg="#b3ffe0").grid(row=0,column=2)
         Label(frame6,text="                                                   ",bg="#b3ffe0").grid(row=0,column=3)
