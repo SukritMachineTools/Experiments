@@ -1,0 +1,20 @@
+from initialP import home
+
+import mysql.connector
+
+
+class database():
+
+    def pndb(self):
+        mydb, mycursor=home.db(self)
+        mycursor.execute("SELECT * FROM punchlist")
+        myresult = mycursor.fetchall()
+        return mydb, mycursor, myresult
+
+    def pgdb(self):
+        mydb, mycursor = home.db(self)
+        mycursor.execute("SELECT * FROM programlist")
+        myresult = mycursor.fetchall()
+        return mydb, mycursor, myresult
+
+

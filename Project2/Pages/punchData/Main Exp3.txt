@@ -3,12 +3,13 @@ from PIL import Image, ImageTk
 from tkinter import ttk
 import mysql.connector
 from initialP import home
+from databaseP import database
 
 class punchData():
 
     def punchDataFrame(self):
         self.root = home.start(self)
-        mydb, mycursor, myresult=home.db(self)
+        mydb, mycursor, myresult= database.pndb(self)
 
         def pBrake():
             self.root.destroy()
