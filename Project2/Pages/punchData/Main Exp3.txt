@@ -1,0 +1,191 @@
+from tkinter import *
+from PIL import Image, ImageTk
+from tkinter import ttk
+import mysql.connector
+from initialP import home
+
+class punchData():
+
+    def punchDataFrame(self):
+        self.root = home.start(self)
+        mydb, mycursor, myresult=home.db(self)
+
+        def pBrake():
+            self.root.destroy()
+            from pressBrakeP import pressBrake
+            pb=pressBrake()
+            pb.pressBrakeFrame()
+            pass
+        def pnList():
+            self.root.destroy()
+            from punchListP import punchList
+            pnl=punchList()
+            pnl.punchListFrame()
+            pass
+        def op():
+            self.root.destroy()
+            from operationP import operation
+            o=operation()
+            o.operationframe()
+            pass
+
+        def enterp2(event):
+            update()
+
+        def update():
+            global pnch
+            pn = pnvalue.get()
+            ph = phvalue.get()
+            pa = pavalue.get()
+            pr = prvalue.get()
+            try:
+                sql = """UPDATE punchlist SET PunchName= %s, PunchHeight = %s, PunchAngle= %s, PunchRadius= %s WHERE Num = %s;"""
+                result = [pn, ph, pa, pr, pnch]
+                mycursor.execute(sql, result)
+                mydb.commit()
+
+            except Exception as e:
+                print(e)
+
+            pass
+
+        def plus():
+            global pnch
+            pnch = punch.get()
+            pnch = int(pnch)
+            if pnch < 10:
+                pnch = pnch + 1
+                try:
+                    sql = """SELECT * FROM punchlist WHERE num= %s"""
+                    val = [pnch]
+                    mycursor.execute(sql, val)
+                    myresult = mycursor.fetchall()
+                    yy = myresult[0]
+                    pn = yy[1]
+                    pnvalue.set(pn)
+                    ph = yy[2]
+                    phvalue.set(ph)
+                    pa = yy[3]
+                    pavalue.set(pa)
+                    pr = yy[4]
+                    prvalue.set(pr)
+
+                except Exception as e:
+                    print(e)
+                pnch = str(pnch)
+                punch.set(pnch)
+
+            pass
+
+        def minus():
+            global pnch
+            pnch = punch.get()
+            pnch = int(pnch)
+            if pnch > 1:
+                pnch = pnch - 1
+                try:
+                    sql = """SELECT * FROM punchlist WHERE num= %s"""
+                    val = [pnch]
+                    mycursor.execute(sql, val)
+                    myresult = mycursor.fetchall()
+                    yy = myresult[0]
+                    pn = yy[1]
+                    pnvalue.set(pn)
+                    ph = yy[2]
+                    phvalue.set(ph)
+                    pa = yy[3]
+                    pavalue.set(pa)
+                    pr = yy[4]
+                    prvalue.set(pr)
+
+                except Exception as e:
+                    print(e)
+                pnch = str(pnch)
+                punch.set(pnch)
+
+            pass
+
+
+
+        frame1 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
+        logoimg = ImageTk.PhotoImage(
+            Image.open('sukrit_Logo.png').resize((150, 70), Image.Resampling.LANCZOS))
+        Label(frame1, image=logoimg,bg="#b3ffe0").grid(row=0, column=0)
+        Label(frame1, text="               ", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0,
+                                                                                                              column=1,
+                                                                                                              padx=10)
+        Label(frame1, text="Punch Data",fg="#cc3300", font="Algerian 27 bold", padx=15, pady=15, bg="#b3ffe0").grid(row=0, column=2,
+                                                                                                      padx=10, ipadx=10)
+        frame1.grid(row=0,sticky="w")
+
+        frame2 = Frame(self.root, bg="blue", height=10)
+        frame2.grid(row=1,ipadx=400)
+
+        frame3 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
+
+        self.root.bind('<Return>', enterp2)
+
+        Label(frame3, text="Punch Name", font="Stencil 25 bold", padx=15, pady=15, bg="#b3ffe0",
+              fg="green").grid(row=0, column=0)
+        pnvalue = StringVar()
+        Entry(frame3, width=10, textvariable=pnvalue, font="Arial_Black 25 bold", ).grid(row=0, column=1)
+        Label(frame3, text="Punch Height", font="Stencil 25 bold", padx=15, pady=15, bg="#b3ffe0",
+              fg="green").grid(row=1, column=0)
+        phvalue = StringVar()
+        Entry(frame3, width=10, textvariable=phvalue, font="Arial_Black 25 bold").grid(row=1, column=1)
+        Label(frame3, text="Punch Angle", font="Stencil 25 bold", padx=15, pady=15, bg="#b3ffe0",
+              fg="green").grid(row=2, column=0)
+        pavalue = StringVar()
+        Entry(frame3, width=10, textvariable=pavalue, font="Arial_Black 25 bold").grid(row=2, column=1)
+        Label(frame3, text="Punch Radius", font="Stencil 25 bold", padx=15, pady=15, bg="#b3ffe0",
+              fg="green").grid(row=3, column=0)
+        prvalue = StringVar()
+        Entry(frame3, width=10, textvariable=prvalue, font="Arial_Black 25 bold").grid(row=3, column=1)
+        Button(frame3, text="+", command=plus,bg="orange", padx=30).grid(row=0, column=3)
+        Label(frame3, text=" ", fg="#b3ffe0", bg="#b3ffe0").grid(row=0, column=2)
+        punch = StringVar()
+        pnch = 1
+        punch.set(pnch)
+        sql = """SELECT * FROM punchlist WHERE num= %s"""
+        val = [pnch]
+        mycursor.execute(sql, val)
+        myresult = mycursor.fetchall()
+        yy = myresult[0]
+        pn = yy[1]
+        pnvalue.set(pn)
+        ph = yy[2]
+        phvalue.set(ph)
+        pa = yy[3]
+        pavalue.set(pa)
+        pr = yy[4]
+        prvalue.set(pr)
+        Label(frame3, textvariable=punch, font="Stencil 25 bold", fg="Black", bg="#b3ffe0").grid(row=1, column=3)
+        Button(frame3, command=minus, text="-",bg="orange", padx=30).grid(row=2, column=3)
+        Button(frame3, command=update, text="Update",relief="groove",bg="blue",fg="white" ,padx=30).grid(row=3, column=3)
+        frame3.grid(row=2,ipadx=73.5)
+
+        frame5 = Frame(self.root, bg="blue", height=10)
+        # wlabel=Label(frame2,text="",bg="blue",height=10).grid(row=1)
+        frame5.grid(row=3,ipadx=400)
+
+        frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
+        homeimg = ImageTk.PhotoImage(
+            Image.open('home.png').resize((150, 80), Image.Resampling.LANCZOS))
+        # settinglabel=Label(frame6,image=settingimg).grid(row=0,column=0,padx=50)
+        Button(frame6, image=homeimg, command=pBrake, borderwidth=0,bg="#b3ffe0").grid(row=0, column=0, padx=50)
+        pulimg = ImageTk.PhotoImage(
+            Image.open('puchlist.png').resize((150, 80), Image.Resampling.LANCZOS))
+        # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
+        Button(frame6, image=pulimg, command=pnList, borderwidth=0,bg="#b3ffe0").grid(row=0, column=1, padx=50, columnspan=2)
+        opimg = ImageTk.PhotoImage(
+            Image.open('operation.png').resize((150, 80), Image.Resampling.LANCZOS))
+        # pllabel=Label(frame6,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
+        Button(frame6, image=opimg, command=op,borderwidth=0,bg="#b3ffe0").grid(row=0, column=4, padx=50, columnspan=2)
+        frame6.grid(row=4,ipadx=20)
+
+
+        self.root.mainloop()
+
+if __name__=='__main__':
+    pd=punchData()
+    pd.punchDataFrame()
