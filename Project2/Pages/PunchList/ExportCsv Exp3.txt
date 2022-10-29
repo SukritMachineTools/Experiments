@@ -34,8 +34,8 @@ class punchList():
         def csvw():
             try:
                 mydb, mycursor, myresult = database.pndb(self)
-                x = "ok"
-                directory = "GeeksforGeeks"
+                x = "Lib"
+                directory = "Servo Electric PressBrake"
                 # Parent Directory path
                 parent_dir = "D:\Software Development\project2\dirs"
 
