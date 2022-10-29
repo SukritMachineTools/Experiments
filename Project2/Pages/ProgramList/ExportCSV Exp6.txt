@@ -1,0 +1,284 @@
+from tkinter import *
+from PIL import Image, ImageTk
+from tkinter import ttk
+import mysql.connector
+import time
+import threading
+from initialP import home
+from databaseP import database
+import csv
+import os
+
+class programList():
+
+    def pglistFrame(self):
+        self.root = home.start(self)
+        mydb, mycursor, myresult = database.pgdb(self)
+
+        def pBrake():
+            self.root.destroy()
+            from pressBrakeP import pressBrake
+            pb=pressBrake()
+            pb.pressBrakeFrame()
+            pass
+        def pgList2():
+            self.root.destroy()
+            from programList2P import programList2
+            ol2=programList2()
+            ol2.pglistFrame()
+            pass
+        def prog():
+            self.root.destroy()
+            from programP import program
+            pg=program()
+            pg.programFrame()
+            pass
+
+        def csvw():
+            try:
+                mydb, mycursor, myresult = database.pgdb(self)
+                x = "ok"
+                directory = "GeeksforGeeks"
+                # Parent Directory path
+                parent_dir = "D:\Software Development\project2\dirs"
+
+                # Path
+                path = os.path.join(parent_dir, directory, x)
+
+                newpath = path
+                if not os.path.exists(newpath):
+                    os.makedirs(newpath)
+                    print("Directory '% s' created" % directory)
+
+                print(path)
+
+                k = path + "\ProgramList.csv"
+                with open(k, 'w', newline='') as file:
+                    f = ['No.', 'Program Name', 'Thick', 'No. of Bend', 'Punch','Die','Material', 'Res']
+                    w = csv.DictWriter(file, fieldnames=f)
+                    w.writeheader()
+
+                    i = 0
+                    while i < 10:
+                        # print(myresult[i])
+                        yy = myresult[i]
+                        # print(yy)
+                        n = yy[0]
+                        pn = yy[1]
+                        t = yy[2]
+                        nb = yy[3]
+                        p = yy[4]
+                        d = yy[5]
+                        m = yy[6]
+                        r = yy[7]
+                        #print(n, pn, ph, pa, pr)
+                        rl = [{'No.': n, 'Program Name': pn, 'Thick': t, 'No. of Bend': nb, 'Punch': p,'Die':d,'Material':m,'Res':r}]
+                        w.writerows(rl)
+                        i += 1
+            except Exception as e:
+                print(e)
+            pass
+
+        frame1 = Frame(self.root, highlightbackground="blue", highlightthickness=1, bg="#b3ffe0")
+        logoimg = ImageTk.PhotoImage(
+            Image.open('sukrit_Logo.png').resize((150, 70), Image.Resampling.LANCZOS))
+        Label(frame1, image=logoimg, bg="#b3ffe0").grid(row=0, column=0)
+        Label(frame1, text="               ", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0,
+                                                                                                              column=1,
+                                                                                                              padx=10)
+        Label(frame1, text="Program List-1",fg="#cc3300", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0, column=3,
+                                                                                                        padx=10)
+        Button(frame1, text="Export To CSV", bg="blue", fg="white", relief="groove", command=csvw).grid(row=0,column=4)
+        frame1.grid(row=0, ipadx=50, sticky="ew")
+
+        frame2 = Frame(self.root, bg="blue", height=10)
+        frame2.grid(row=1, ipadx=400, sticky='ew')
+
+        frame3 = Frame(self.root, highlightbackground="blue", width=300, height=100, highlightthickness=2, bg="#b3ffe0")
+
+        try:
+            mydb, mycursor, myresult = database.pgdb(self)
+            rs1 = myresult[0]
+        except:
+            mycursor = mydb.cursor()
+            sql = """INSERT INTO programlist(PgNum,ProgName,Thick,NoOfBend,Punch,Die,Material,Res) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"""
+            i = 1
+            val = []
+            while i < 11:
+                val.append((i, "pgl", 0, 0, 0,0,0,0.0))
+                i += 1
+
+            mycursor.executemany(sql, val)
+            mydb.commit()
+            print(mycursor.rowcount, "record inserted.")
+            mycursor.execute("SELECT * FROM programlist")
+            myresult = mycursor.fetchall()
+            print(myresult)
+
+
+        Label(frame3, text="No.", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=0)
+        Label(frame3, text="Name", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=1)
+        Label(frame3, text="Thick", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=2)
+        Label(frame3, text="No. of Bend", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=3)
+        Label(frame3, text="Punch", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=4)
+        Label(frame3, text="Die", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=5)
+        Label(frame3, text="Material", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=6)
+        Label(frame3, text="Res", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=7)
+
+        rs1 = myresult[0]
+        pln1 = StringVar()
+        pln1.set(rs1[1])
+        th1 = StringVar()
+        th1.set(rs1[2])
+        nob1 = StringVar()
+        nob1.set(rs1[3])
+        pun1 = StringVar()
+        pun1.set(rs1[4])
+        die1=StringVar()
+        die1.set(rs1[5])
+        mat1=StringVar()
+        mat1.set(rs1[6])
+        res1=StringVar()
+        res1.set(rs1[7])
+
+        Button(frame3, text="1", font="Stencil 12 bold", padx=12, pady=10, bg="#b3ffe0",fg="#e68a00").grid(row=1, column=0)
+
+        Label(frame3, textvariable=pln1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=1)
+        Label(frame3, textvariable=th1, font="Calibri 12 bold", padx=12, pady=10,fg="black", bg="#b3ffe0").grid(row=1, column=2)
+        Label(frame3, textvariable=nob1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=3)
+        Label(frame3, textvariable=pun1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=4)
+        Label(frame3, textvariable=die1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=5)
+        Label(frame3, textvariable=mat1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=6)
+        Label(frame3, textvariable=res1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=7)
+
+        Button(frame3, text="2", font="Stencil 12 bold", padx=12, pady=10, bg="#b3ffe0",fg="#e68a00").grid(row=2, column=0)
+
+        rs2 = myresult[1]
+        pln2 = StringVar()
+        pln2.set(rs2[1])
+        th2 = StringVar()
+        th2.set(rs2[2])
+        nob2 = StringVar()
+        nob2.set(rs2[3])
+        pun2 = StringVar()
+        pun2.set(rs2[4])
+        die2 = StringVar()
+        die2.set(rs2[5])
+        mat2 = StringVar()
+        mat2.set(rs2[6])
+        res2 = StringVar()
+        res2.set(rs2[7])
+        Label(frame3, textvariable=pln2, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=1)
+        Label(frame3, textvariable=th2, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=2)
+        Label(frame3, textvariable=nob2, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=3)
+        Label(frame3, textvariable=pun2, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=4)
+        Label(frame3, textvariable=die2, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=5)
+        Label(frame3, textvariable=mat2, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=6)
+        Label(frame3, textvariable=res2, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=7)
+
+        Button(frame3, text="3", font="Stencil 12 bold", padx=12, pady=10, bg="#b3ffe0",fg="#e68a00").grid(row=3, column=0)
+        rs3 = myresult[2]
+        pln3 = StringVar()
+        pln3.set(rs3[1])
+        th3 = StringVar()
+        th3.set(rs3[2])
+        nob3 = StringVar()
+        nob3.set(rs3[3])
+        pun3 = StringVar()
+        pun3.set(rs3[4])
+        die3 = StringVar()
+        die3.set(rs3[5])
+        mat3 = StringVar()
+        mat3.set(rs3[6])
+        res3 = StringVar()
+        res3.set(rs3[7])
+        Label(frame3, textvariable=pln3, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=1)
+        Label(frame3, textvariable=th3, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=2)
+        Label(frame3, textvariable=nob3, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=3)
+        Label(frame3, textvariable=pun3, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=4)
+        Label(frame3, textvariable=die3, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=5)
+        Label(frame3, textvariable=mat3, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=6)
+        Label(frame3, textvariable=res3, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=3, column=7)
+
+        Button(frame3, text="4", font="Stencil 12 bold", padx=12, pady=10, bg="#b3ffe0",fg="#e68a00").grid(row=4, column=0)
+        rs4 = myresult[3]
+        pln4 = StringVar()
+        pln4.set(rs4[1])
+        th4 = StringVar()
+        th4.set(rs4[2])
+        nob4 = StringVar()
+        nob4.set(rs4[3])
+        pun4 = StringVar()
+        pun4.set(rs4[4])
+        die4 = StringVar()
+        die4.set(rs4[5])
+        mat4 = StringVar()
+        mat4.set(rs4[6])
+        res4 = StringVar()
+        res4.set(rs4[7])
+        Label(frame3, textvariable=pln4, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=1)
+        Label(frame3, textvariable=th4, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=2)
+        Label(frame3, textvariable=nob4, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=3)
+        Label(frame3, textvariable=pun4, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=4)
+        Label(frame3, textvariable=die4, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=5)
+        Label(frame3, textvariable=mat4, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=6)
+        Label(frame3, textvariable=res4, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=7)
+
+        Button(frame3, text="5", font="Stencil 12 bold",padx=12, pady=10, bg="#b3ffe0",fg="#e68a00").grid(row=5, column=0)
+        rs5 = myresult[4]
+        pln5 = StringVar()
+        pln5.set(rs5[1])
+        th5 = StringVar()
+        th5.set(rs5[2])
+        nob5 = StringVar()
+        nob5.set(rs5[3])
+        pun5 = StringVar()
+        pun5.set(rs5[4])
+        die5 = StringVar()
+        die5.set(rs5[5])
+        mat5 = StringVar()
+        mat5.set(rs5[6])
+        res5 = StringVar()
+        res5.set(rs5[7])
+        Label(frame3, textvariable=pln5, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=1)
+        Label(frame3, textvariable=th5, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=2)
+        Label(frame3, textvariable=nob5, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=3)
+        Label(frame3, textvariable=pun5, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=4)
+        Label(frame3, textvariable=die5, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=5)
+        Label(frame3, textvariable=mat5, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=6)
+        Label(frame3, textvariable=res5, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=7)
+
+        frame3.grid(row=2, column=0, ipadx=33.5, sticky="ew")
+
+        frame5 = Frame(self.root, bg="blue", height=10)
+        frame5.grid(row=3, ipadx=150, sticky='ew')
+
+        frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
+        homeimg = ImageTk.PhotoImage(
+            Image.open('home.png').resize((130, 80), Image.Resampling.LANCZOS))
+        # settinglabel=Label(frame6,image=settingimg).grid(row=0,column=0,padx=50)
+        Button(frame6, image=homeimg,command=pBrake, borderwidth=0, bg="#b3ffe0").grid(row=0, column=2, padx=15)
+
+
+        rrimg = ImageTk.PhotoImage(
+            Image.open('arrow.png').resize((130, 80), Image.Resampling.LANCZOS))
+        # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
+        Button(frame6, image=rrimg, command=pgList2, borderwidth=0, bg="#b3ffe0").grid(row=0, column=0, padx=15)
+        pgimg = ImageTk.PhotoImage(
+            Image.open('program.png').resize((130, 80), Image.Resampling.LANCZOS))
+        Button(frame6, image=pgimg, command=prog, borderwidth=0,  bg="#b3ffe0").grid(row=0, column=4, padx=15,ipadx=5)
+        frame6.grid(row=4, ipadx=20, sticky='e')
+
+        self.root.mainloop()
+
+if __name__=='__main__':
+    prlt=programList()
+    prlt.pglistFrame()
