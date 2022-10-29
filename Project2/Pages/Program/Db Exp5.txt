@@ -43,7 +43,8 @@ class program():
         frame3 = Frame(self.root, highlightbackground="blue", width=300, height=100, highlightthickness=0, bg="#b3ffe0")
         try:
             mydb, mycursor, myresult = database.pgdb(self)
-            rs1 = myresult[0]
+            mydbpn, mycursorpn, myresultpn =database.pndb(self)
+            rs = myresult[0]
         except:
             mycursor = mydb.cursor()
             sql = """INSERT INTO programlist(PgNum,ProgName,Thick,NoOfBend,Punch,Die,Material,Res) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"""
@@ -65,45 +66,51 @@ class program():
         Label(frame3i, text="No.", font="Calibri 10 bold", padx=12, pady=2, bg="#b3ffe0").grid(row=0, column=1)
         Label(frame3i, text="Name", font="Calibri 10 bold", padx=12, pady=2, bg="#b3ffe0").grid(row=0, column=2)
         Button(frame3i, text="Prog List", font="Calibri 10 bold", padx=12, pady=8,relief="ridge", bg="#ff9900").grid(row=1, column=0,pady=2,padx=2,ipadx=10)
-        rs1 = myresult[0]
+        x=1
+        rs = myresult[x]
         novalue1 = StringVar()
-        novalue1.set(rs1[0])
+        novalue1.set(rs[0])
         Entry(frame3i, width=10, textvariable=novalue1, font="Arial_Black 12 bold", ).grid(row=1, column=1)
         namevalue1=StringVar()
-        namevalue1.set(rs1[1])
+        namevalue1.set(rs[1])
         Entry(frame3i, width=10, textvariable=namevalue1, font="Arial_Black 12 bold", ).grid(row=1, column=2)
 
         Button(frame3i, text="Punch List", font="Calibri 10 bold", padx=12, pady=8, relief="ridge", bg="#ff9900").grid(row=2, column=0,pady=2,padx=2,ipadx=6.3)
         novalue2 = StringVar()
-        novalue2.set(rs1[4])
+        novalue2.set(rs[4])
+
         Entry(frame3i, width=10, textvariable=novalue2, font="Arial_Black 12 bold", ).grid(row=2, column=1)
         namevalue2 = StringVar()
+        pnli=(rs[4],)
+        mycursorpn.execute("SELECT PunchName FROM punchlist where num = %s",pnli)
+        pnname = mycursorpn.fetchall()
+        namevalue2.set(pnname)
         Entry(frame3i, width=10, textvariable=namevalue2, font="Arial_Black 12 bold", ).grid(row=2, column=2)
 
         Button(frame3i, text="Die List", font="Calibri 10 bold", padx=12, pady=8, relief="ridge", bg="#ff9900").grid(row=3, column=0,pady=2,padx=2,ipadx=14)
         novalue3 = StringVar()
-        novalue3.set(rs1[5])
+        novalue3.set(rs[5])
         Entry(frame3i, width=10, textvariable=novalue3, font="Arial_Black 12 bold", ).grid(row=3, column=1)
         namevalue3 = StringVar()
         Entry(frame3i, width=10, textvariable=namevalue3, font="Arial_Black 12 bold", ).grid(row=3, column=2)
 
         Button(frame3i, text="Material List", font="Calibri 10 bold", padx=12, pady=8, relief="ridge", bg="#ff9900").grid(row=4, column=0,pady=2,padx=2)
         novalue4 = StringVar()
-        novalue4.set(rs1[6])
+        novalue4.set(rs[6])
         Entry(frame3i, width=10, textvariable=novalue4, font="Arial_Black 12 bold", ).grid(row=4, column=1)
         namevalue4 = StringVar()
         Entry(frame3i, width=10, textvariable=namevalue4, font="Arial_Black 12 bold", ).grid(row=4, column=2)
 
         Button(frame3i, text="Sheet Thick", font="Calibri 10 bold", padx=12, pady=8, relief="ridge", bg="#ff9900").grid(row=5, column=0,pady=2,padx=2,ipadx=3)
         novalue5 = StringVar()
-        novalue5.set(rs1[2])
+        novalue5.set(rs[2])
         Entry(frame3i, width=10, textvariable=novalue5, font="Arial_Black 12 bold", ).grid(row=5, column=1)
         namevalue5 = StringVar()
         Label(frame3i, width=10, text="mm", font="Arial_Black 12 bold",bg="#b3ffe0" ).grid(row=5, column=2)
 
         Button(frame3i, text="Bend Data", font="Calibri 10 bold", padx=12, pady=8, relief="ridge", bg="#ff9900").grid(row=6, column=0,pady=2,padx=2,ipadx=6)
         novalue6 = StringVar()
-        novalue6.set(rs1[3])
+        novalue6.set(rs[3])
         Entry(frame3i, width=10, textvariable=novalue6, font="Arial_Black 12 bold", ).grid(row=6, column=1)
         namevalue6 = StringVar()
         Label(frame3i, width=10, text="Bend No.s", font="Arial_Black 12 bold", bg="#b3ffe0").grid(row=6, column=2)
