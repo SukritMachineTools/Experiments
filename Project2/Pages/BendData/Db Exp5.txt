@@ -42,6 +42,104 @@ class benddata():
             pdt.punchDataFrame()
             pass
 
+        def plus():
+            global bn
+            bn = bdno.get()
+            bn = int(bn)
+            if bn < 10:
+                bn = bn + 1
+                try:
+                    sql = """SELECT * FROM benddata WHERE BdNum= %s"""
+                    val = [bn]
+                    mycursorBD.execute(sql, val)
+                    myresult = mycursorBD.fetchall()
+                    yy = myresult[0]
+                    pgno = yy[1]
+                    pnovalue.set(pgno)
+                    ag = yy[3]
+                    anglev.set(ag)
+                    lgt = yy[6]
+                    lengthv.set(lgt)
+                    bg = yy[8]
+                    bgaugev.set(bg)
+                    rt = yy[10]
+                    retractv.set(rt)
+                    opn = yy[12]
+                    openingv.set(opn)
+                    rp = yy[14]
+                    rpositionv.set(rp)
+                    pgn = yy[2]
+                    pnamev.set(pgn)
+                    bd1 = yy[4]
+                    bd2 = yy[5]
+                    bendnov.set(str(bd1) + " / " + str(bd2))
+                    fc = yy[7]
+                    forcev.set(fc)
+                    ya = yy[9]
+                    yaxisv.set(ya)
+                    ac = yy[11]
+                    acorrv.set(ac)
+                    bm = yy[13]
+                    bendmovv.set(bm)
+                    dw = yy[15]
+                    dwellv.set(dw)
+
+                except Exception as e:
+                    print(e)
+                bn = str(bn)
+                bdno.set(bn)
+
+            pass
+
+        def minus():
+            global bn
+            bn = bdno.get()
+            bn = int(bn)
+            if bn > 1:
+                bn = bn - 1
+                try:
+                    sql = """SELECT * FROM benddata WHERE BdNum= %s"""
+                    val = [bn]
+                    mycursorBD.execute(sql, val)
+                    myresult = mycursorBD.fetchall()
+                    yy = myresult[0]
+                    pgno = yy[1]
+                    pnovalue.set(pgno)
+                    ag = yy[3]
+                    anglev.set(ag)
+                    lgt = yy[6]
+                    lengthv.set(lgt)
+                    bg = yy[8]
+                    bgaugev.set(bg)
+                    rt = yy[10]
+                    retractv.set(rt)
+                    opn = yy[12]
+                    openingv.set(opn)
+                    rp = yy[14]
+                    rpositionv.set(rp)
+                    pgn = yy[2]
+                    pnamev.set(pgn)
+                    bd1 = yy[4]
+                    bd2 = yy[5]
+                    bendnov.set(str(bd1) + " / " + str(bd2))
+                    fc = yy[7]
+                    forcev.set(fc)
+                    ya = yy[9]
+                    yaxisv.set(ya)
+                    ac = yy[11]
+                    acorrv.set(ac)
+                    bm = yy[13]
+                    bendmovv.set(bm)
+                    dw = yy[15]
+                    dwellv.set(dw)
+
+                except Exception as e:
+                    print(e)
+                bn = str(bn)
+                bdno.set(bn)
+
+            pass
+
         frame1 = Frame(self.root, highlightbackground="blue", highlightthickness=1, bg="#b3ffe0")
         logoimg = ImageTk.PhotoImage(
             Image.open('sukrit_Logo.png').resize((150, 70), Image.Resampling.LANCZOS))
@@ -63,6 +161,8 @@ class benddata():
 
         print(yy)
         bn = yy[0]
+        bdno=StringVar()
+        bdno.set(bn)
 
 
         Label(frame4, text="Prog No.", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
@@ -158,7 +258,7 @@ class benddata():
         frame7 = Frame(frame3, highlightbackground="blue", width=300, height=100, highlightthickness=2, bg="#b3ffe0")
         upimg = ImageTk.PhotoImage(
             Image.open('arrow-up.png').resize((100, 60), Image.Resampling.LANCZOS))
-        Button(frame7, image=upimg, borderwidth=0,bg="#b3ffe0").grid(row=0, column=1, padx=15,pady=19.2)
+        Button(frame7, command=plus,image=upimg, borderwidth=0,bg="#b3ffe0").grid(row=0, column=1, padx=15,pady=19.2)
 
         pdimg = ImageTk.PhotoImage(
             Image.open('punchdata.png').resize((100, 60), Image.Resampling.LANCZOS))
@@ -166,12 +266,11 @@ class benddata():
 
         # Button(frame7, text="+", padx=30).grid(row=0, column=1)
         Label(frame7, text=" ", fg="#b3ffe0", bg="#b3ffe0").grid(row=0, column=0)
-        punch = StringVar()
-        punch.set("1")
-        Label(frame7, textvariable=punch, font="Stencil 25 bold", fg="Black", bg="#b3ffe0").grid(row=1, column=1)
+
+        Label(frame7, textvariable=bdno, font="Stencil 25 bold", fg="Black", bg="#b3ffe0").grid(row=1, column=1)
         dnimg = ImageTk.PhotoImage(
             Image.open('down.png').resize((100, 60), Image.Resampling.LANCZOS))
-        Button(frame7, image=dnimg, borderwidth=0,bg="#b3ffe0").grid(row=2, column=1, padx=15,pady=19.2)
+        Button(frame7, command=minus,image=dnimg, borderwidth=0,bg="#b3ffe0").grid(row=2, column=1, padx=15,pady=19.2)
         dieimg = ImageTk.PhotoImage(
             Image.open('die.png').resize((100, 60), Image.Resampling.LANCZOS))
         Button(frame7, image=dieimg, borderwidth=0,bg="#b3ffe0").grid(row=2, column=2, padx=15, pady=19.2)
