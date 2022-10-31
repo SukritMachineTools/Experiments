@@ -37,13 +37,13 @@ class programList():
         def csvw():
             try:
                 mydb, mycursor, myresult = database.pgdb(self)
-
+                x = "Lib"
                 directory = "Servo Electric PressBrake"
                 # Parent Directory path
                 parent_dir = "D:\Software Development\project2\dirs"
 
                 # Path
-                path = os.path.join(parent_dir, directory)
+                path = os.path.join(parent_dir, directory,x)
 
                 newpath = path
                 if not os.path.exists(newpath):
