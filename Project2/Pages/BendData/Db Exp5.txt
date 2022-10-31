@@ -42,6 +42,39 @@ class benddata():
             pdt.punchDataFrame()
             pass
 
+        def enterp2(event):
+            update()
+
+        def update():
+            global bn
+            pgno = pnovalue.get()
+            ag = anglev.get()
+            lgt = lengthv.get()
+            bg = bgaugev.get()
+            rt = retractv.get()
+            opn = openingv.get()
+            rp = rpositionv.get()
+            pgn = pnamev.get()
+            bdn=bendnov.get()
+            bdnsplit=bdn.split("/")
+            bd1 = bdnsplit[0]
+            bd2 = bdnsplit[1]
+            fc = forcev.get()
+            ya = yaxisv.get()
+            ac = acorrv.get()
+            bm = bendmovv.get()
+            dw = dwellv.get()
+            try:
+                sql = """UPDATE benddata SET ProgNo= %s, ProgName= %s, Angle= %s,Bend1= %s,Bend2= %s,Lengtth= %s, Forcee= %s, BackGauge= %s, YAxis= %s, Retract= %s, AngleCorr= %s, Opening= %s,BendMove= %s, RPosition= %s, Dwell= %s WHERE BdNum = %s;"""
+                result = [pgno, pgn, ag, bd1, bd2, lgt, fc, bg, ya, rt, ac, opn, bm, rp, dw, bn]
+                mycursorBD.execute(sql, result)
+                mydbBD.commit()
+
+            except Exception as e:
+                print(e)
+
+            pass
+
         def plus():
             global bn
             bn = bdno.get()
@@ -155,6 +188,9 @@ class benddata():
         frame2.grid(row=1,ipadx=400,sticky='ew')
 
         frame3 = Frame(self.root, highlightbackground="blue", width=300, height=100, highlightthickness=2, bg="#b3ffe0")
+
+        self.root.bind('<Return>', enterp2)
+
         frame4 = Frame(frame3, highlightbackground="blue",width=300, height=100, highlightthickness=2, bg="#b3ffe0")
 
         yy = myresultBD[0]
@@ -275,7 +311,7 @@ class benddata():
             Image.open('die.png').resize((100, 60), Image.Resampling.LANCZOS))
         Button(frame7, image=dieimg, borderwidth=0,bg="#b3ffe0").grid(row=2, column=2, padx=15, pady=19.2)
         # Button(frame7, text="-", padx=30).grid(row=2, column=1)
-        Button(frame7, text="Update", padx=30,bg="blue",fg="white").grid(row=3, column=1)
+        Button(frame7, command=update,text="Update", padx=30,bg="blue",fg="white").grid(row=3, column=1)
         frame7.grid(row=0,column=1,ipadx=112, sticky="e")
 
         frame3.grid(row=2, column=0, ipadx=33.5, sticky="ew")
