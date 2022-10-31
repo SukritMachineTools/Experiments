@@ -1,0 +1,100 @@
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="sukrit",
+  database="test786"
+)
+
+
+mycursor = mydb.cursor()
+l=0
+try:
+    n=5
+    pn="1"
+    ph=5.2
+    pa=30
+    pr=50
+    sql="""INSERT INTO punchlist(Num,PunchName,PunchHeight,PunchAngle,PunchRadius) VALUES (%s,%s,%s,%s,%s)"""
+    val=[n,pn,ph,pa,pr]
+
+    mycursor.execute("SELECT * FROM benddata")
+
+    myresult = mycursor.fetchall()
+    print(type(myresult))
+    yy=myresult[0]
+
+    print(yy)
+    bn = yy[0]
+    pgno = yy[1]
+    pgn = yy[2]
+    ag = yy[3]
+    bd1 = yy[4]
+    bd2 = yy[5]
+    lgt =yy[6]
+    fc= yy[7]
+    bg= yy[8]
+    ya= yy[9]
+    rt= yy[10]
+    ac= yy[11]
+    opn= yy[12]
+    bm= yy[13]
+    rp= yy[14]
+    dw= yy[15]
+
+    print(bn,pgno,pgn,ag,bd1,bd2,lgt,fc,bg,ya,rt,ac,opn,bm,rp,dw)
+    i=0
+    j=0
+    # while i<5:
+    #     yy = myresult[i]
+    #     n = yy[0]
+    #     pn = yy[1]
+    #     ph = yy[2]
+    #     pa = yy[3]
+    #     pr = yy[4]
+    #     i=i+1
+
+    i = 0
+    while i < 5:
+        # print(myresult[i])
+        yy=myresult[i]
+        #print(yy)
+        bn = yy[0]
+        pgno = yy[1]
+        pgn = yy[2]
+        ag = yy[3]
+        bd1 = yy[4]
+        bd2 = yy[5]
+        lgt = yy[6]
+        fc = yy[7]
+        bg = yy[8]
+        ya = yy[9]
+        rt = yy[10]
+        ac = yy[11]
+        opn = yy[12]
+        bm = yy[13]
+        rp = yy[14]
+        dw = yy[15]
+        print(bn,pgno,pgn,ag,bd1,bd2,lgt,fc,bg,ya,rt,ac,opn,bm,rp,dw)
+        i += 1
+
+
+    # for c in yy:
+    #     n = c
+    #     pn = "1"
+    #     ph = 5.2
+    #     pa = 30
+    #     pr = 50
+
+
+    # for x in myresult:
+    #
+    #     print(x)
+    #     # for y in x:
+    #     #     print(y)
+
+
+
+except Exception as e:
+    print(e)
