@@ -174,7 +174,7 @@ class operation():
         Entry(framei3, width=10, textvariable=countv, font="Arial_Black 12 bold", ).grid(row=2,sticky="w",pady=5,padx=5)
         handimg = ImageTk.PhotoImage(
             Image.open('hand.png').resize((150, 90), Image.Resampling.LANCZOS))
-        Button(framei3,image=handimg,borderwidth=0,bg="#b3ffe0").grid(row=3,sticky="w",pady=5,padx=5)
+        Button(framei3,image=handimg,borderwidth=0,bg="#9999ff",relief="ridge").grid(row=3,sticky="w",pady=5,padx=5)
         framesp=Frame(framei3,  bg="#b3ffe0")
         Label(framesp, text="Speed", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=0, column=0)
