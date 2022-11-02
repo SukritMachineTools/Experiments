@@ -1,0 +1,54 @@
+import csv
+# f='D:\Software Development\project2\dirs\Servo Electric PressBrake\\Program1.csv'
+# with open(f, 'r') as file:
+#     reader = csv.reader(file)
+#     l=list()
+#     for row in reader:
+#         # print(row)
+#         l.append(row)
+#     print(l)
+#     pn=l[0]
+#     print(pn)
+#     print(pn[0]," : ", pn[1] )
+
+
+def csvread(pno):
+    f = 'D:\Software Development\project2\dirs\Servo Electric PressBrake\\Program'+str(pno)+'.csv'
+    try:
+        with open(f, 'r') as file:
+            reader = csv.reader(file)
+            l = list()
+            for row in reader:
+                # print(row)
+                l.append(row)
+            # print(l)
+            pgNo = l[0]
+            pgName = l[1]
+            thick = l[2]
+            noBend = l[3]
+            punchNo = l[4]
+            dieNo = l[5]
+            materialNo = l[6]
+            res = l[7]
+            # print(l)
+            # print(pgNo[1], pgName[1], thick[1], noBend[1], punchNo[1], dieNo[1],materialNo[1],res[1])
+
+    except:
+        pgNo=['Pg No',0]
+        pgName=['PgName','NaN']
+        thick=['Thick',0]
+        noBend=['No of Bend',0]
+        punchNo=['Punch No',0]
+        dieNo=['Die No',0]
+        materialNo=['Material No',0]
+        res=['Res',0]
+
+    return pgNo[1],pgName[1],thick[1],noBend[1],punchNo[1],dieNo[1],materialNo[1],res[1]
+
+
+# for i in range(10):
+#     csvread(i+1)
+#
+pgNo,pgName,thick,noBend,punchNo,dieNo,materialNo,res=csvread(1)
+print(pgNo,pgName,thick,noBend,punchNo,dieNo,materialNo,res)
+
