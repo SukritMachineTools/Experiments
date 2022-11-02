@@ -25,6 +25,22 @@ class operation():
             pg.programFrame()
             pass
 
+        def clock():
+            hour = time.strftime("%I")
+            minute = time.strftime("%M")
+            second = time.strftime("%S")
+            day = time.strftime("%A")
+            am_pm = time.strftime("%p")
+            time_zone = time.strftime("%Z")
+
+            timeLable.config(text=hour + ":" + minute + ":" + second + " " + am_pm)
+            timeLable.after(1000, clock)
+
+            # timeLable.config(text=time_zone + " " + day)
+
+        def update():
+            timeLable.config(text="New Text")
+
         frame1 = Frame(self.root, highlightbackground="blue", highlightthickness=1, bg="#b3ffe0")
         logoimg = ImageTk.PhotoImage(
             Image.open('sukrit_Logo.png').resize((150, 70), Image.Resampling.LANCZOS))
@@ -32,8 +48,10 @@ class operation():
         Label(frame1, text="               ", font="Algerian 27 bold", padx=4.5,pady=4.5, bg="#b3ffe0").grid(row=0,
                                                                                                           column=1,
                                                                                                           padx=10)
-        currTime= time.strftime("%H:%M:%S", time.localtime())
-        Label(frame1,text=currTime, font="Calibri 18",bg="#b3ffe0", width=11).grid(row=0, column=2)
+        # currTime= time.strftime("%H:%M:%S", time.localtime())
+
+        timeLable = Label(frame1,text="", font="Calibri 18",bg="#b3ffe0", width=11)
+        timeLable.grid(row=0, column=2)
         Label(frame1, text="Operation",fg="#cc3300", font="Algerian 27 bold", padx=4.5,pady=4.5, bg="#b3ffe0").grid(row=0, column=3,
                                                                                                     padx=10)
         frame1.grid(row=0, ipadx=50, sticky="ew")
@@ -210,6 +228,8 @@ class operation():
             Image.open('program.png').resize((100, 70), Image.Resampling.LANCZOS))
         Button(frame6, image=pgimg, command=prog,borderwidth=0, bg="#b3ffe0").grid(row=0, column=4, padx=15)
         frame6.grid(row=4, ipadx=20, sticky='ew')
+
+        clock()
 
         self.root.mainloop()
 
