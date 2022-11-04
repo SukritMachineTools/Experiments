@@ -35,7 +35,7 @@ class programList2():
             pass
 
         def csvread(pno):
-            f = 'D:\Software Development\project2\dirs\Servo Electric PressBrake\\Program' + str(pno) + '.csv'
+            f = 'D:\Software Development\project2\dirs\Servo Electric PressBrake\ProgramList\\Program' + str(pno) + '.csv'
             try:
                 with open(f, 'r') as file:
                     reader = csv.reader(file)
@@ -70,7 +70,7 @@ class programList2():
         def csvw():
             try:
                 mydb, mycursor, myresult = database.pgdb(self)
-                x = "Lib"
+                x = "ProgramList"
                 directory = "Servo Electric PressBrake"
                 # Parent Directory path
                 parent_dir = "D:\Software Development\project2\dirs"
