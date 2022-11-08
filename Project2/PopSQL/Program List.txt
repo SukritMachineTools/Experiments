@@ -1,0 +1,39 @@
+show databases;
+
+show tables;
+
+CREATE TABLE programlist(
+    PgNum INT PRIMARY KEY,
+    ProgName Varchar(30),
+    Thick int,
+    NoOfBend int,
+    Punch int,
+    Die int,
+    Material int,
+    Res decimal(9,3)
+)
+
+;
+
+select * from programlist;
+
+drop table programlist;
+
+INSERT INTO programlist(PgNum,ProgName,Thick,
+NoOfBend,Punch,Die,Material,Res) 
+VALUES (1,'xyz',1,1,1,1,1,0.0);
+
+INSERT INTO programlist(PgNum,ProgName,Thick,
+NoOfBend,Punch,Die,Material,Res) 
+VALUES (10,'xyz',0,0,0,0,0,0.0);
+
+delete from programlist where (PgNum =1);
+
+UPDATE programlist SET Material = 6 
+WHERE PgNum = 1;
+
+UPDATE programlist SET ProgName = '2pgl', Thick=2,
+NoOfBend =2, Punch=2, Die=2, Material = 2 
+WHERE PgNum = 2;
+
+DELETE FROM programlist;

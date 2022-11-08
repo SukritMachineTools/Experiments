@@ -1,0 +1,30 @@
+drop table punchlist;
+
+show tables;
+
+show databases;
+
+describe punchlist;
+
+select * from punchlist;
+
+CREATE TABLE punchlist(
+    Num INT PRIMARY KEY,
+    PunchName Varchar(30),
+    PunchHeight decimal(9,3),
+    PunchAngle decimal(9,3),
+    PunchRadius decimal(9,3)
+)
+
+;
+
+INSERT INTO punchlist(Num,PunchName
+,PunchHeight,PunchAngle,PunchRadius) 
+VALUES (11,'abc10',111,5.2,5.3);
+
+UPDATE punchlist SET PunchHeight = 7.7 
+WHERE Num = 1;
+
+DELETE FROM punchlist;
+
+SELECT * FROM punchlist WHERE num=2;

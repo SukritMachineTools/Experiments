@@ -1,0 +1,52 @@
+show tables;
+
+CREATE TABLE operationList(
+    OpNum INT PRIMARY KEY,
+    Angle decimal(8,2),
+    Lengtth decimal(9,3),
+    BackGauge decimal(9,3),
+    Retract decimal(9,3),
+    Opening decimal(9,3),
+    RPosition decimal(9,3),
+    Thick decimal(9,3),
+    Forcee decimal(9,3),
+    ProgNo int,
+    LastForce decimal(9,3),
+    ActForce decimal(9,3),
+    Pinch decimal(9,3),
+    Bend1 int,
+    Bend2 int,
+    Dwell decimal(9,3),
+    Xv decimal(9,3),
+    Rv decimal(9,3),    
+    Yv decimal(9,3),
+    Countt int,
+    speed decimal(9,3)
+    
+)
+
+;
+
+select * from operationList;
+
+INSERT INTO operationList(OpNum, Angle, Lengtth, BackGauge, Retract,
+    Opening, RPosition, Thick, Forcee, ProgNo,
+    LastForce, ActForce,Pinch, Bend1, Bend2,
+    Dwell, Xv, Rv, Yv, Countt, 
+    speed) 
+VALUES (10,90.0,50.0,20.0,0.0,
+30.0,35.0,1.5,0.54,1,
+0.00,0.03,50.90,1,1,
+2.000,248.840,35.000,0.000,638,
+25);
+
+UPDATE operationList SET Angle=90.0, Lengtth=50.0, BackGauge=20.0, Retract=0.0,
+    Opening=30.0, RPosition=35.0, Thick=1.5, Forcee=0.54, ProgNo=10,
+    LastForce=0.00, ActForce=0.03,Pinch=50.90, Bend1=1, Bend2=1,
+    Dwell=2.000, Xv=248.000, Rv=35.000, Yv=0.000, Countt=638, 
+    speed=25 
+WHERE OpNum = 10;
+
+DELETE FROM operationList;
+
+drop table operationList;

@@ -1,0 +1,39 @@
+show tables;
+
+CREATE TABLE benddata(
+    BdNum INT PRIMARY KEY,
+    ProgNo int,
+    ProgName Varchar(30),
+    Angle decimal(8,2),
+    Bend1 int,
+    Bend2 int,
+    Lengtth decimal(9,3),
+    Forcee decimal(9,3),
+    BackGauge decimal(9,3),
+    YAxis decimal(9,3),
+    Retract decimal(9,3),
+    AngleCorr decimal(9,3),
+    Opening decimal(9,3),
+    BendMove decimal(9,3),
+    RPosition decimal(9,3),
+    Dwell decimal(9,3)
+)
+
+;
+
+select * from benddata;
+
+drop table benddata;
+
+INSERT INTO benddata(BdNum,  ProgNo, ProgName, Angle, Bend1, Bend2,
+Lengtth, Forcee, BackGauge, YAxis, Retract, AngleCorr, Opening, 
+BendMove, RPosition, Dwell) 
+VALUES ( 10, 10,'bd',90.0,1,1, 50.0, 0.54, 20.0, 55.85, 0.0, 0.0, 30.0,5.15, 35.0, 2.0);
+
+
+UPDATE benddata SET ProgNo=5, ProgName='bd', Angle=90.0,Bend1=1,Bend2=1,
+Lengtth= 50.0, Forcee=0.54, BackGauge=20.0, YAxis=55.85, Retract=5.0, AngleCorr=0.0, Opening=30.0,
+BendMove=5.15, RPosition=35.0, Dwell=2.0 
+WHERE BdNum = 5;
+
+DELETE FROM benddata;
