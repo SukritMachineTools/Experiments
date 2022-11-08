@@ -36,6 +36,44 @@ class operation():
             timeLable.config(text=hour + ":" + minute + ":" + second + " " + am_pm)
             timeLable.after(1000, clock)
 
+        def enterp2(event):
+            update()
+
+        def update():
+            global opnumber
+            #opn = yy[0]
+            ag = anglev.get()
+            lgt = lengthv.get()
+            bg = bgaugev.get()
+            rt = retractv.get()
+            opn = openingv.get()
+            rp = rpositionv.get()
+            th = thickv.get()
+            fc = forcev.get()
+            pgno = prgno.get()
+            lfc = lastforcev.get()
+            afc = actforcev.get()
+            pnch = pinchv.get()
+            bd1 = bendv.get()
+            bd2 = bend2v.get()
+            dw = dwellv.get()
+            xv = xvv.get()
+            rv = rvv.get()
+            yv = yvv.get()
+            ct = countv.get()
+            sp = spv.get()
+
+            try:
+                sql = """UPDATE operationList SET Angle= %s, Lengtth= %s, BackGauge= %s, Retract= %s, Opening= %s, RPosition= %s, Thick= %s, Forcee= %s, ProgNo= %s, LastForce= %s, ActForce= %s,Pinch= %s, Bend1= %s, Bend2= %s, Dwell= %s, Xv= %s, Rv= %s, Yv= %s, Countt= %s, speed= %s WHERE OpNum = %s;"""
+                result = [ag,lgt,bg,rt, opn,rp,th,fc,pgno,lfc,afc,pnch,bd1,bd2,dw,xv,rv,yv,ct,sp,opnumber]
+                mycursorOP.execute(sql, result)
+                mydbOP.commit()
+
+            except Exception as e:
+                print(e)
+
+            pass
+
         def plus():
             global opnumber
             opnumber = opno.get()
@@ -179,6 +217,7 @@ class operation():
         frame2.grid(row=1, ipadx=400, sticky='ew')
 
         frame3 = Frame(self.root, highlightbackground="blue", width=300, height=100,    highlightthickness=2, bg="#b3ffe0")
+        self.root.bind('<Return>', enterp2)
         framei1 = Frame(frame3, bg="#b3ffe0")
         yy = myresultOP[0]
         opnumber = yy[0]
@@ -386,7 +425,7 @@ class operation():
             Image.open('arrow1.png').resize((100, 70), Image.Resampling.LANCZOS))
         # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
         Button(frame6, image=lrimg, command=minus,font="Calibri 13 bold", borderwidth=0, bg="#b3ffe0").grid(row=0, column=1, padx=15)
-        Label(frame6, text="1",font="Calibri 13 bold",bg="#b3ffe0",fg="blue").grid(row=0, column=2, padx=50)
+        Label(frame6, textvariable=opno,font="Calibri 13 bold",bg="#b3ffe0",fg="blue").grid(row=0, column=2, padx=50)
         rrimg = ImageTk.PhotoImage(
             Image.open('arrow.png').resize((100, 70), Image.Resampling.LANCZOS))
         # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
