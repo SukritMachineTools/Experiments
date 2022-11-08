@@ -1,0 +1,111 @@
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="sukrit",
+  database="test786"
+)
+
+
+mycursor = mydb.cursor()
+l=0
+try:
+    n=5
+    pn="1"
+    ph=5.2
+    pa=30
+    pr=50
+    sql="""INSERT INTO punchlist(Num,PunchName,PunchHeight,PunchAngle,PunchRadius) VALUES (%s,%s,%s,%s,%s)"""
+    val=[n,pn,ph,pa,pr]
+
+    mycursor.execute("SELECT * FROM operationList")
+
+    myresult = mycursor.fetchall()
+    print(type(myresult))
+    yy=myresult[0]
+
+    print(yy)
+    opn = yy[0]
+    ag = yy[1]
+    lgt = yy[2]
+    bg = yy[3]
+    rt = yy[4]
+    opn = yy[5]
+    rp = yy[6]
+    th = yy[7]
+    fc = yy[8]
+    pgno = yy[9]
+    lfc = yy[10]
+    afc = yy[11]
+    pnch = yy[12]
+    bd1= yy[13]
+    bd2 = yy[14]
+    dw = yy[15]
+    xv = yy[16]
+    rv = yy[17]
+    yv = yy[18]
+    ct = yy[19]
+    sp = yy[20]
+
+    print(opn,ag,lgt,bg,rt,opn,rp,th,fc,pgno,lfc,afc,pnch,bd1,bd2,dw,xv,rv,yv,ct,sp)
+    i=0
+    j=0
+    # while i<5:
+    #     yy = myresult[i]
+    #     n = yy[0]
+    #     pn = yy[1]
+    #     ph = yy[2]
+    #     pa = yy[3]
+    #     pr = yy[4]
+    #     i=i+1
+
+    i = 0
+    while i < 5:
+        # print(myresult[i])
+        yy=myresult[i]
+        #print(yy)
+        opn = yy[0]
+        ag = yy[1]
+        lgt = yy[2]
+        bg = yy[3]
+        rt = yy[4]
+        opn = yy[5]
+        rp = yy[6]
+        th = yy[7]
+        fc = yy[8]
+        pgno = yy[9]
+        lfc = yy[10]
+        afc = yy[11]
+        pnch = yy[12]
+        bd1 = yy[13]
+        bd2 = yy[14]
+        dw = yy[15]
+        xv = yy[16]
+        rv = yy[17]
+        yv = yy[18]
+        ct = yy[19]
+        sp = yy[20]
+
+        print(opn, ag, lgt, bg, rt, opn, rp, th, fc, pgno, lfc, afc, pnch, bd1, bd2, dw, xv, rv, yv, ct, sp)
+        i += 1
+
+
+    # for c in yy:
+    #     n = c
+    #     pn = "1"
+    #     ph = 5.2
+    #     pa = 30
+    #     pr = 50
+
+
+    # for x in myresult:
+    #
+    #     print(x)
+    #     # for y in x:
+    #     #     print(y)
+
+
+
+except Exception as e:
+    print(e)
