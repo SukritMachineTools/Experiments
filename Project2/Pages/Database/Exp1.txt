@@ -17,4 +17,16 @@ class database():
         myresult = mycursor.fetchall()
         return mydb, mycursor, myresult
 
+    def bddb(self):
+        mydb, mycursor = home.db(self)
+        mycursor.execute("SELECT * FROM benddata")
+        myresult = mycursor.fetchall()
+        return mydb, mycursor, myresult
+
+    def opdb(self):
+        mydb, mycursor = home.db(self)
+        mycursor.execute("SELECT * FROM operationList")
+        myresult = mycursor.fetchall()
+        return mydb, mycursor, myresult
+
 
