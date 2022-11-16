@@ -1,0 +1,312 @@
+from tkinter import *
+from PIL import Image, ImageTk
+from tkinter import ttk
+import mysql.connector
+import time
+import threading
+from initialP import home
+from databaseP import database
+from tkinter.filedialog import askopenfilename
+import csv
+import os
+
+class programList():
+
+    def pglistFrame(self):
+        self.root = home.start(self)
+        # mydb, mycursor, myresult = database.pgdb(self)
+        mydbBD, mycursorBD, myresultBD = database.bddb(self)
+
+        def pBrake():
+            self.root.destroy()
+            from pressBrakeP import pressBrake
+            pb=pressBrake()
+            pb.pressBrakeFrame()
+            pass
+        def pgList2():
+            self.root.destroy()
+            from programList2P import programList2
+            ol2=programList2()
+            ol2.pglistFrame()
+            pass
+        def prog():
+            self.root.destroy()
+            from programP import program
+            pg=program()
+            pg.programFrame()
+            pass
+
+        def csvselect():
+            # f = 'D:\Software Development\project2\dirs\Servo Electric PressBrake\\Program' + str(pno) + '.csv'
+            f = askopenfilename(defaultextension=".csv",
+                           filetypes=[("All Files", "*.*"),
+                                     ("Text Documents", "*.txt"),
+                                      ("program","*.csv")])
+            try:
+                with open(f, 'r') as file:
+                    reader = csv.reader(file)
+                    l = list()
+                    for row in reader:
+                        # print(row)
+                        l.append(row)
+                    # print(l)
+                    pgNo = l[0]
+                    pgName = l[1]
+                    thick = l[2]
+                    noBend = l[3]
+                    punchNo = l[4]
+                    dieNo = l[5]
+                    materialNo = l[6]
+                    res = l[7]
+                    # print(l)
+                    # print(pgNo[1], pgName[1], thick[1], noBend[1], punchNo[1], dieNo[1],materialNo[1],res[1])
+                    plno1.set(pgNo[1])
+                    pln1.set(pgName[1])
+                    th1.set(thick[1])
+                    nob1.set(noBend[1])
+                    pun1.set(punchNo[1])
+                    die1.set(dieNo[1])
+                    mat1.set(materialNo[1])
+                    res1.set(res[1])
+
+            except:
+                pgNo = ['Pg No', 0]
+                pgName = ['PgName', 'NaN']
+                thick = ['Thick', 0]
+                noBend = ['No of Bend', 0]
+                punchNo = ['Punch No', 0]
+                dieNo = ['Die No', 0]
+                materialNo = ['Material No', 0]
+                res = ['Res', 0]
+
+            return pgNo[1], pgName[1], thick[1], noBend[1], punchNo[1], dieNo[1], materialNo[1], res[1]
+
+        def csvread(pno):
+            f = '/home/sukrit/Desktop/dirs/Servo Electric PressBrake/ProgramList/Program' + str(pno) + '.csv'
+            try:
+                with open(f, 'r') as file:
+                    reader = csv.reader(file)
+                    l = list()
+                    for row in reader:
+                        # print(row)
+                        l.append(row)
+                    # print(l)
+                    pgNo = l[0]
+                    pgName = l[1]
+                    thick = l[2]
+                    noBend = l[3]
+                    punchNo = l[4]
+                    dieNo = l[5]
+                    materialNo = l[6]
+                    res = l[7]
+                    # print(l)
+                    # print(pgNo[1], pgName[1], thick[1], noBend[1], punchNo[1], dieNo[1],materialNo[1],res[1])
+
+
+            except:
+                pgNo = ['Pg No', 0]
+                pgName = ['PgName', 'NaN']
+                thick = ['Thick', 0]
+                noBend = ['No of Bend', 0]
+                punchNo = ['Punch No', 0]
+                dieNo = ['Die No', 0]
+                materialNo = ['Material No', 0]
+                res = ['Res', 0]
+
+            return pgNo[1], pgName[1], thick[1], noBend[1], punchNo[1], dieNo[1], materialNo[1], res[1]
+
+        def csvw():
+            try:
+                mydbBD, mycursorBD, myresultBD = database.bddb(self)
+                pgNo=int(plno1.get())
+                pgName=str(pln1.get())
+                thick=float(th1.get())
+                noBend=str(nob1.get())
+                punchNo=int(pun1.get())
+                dieNo=int(die1.get())
+                materialNo=int(mat1.get())
+                res=float(res1.get())
+
+                x="ProgramList"
+                directory = "Servo Electric PressBrake"
+                # Parent Directory path
+                parent_dir = "/home/sukrit/Desktop/dirs"
+
+                # Path
+                path = os.path.join(parent_dir, directory, x)
+
+                newpath = path
+                if not os.path.exists(newpath):
+                    os.makedirs(newpath)
+                    print("Directory '% s' created" % directory)
+
+                print(path)
+
+                k = path + "\Program"+str(pgNo)+".csv"
+                with open(k, 'w', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow(["Pg No",pgNo])
+                    writer.writerow(["PgName",pgName])
+                    writer.writerow(["Thick",thick])
+                    writer.writerow(["No of Bend",noBend])
+                    writer.writerow(["Punch No",punchNo])
+                    writer.writerow(["Die No",dieNo])
+                    writer.writerow(["Material No",materialNo])
+                    writer.writerow(["Res",res])
+                    writer.writerow([])
+                    f = ['No.', 'Prog. No.', 'Prog. Name', 'Angle', 'Bend No.', 'Length', 'Force', 'Back Gauge',
+                         'Y-Axis', 'Retract', 'Angle Corr.', 'Opening', 'Bend Mov.', 'R position', 'Dwell']
+                    w = csv.DictWriter(file, fieldnames=f)
+                    w.writeheader()
+
+                    i = 0
+                    while i < 10:
+                        # print(myresultBD[i])
+                        yy = myresultBD[i]
+                        # print(yy)
+                        bn = yy[0]
+                        pgno = yy[1]
+                        pgn = yy[2]
+                        ag = yy[3]
+                        bd1 = yy[4]
+                        bd2 = yy[5]
+                        bd = str(bd1) + " / " + str(bd2)
+                        lgt = yy[6]
+                        fc = yy[7]
+                        bg = yy[8]
+                        ya = yy[9]
+                        rt = yy[10]
+                        ac = yy[11]
+                        opn = yy[12]
+                        bm = yy[13]
+                        rp = yy[14]
+                        dw = yy[15]
+                        # print(bn,pgno,pgn,ag,bd1,bd2,lgt,fc,bg,ya,rt,ac,opn,bm,rp,dw)
+                        rl = [{'No.': bn, 'Prog. No.': pgno, 'Prog. Name': pgn, 'Angle': ag, 'Bend No.': bd,
+                               'Length': lgt, 'Force': fc, 'Back Gauge': bg, 'Y-Axis': ya, 'Retract': rt,
+                               'Angle Corr.': ac, 'Opening': opn, 'Bend Mov.': bm, 'R position': rp, 'Dwell': dw}]
+                        w.writerows(rl)
+                        i += 1
+            except Exception as e:
+                print(e)
+            pass
+
+        frame1 = Frame(self.root, highlightbackground="blue", highlightthickness=1, bg="#b3ffe0")
+        logoimg = ImageTk.PhotoImage(
+            Image.open('sukrit_Logo.png').resize((150, 70), Image.LANCZOS))
+        Label(frame1, image=logoimg, bg="#b3ffe0").grid(row=0, column=0)
+        Label(frame1, text="               ", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0,
+                                                                                                              column=1,
+                                                                                                              padx=10)
+        Label(frame1, text="Program List-1",fg="#cc3300", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0, column=3,
+                                                                                                        padx=10)
+        Button(frame1, text="Export To CSV", bg="blue", fg="white", relief="groove", command=csvw).grid(row=0,column=4)
+        frame1.grid(row=0, ipadx=50, sticky="ew")
+
+        frame2 = Frame(self.root, bg="blue", height=10)
+        frame2.grid(row=1, ipadx=400, sticky='ew')
+
+        frame3 = Frame(self.root, highlightbackground="blue", width=300, height=100, highlightthickness=2, bg="#b3ffe0")
+
+        try:
+            mydb, mycursor, myresult = database.pgdb(self)
+            rs1 = myresult[0]
+        except:
+            mycursor = mydb.cursor()
+            sql = """INSERT INTO programlist(PgNum,ProgName,Thick,NoOfBend,Punch,Die,Material,Res) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"""
+            i = 1
+            val = []
+            while i < 11:
+                val.append((i, "pgl", 0, 0, 0,0,0,0.0))
+                i += 1
+
+            mycursor.executemany(sql, val)
+            mydb.commit()
+            print(mycursor.rowcount, "record inserted.")
+            mycursor.execute("SELECT * FROM programlist")
+            myresult = mycursor.fetchall()
+            print(myresult)
+
+
+        Label(frame3, text="No.", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=0)
+        Label(frame3, text="Name", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=1)
+        Label(frame3, text="Thick", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=2)
+        Label(frame3, text="No. of Bend", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=3)
+        Label(frame3, text="Punch", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=4)
+        Label(frame3, text="Die", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=5)
+        Label(frame3, text="Material", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=6)
+        Label(frame3, text="Res", font="Stencil 15 bold", padx=12, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
+                                                                                                            column=7)
+
+
+        pgNo,pgName,thick,noBend,punchNo,dieNo,materialNo,res=csvread(1)
+        plno1=StringVar()
+        pln1 = StringVar()
+        pln1.set(pgName)
+        th1 = StringVar()
+        th1.set(thick)
+        nob1 = StringVar()
+        nob1.set(noBend)
+        pun1 = StringVar()
+        pun1.set(punchNo)
+        die1 = StringVar()
+        die1.set(dieNo)
+        mat1 = StringVar()
+        mat1.set(materialNo)
+        res1 = StringVar()
+        res1.set(res)
+
+        plno1.set("1")
+        Button(frame3, textvariable=plno1, command=csvselect,font="Stencil 12 bold", padx=12, pady=10, bg="#b3ffe0",fg="#e68a00").grid(row=1, column=0)
+
+        Label(frame3, textvariable=pln1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=1)
+        Label(frame3, textvariable=th1, font="Calibri 12 bold", padx=12, pady=10,fg="black", bg="#b3ffe0").grid(row=1, column=2)
+        Label(frame3, textvariable=nob1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=3)
+        Label(frame3, textvariable=pun1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=4)
+        Label(frame3, textvariable=die1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=5)
+        Label(frame3, textvariable=mat1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=6)
+        Label(frame3, textvariable=res1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=7)
+
+        Label(frame3, text="", font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=2, column=7)
+
+        Button(frame3,text="Select",command=csvselect,font="Stencil 12 bold", padx=12, pady=10, bg="blue",fg="#e68a00").grid(row=3,column=3)
+
+        Label(frame3, text="", font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=4, column=7)
+        Label(frame3, text="", font="Calibri 15 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=5, column=7)
+
+
+
+
+        frame3.grid(row=2, column=0, ipadx=33.5, sticky="ew")
+
+        frame5 = Frame(self.root, bg="blue", height=10)
+        frame5.grid(row=3, ipadx=150, sticky='ew')
+
+        frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
+        homeimg = ImageTk.PhotoImage(
+            Image.open('home.png').resize((130, 80), Image.LANCZOS))
+        # settinglabel=Label(frame6,image=settingimg).grid(row=0,column=0,padx=50)
+        Button(frame6, image=homeimg,command=pBrake, highlightthickness=0,borderwidth=0, bg="#b3ffe0").grid(row=0, column=2, padx=15)
+
+
+        rrimg = ImageTk.PhotoImage(
+            Image.open('arrow.png').resize((130, 80), Image.LANCZOS))
+        # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
+        Button(frame6, image=rrimg, command=pgList2, highlightthickness=0,borderwidth=0, bg="#b3ffe0").grid(row=0, column=0, padx=15)
+        pgimg = ImageTk.PhotoImage(
+            Image.open('program.png').resize((130, 80), Image.LANCZOS))
+        Button(frame6, image=pgimg, command=prog, highlightthickness=0,borderwidth=0,  bg="#b3ffe0").grid(row=0, column=4, padx=15,ipadx=5)
+        frame6.grid(row=4, ipadx=20, sticky='e')
+
+        self.root.mainloop()
+
+if __name__=='__main__':
+    prlt=programList()
+    prlt.pglistFrame()

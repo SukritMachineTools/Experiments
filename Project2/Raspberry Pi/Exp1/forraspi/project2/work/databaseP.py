@@ -1,0 +1,84 @@
+from initialP import home
+
+import mysql.connector
+
+
+class database():
+
+    def pndb(self):
+        mydb, mycursor=home.db(self)
+        mycursor.execute("SELECT * FROM punchlist")
+        myresult = mycursor.fetchall()
+        if not myresult:
+            sql = """INSERT INTO punchlist(Num,PunchName,PunchHeight,PunchAngle,PunchRadius) VALUES (%s,%s,%s,%s,%s);"""
+            i = 1
+            val = []
+            while i < 11:
+                val.append((i, "abc", 0, 0, 0))
+                i += 1
+
+            mycursor.executemany(sql, val)
+            mydb.commit()
+            print(mycursor.rowcount, "record inserted.")
+            mycursor.execute("SELECT * FROM punchlist")
+            myresult = mycursor.fetchall()
+        return mydb, mycursor, myresult
+
+    def pgdb(self):
+        mydb, mycursor = home.db(self)
+        mycursor.execute("SELECT * FROM programlist")
+        myresult = mycursor.fetchall()
+        if not myresult:
+            sql = """INSERT INTO programlist(PgNum,ProgName,Thick,NoOfBend,Punch,Die,Material,Res) VALUES (%s,%s,%s,%s,%s,%s,%s,%s);"""
+            i = 1
+            val = []
+            while i < 11:
+                val.append((i,'pgl',0,0,0,0,0,0.0))
+                i += 1
+
+            mycursor.executemany(sql, val)
+            mydb.commit()
+            print(mycursor.rowcount, "record inserted.")
+            mycursor.execute("SELECT * FROM programlist")
+            myresult = mycursor.fetchall()
+        return mydb, mycursor, myresult
+
+    def bddb(self):
+        mydb, mycursor = home.db(self)
+        mycursor.execute("SELECT * FROM benddata")
+        myresult = mycursor.fetchall()
+        if not myresult:
+            sql = """INSERT INTO benddata(BdNum,  ProgNo, ProgName, Angle, Bend1, Bend2, Lengtth, Forcee, BackGauge, YAxis, Retract, AngleCorr, Opening, BendMove, RPosition, Dwell) VALUES ( %s, %s, %s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s,%s, %s, %s);"""
+            i = 1
+            val = []
+            while i < 11:
+                val.append((i, 1,'bd',0.0,0,0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0))
+                i += 1
+
+            mycursor.executemany(sql, val)
+            mydb.commit()
+            print(mycursor.rowcount, "record inserted.")
+            mycursor.execute("SELECT * FROM benddata")
+            myresult = mycursor.fetchall()
+        return mydb, mycursor, myresult
+
+    def opdb(self):
+        mydb, mycursor = home.db(self)
+        mycursor.execute("SELECT * FROM operationList")
+        myresult = mycursor.fetchall()
+        if not myresult:
+            sql = """INSERT INTO operationList(OpNum, Angle, Lengtth, BackGauge, Retract, Opening, RPosition, Thick, Forcee, ProgNo, LastForce, ActForce,Pinch, Bend1, Bend2, Dwell, Xv, Rv, Yv, Countt, speed) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
+            i = 1
+            val = []
+            while i < 11:
+                val.append((i,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0,0,0.0,0.0,0.0,0.0,0,0))
+                i += 1
+
+            mycursor.executemany(sql, val)
+            mydb.commit()
+            print(mycursor.rowcount, "record inserted.")
+            mycursor.execute("SELECT * FROM operationList")
+            myresult = mycursor.fetchall()
+        return mydb, mycursor, myresult
+
+

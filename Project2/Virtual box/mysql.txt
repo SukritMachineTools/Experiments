@@ -1,0 +1,6 @@
+CREATE USER 'admin'@'localhost' IDENTIFIED WITH authentication_plugin BY 'Sukrit123456#';
+
+
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'Sukrit123456#';
+
+GRANT ALL PRIVILEGES ON test786.* TO 'admin'@'localhost';
