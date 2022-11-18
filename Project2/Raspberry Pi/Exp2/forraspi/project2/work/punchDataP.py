@@ -35,6 +35,7 @@ class punchData():
 
         def update():
             global pnch
+            pnch = punch.get()
             pn = pnvalue.get()
             ph = phvalue.get()
             pa = pavalue.get()

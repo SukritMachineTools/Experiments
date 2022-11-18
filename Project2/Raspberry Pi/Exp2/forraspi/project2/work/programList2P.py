@@ -35,7 +35,7 @@ class programList2():
             pass
 
         def csvread(pno):
-            f = '/home/sukrit/Desktop/dirs/Servo Electric PressBrake/ProgramList/Program' + str(pno) + '.csv'
+            f = '/home/pi/Desktop/dirs/Servo Electric PressBrake/ProgramList/Program' + str(pno) + '.csv'
             try:
                 with open(f, 'r') as file:
                     reader = csv.reader(file)
@@ -73,7 +73,7 @@ class programList2():
                 x = "ProgramList"
                 directory = "Servo Electric PressBrake"
                 # Parent Directory path
-                parent_dir = "/home/sukrit/Desktop/dirs"
+                parent_dir = "/home/pi/Desktop/dirs"
 
                 # Path
                 path = os.path.join(parent_dir, directory,x)
@@ -85,7 +85,7 @@ class programList2():
 
                 print(path)
 
-                k = path + "\ProgramList.csv"
+                k = path + "/ProgramList.csv"
                 with open(k, 'w', newline='') as file:
                     f = ['No.', 'Program Name', 'Thick', 'No. of Bend', 'Punch','Die','Material', 'Res']
                     w = csv.DictWriter(file, fieldnames=f)

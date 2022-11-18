@@ -49,7 +49,7 @@ class benddata():
                 mydbBD, mycursorBD, myresultBD = database.bddb(self)
                 directory = "Servo Electric PressBrake"
                 # Parent Directory path
-                parent_dir = "/home/sukrit/Desktop/dirs"
+                parent_dir = "/home/pi/Desktop/dirs/"
 
                 # Path
                 path = os.path.join(parent_dir, directory)
@@ -61,7 +61,7 @@ class benddata():
 
                 print(path)
 
-                k = path + "\BendData.csv"
+                k = newpath + "/BendData.csv"
                 with open(k, 'w', newline='') as file:
                     f = ['No.', 'Prog. No.', 'Prog. Name','Angle','Bend No.', 'Length', 'Force','Back Gauge','Y-Axis', 'Retract', 'Angle Corr.', 'Opening', 'Bend Mov.', 'R position', 'Dwell']
                     w = csv.DictWriter(file, fieldnames=f)

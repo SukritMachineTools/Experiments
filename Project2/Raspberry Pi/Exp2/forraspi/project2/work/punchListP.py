@@ -37,7 +37,7 @@ class punchList():
                 x = "Lib"
                 directory = "Servo Electric PressBrake"
                 # Parent Directory path
-                parent_dir = "/home/sukrit/Desktop/dirs"
+                parent_dir = "/home/pi/Desktop/dirs"
 
                 # Path
                 path = os.path.join(parent_dir, directory, x)
@@ -49,7 +49,7 @@ class punchList():
 
                 print(path)
 
-                k = path + "\PunchList.csv"
+                k = path + "/PunchList.csv"
                 with open(k, 'w', newline='') as file:
                     f = ['No.', 'Punch Name', 'Punch Height', 'Punch Angle', 'Punch Radius']
                     w = csv.DictWriter(file, fieldnames=f)
