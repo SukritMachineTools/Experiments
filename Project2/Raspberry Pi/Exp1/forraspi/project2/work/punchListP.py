@@ -360,6 +360,7 @@ class punchList():
 
         frame4 = Frame(self.root, bg="blue")
         Button(frame4, text="Export To CSV", bg="blue", fg="white", relief="groove", command=csvw).grid(row=0)
+        #Button(frame4, text="Update", bg="blue", fg="white", relief="groove", command=updatedb).grid(row=0,column=1)
         frame4.grid(row=3)
 
         frame5 = Frame(self.root, bg="blue", height=15)

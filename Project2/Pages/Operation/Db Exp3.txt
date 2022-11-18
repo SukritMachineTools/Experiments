@@ -42,6 +42,7 @@ class operation():
         def update():
             global opnumber
             #opn = yy[0]
+            opnumber=opno.get()
             ag = anglev.get()
             lgt = lengthv.get()
             bg = bgaugev.get()
