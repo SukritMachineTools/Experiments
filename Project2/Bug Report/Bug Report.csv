@@ -1,0 +1,5 @@
+,Bug Reports,,,
+S No,Date,Program File,Detail,Status
+1,18-Nov-22,operationP,opnumber missing,corrected
+2,18-Nov-22,puncDataP,pnch missing,corrected
+3,18-Nov-22,db linked,Enter key was Not working,Status
