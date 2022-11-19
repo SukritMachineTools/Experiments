@@ -246,7 +246,7 @@ class benddata():
 
         self.root.bind('<Return>', enterp2)
 
-        frame4 = Frame(frame3, highlightbackground="blue",width=300, height=100, highlightthickness=2, bg="#b3ffe0")
+        frame4 = Frame(frame3, highlightbackground="blue",width=300, height=100, highlightthickness=0, bg="#b3ffe0")
 
         yy = myresultBD[0]
 
@@ -346,7 +346,7 @@ class benddata():
 
         frame4.grid(row=0,column=0,ipadx=33.5,sticky="w")
 
-        frame7 = Frame(frame3, highlightbackground="blue", width=300, height=100, highlightthickness=2, bg="#b3ffe0")
+        frame7 = Frame(frame3, highlightbackground="blue", width=300, height=100, highlightthickness=0, bg="#b3ffe0")
         upimg = ImageTk.PhotoImage(
             Image.open('arrow-up.png').resize((100, 60), Image.Resampling.LANCZOS))
         Button(frame7, command=plus,image=upimg, borderwidth=0,bg="#b3ffe0").grid(row=0, column=1, padx=15,pady=19.2)
@@ -375,7 +375,7 @@ class benddata():
         # wlabel=Label(frame2,text="",bg="blue",height=10).grid(row=1)
         frame5.grid(row=3,ipadx=400,sticky='ew')
 
-        frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=2, bg="#b3ffe0")
+        frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
         homeimg = ImageTk.PhotoImage(
             Image.open('home.png').resize((150, 90), Image.Resampling.LANCZOS))
         # settinglabel=Label(frame6,image=settingimg).grid(row=0,column=0,padx=50)
