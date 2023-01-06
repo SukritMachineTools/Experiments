@@ -8,8 +8,8 @@ import time
 from pyModbusTCP.client import ModbusClient
 from pyModbusTCP.utils import encode_ieee, decode_ieee, \
     long_list_to_word, word_list_to_long
-from initialP import home
-
+# from initialP import home
+import importlib
 
 class FloatModbusClient(ModbusClient):
     """A ModbusClient class with float support."""
@@ -48,34 +48,44 @@ class FloatModbusClient(ModbusClient):
 class pressBrake():
 
     def pressBrakeFrame(self):
-        self.root = home.start(self)
+        # self.root = home.start(self)
+        initial = importlib.import_module("initialP")
+        self.root= initial.home.start(self)
         self.root.configure(background="orange")
 
         def pndata():
             # pass
             self.root.destroy()
-            from punchDataP import punchData
-            pd=punchData()
-            pd.punchDataFrame()
+            # from punchDataP import punchData
+            # pd=punchData()
+            # pd.punchDataFrame()
+            pd=importlib.import_module("punchDataP")
+            pd.punchData.punchDataFrame(self)
             pass
 
         def prog():
             self.root.destroy()
-            from programP import program
-            pg=program()
-            pg.programFrame()
+            # from programP import program
+            # pg=program()
+            # pg.programFrame()
+            pg=importlib.import_module("programP")
+            pg.program.programFrame(self)
             pass
         def op():
             self.root.destroy()
-            from operationP import operation
-            o=operation()
-            o.operationframe()
+            # from operationP import operation
+            # o=operation()
+            # o.operationframe()
+            o=importlib.import_module("operationP")
+            o.operation.operationframe(self)
             pass
         def bData():
             self.root.destroy()
-            from bendataP import benddata
-            o=benddata()
-            o.bendframe()
+            # from bendataP import benddata
+            # o=benddata()
+            # o.bendframe()
+            bd=importlib.import_module("bendataP")
+            bd.benddata.bendframe(self)
             pass
 
         c = ModbusClient(host='192.168.1.77', port=502, auto_open=True, debug=False)
