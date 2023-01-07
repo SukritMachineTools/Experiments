@@ -1,9 +1,9 @@
 from tkinter import *
 from PIL import Image, ImageTk
-from tkinter import ttk
-import mysql.connector
+#from tkinter import ttk
+#import mysql.connector
 import time
-import threading
+#import threading
 # from initialP import home
 import importlib
 from databaseP import database
