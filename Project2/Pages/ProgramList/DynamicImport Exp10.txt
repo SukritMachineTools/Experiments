@@ -58,6 +58,19 @@ class programList():
             pg=importlib.import_module("programP")
             pg.program.programFrame(self)
             pass
+        def bData():
+            # self.root.destroy()
+            frame1.destroy()
+            frame2.destroy()
+            frame3.destroy()
+            frame5.destroy()
+            frame6.destroy()
+            # from bendataP import benddata
+            # o=benddata()
+            # o.bendframe()
+            bd=importlib.import_module("bendataP")
+            bd.benddata.bendframe(self)
+            pass
 
         def csvselect():
             # f = 'D:\Software Development\project2\dirs\Servo Electric PressBrake\\Program' + str(pno) + '.csv'
@@ -291,7 +304,7 @@ class programList():
 
         Label(frame3, textvariable=pln1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=1)
         Label(frame3, textvariable=th1, font="Calibri 12 bold", padx=12, pady=10,fg="black", bg="#b3ffe0").grid(row=1, column=2)
-        Label(frame3, textvariable=nob1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=3)
+        Button(frame3, textvariable=nob1,command=bData, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=3)
         Label(frame3, textvariable=pun1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=4)
         Label(frame3, textvariable=die1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=5)
         Label(frame3, textvariable=mat1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=6)
