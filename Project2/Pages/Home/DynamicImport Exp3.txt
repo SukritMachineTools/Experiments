@@ -1,0 +1,19 @@
+# from pressBrakeP import pressBrake
+import importlib
+
+class home():
+    def home(self):
+        try:
+            # pb=pressBrake()
+            # pb.pressBrakeFrame()
+            initial = importlib.import_module("initialP")
+            self.root = initial.home.start(self)
+            pb=importlib.import_module("pressBrakeP")
+            pb.pressBrake.pressBrakeFrame(self)
+
+        except Exception as e:
+            print(e)
+
+if __name__=='__main__':
+    h=home()
+    h.home()

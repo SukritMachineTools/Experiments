@@ -1,8 +1,8 @@
 from tkinter import *
 from PIL import Image, ImageTk
-from tkinter import ttk
-from os import system
-from pyModbusTCP.client import ModbusClient
+#from tkinter import ttk
+#from os import system
+#from pyModbusTCP.client import ModbusClient
 from threading import Thread, Lock
 import time
 from pyModbusTCP.client import ModbusClient
@@ -49,13 +49,18 @@ class pressBrake():
 
     def pressBrakeFrame(self):
         # self.root = home.start(self)
-        initial = importlib.import_module("initialP")
-        self.root= initial.home.start(self)
+        # initial = importlib.import_module("initialP")
+        # self.root= initial.home.start(self)
         self.root.configure(background="orange")
 
         def pndata():
             # pass
-            self.root.destroy()
+            # self.root.destroy()
+            frame1.destroy()
+            frame2.destroy()
+            frame3.destroy()
+            frame4.destroy()
+            frame5.destroy()
             # from punchDataP import punchData
             # pd=punchData()
             # pd.punchDataFrame()
@@ -64,7 +69,12 @@ class pressBrake():
             pass
 
         def prog():
-            self.root.destroy()
+            # self.root.destroy()
+            frame1.destroy()
+            frame2.destroy()
+            frame3.destroy()
+            frame4.destroy()
+            frame5.destroy()
             # from programP import program
             # pg=program()
             # pg.programFrame()
@@ -72,7 +82,12 @@ class pressBrake():
             pg.program.programFrame(self)
             pass
         def op():
-            self.root.destroy()
+            # self.root.destroy()
+            frame1.destroy()
+            frame2.destroy()
+            frame3.destroy()
+            frame4.destroy()
+            frame5.destroy()
             # from operationP import operation
             # o=operation()
             # o.operationframe()
@@ -80,7 +95,12 @@ class pressBrake():
             o.operation.operationframe(self)
             pass
         def bData():
-            self.root.destroy()
+            # self.root.destroy()
+            frame1.destroy()
+            frame2.destroy()
+            frame3.destroy()
+            frame4.destroy()
+            frame5.destroy()
             # from bendataP import benddata
             # o=benddata()
             # o.bendframe()

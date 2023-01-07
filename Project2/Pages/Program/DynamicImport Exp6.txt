@@ -12,11 +12,17 @@ class program():
 
     def programFrame(self):
         # self.root = home.start(self)
-        initial = importlib.import_module("initialP")
-        self.root = initial.home.start(self)
+        # initial = importlib.import_module("initialP")
+        # self.root = initial.home.start(self)
+        self.root.configure(background="#b3ffe0")
 
         def pgList():
-            self.root.destroy()
+            # self.root.destroy()
+            frame1.destroy()
+            frame2.destroy()
+            frame3.destroy()
+            frame5.destroy()
+            frame6.destroy()
             # from programListP import programList
             # ol=programList()
             # ol.pglistFrame()
@@ -25,7 +31,12 @@ class program():
             pass
 
         def pBrake():
-            self.root.destroy()
+            # self.root.destroy()
+            frame1.destroy()
+            frame2.destroy()
+            frame3.destroy()
+            frame5.destroy()
+            frame6.destroy()
             # from pressBrakeP import pressBrake
             # pb=pressBrake()
             # pb.pressBrakeFrame()

@@ -12,12 +12,19 @@ class punchList():
 
     def punchListFrame(self):
         # self.root = home.start(self)
-        initial = importlib.import_module("initialP")
-        self.root = initial.home.start(self)
+        #initial = importlib.import_module("initialP")
+        #self.root = initial.home.start(self)
+        self.root.configure(background="#b3ffe0")
         mydb, mycursor, myresult=database.pndb(self)
 
         def pBrake():
-            self.root.destroy()
+            # self.root.destroy()
+            frame1.destroy()
+            frame2.destroy()
+            frame3.destroy()
+            frame4.destroy()
+            frame5.destroy()
+            frame6.destroy()
             # from pressBrakeP import pressBrake
             # pb=pressBrake()
             # pb.pressBrakeFrame()
@@ -25,7 +32,13 @@ class punchList():
             pb.pressBrake.pressBrakeFrame(self)
             pass
         def pnData():
-            self.root.destroy()
+            # self.root.destroy()
+            frame1.destroy()
+            frame2.destroy()
+            frame3.destroy()
+            frame4.destroy()
+            frame5.destroy()
+            frame6.destroy()
             # from punchDataP import punchData
             # pn=punchData()
             # pn.punchDataFrame()
@@ -33,7 +46,13 @@ class punchList():
             pn.punchData.punchDataFrame(self)
             pass
         def op():
-            self.root.destroy()
+            # self.root.destroy()
+            frame1.destroy()
+            frame2.destroy()
+            frame3.destroy()
+            frame4.destroy()
+            frame5.destroy()
+            frame6.destroy()
             # from operationP import operation
             # o=operation()
             # o.operationframe()
