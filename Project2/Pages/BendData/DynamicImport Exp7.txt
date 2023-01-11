@@ -136,6 +136,27 @@ class benddata():
         def csvw():
             try:
                 mydbBD, mycursorBD, myresultBD = database.bddb(self)
+                global bn
+                bn = bdno.get()
+                bn=int(bn)
+                pgno = pnovalue.get()
+                ag = anglev.get()
+                lgt = lengthv.get()
+                bg = bgaugev.get()
+                rt = retractv.get()
+                opn = openingv.get()
+                rp = rpositionv.get()
+                pgn = pnamev.get()
+                bdn = bendnov.get()
+                bdnsplit = bdn.split("/")
+                bd1 = bdnsplit[0]
+                bd2 = bdnsplit[1]
+                fc = forcev.get()
+                ya = yaxisv.get()
+                ac = acorrv.get()
+                bm = bendmovv.get()
+                dw = dwellv.get()
+                uplist=[pgno,pgn,bd2,bdn,bd1,ag,lgt,bg,rt,ac,opn,bm,rp,dw,fc,ya]
                 x = "ProgramList"
                 directory = "Servo Electric PressBrake"
                 # Parent Directory path
@@ -167,7 +188,8 @@ class benddata():
                     fr=csvread(2, fri)
                     frbd.append(fr)
                     fri+=1
-                print(frbd)
+                # print(frbd)
+                frbd[bn-1]=uplist
                 k=FileName
                 with open(k, 'w', newline='') as file:
                     writer = csv.writer(file)
@@ -279,38 +301,9 @@ class benddata():
             return creadlist
 
         def enterp2(event):
-            update()
+            csvw()
 
-        def update():
-            global bn
-            pgno = pnovalue.get()
-            ag = anglev.get()
-            lgt = lengthv.get()
-            bg = bgaugev.get()
-            rt = retractv.get()
-            opn = openingv.get()
-            rp = rpositionv.get()
-            pgn = pnamev.get()
-            bdn=bendnov.get()
-            bdnsplit=bdn.split("/")
-            bd1 = bdnsplit[0]
-            bd2 = bdnsplit[1]
-            fc = forcev.get()
-            ya = yaxisv.get()
-            ac = acorrv.get()
-            bm = bendmovv.get()
-            dw = dwellv.get()
-            try:
-                sql = """UPDATE benddata SET ProgNo= %s, ProgName= %s, Angle= %s,Bend1= %s,Bend2= %s,Lengtth= %s, Forcee= %s, BackGauge= %s, YAxis= %s, Retract= %s, AngleCorr= %s, Opening= %s,BendMove= %s, RPosition= %s, Dwell= %s WHERE BdNum = %s;"""
-                result = [pgno, pgn, ag, bd1, bd2, lgt, fc, bg, ya, rt, ac, opn, bm, rp, dw, bn]
-                mycursorBD.execute(sql, result)
-                mydbBD.commit()
-
-            except Exception as e:
-                print(e)
-
-            pass
-
+        
         def plus():
             global bn
             global bd2
