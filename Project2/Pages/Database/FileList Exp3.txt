@@ -81,4 +81,19 @@ class database():
             myresult = mycursor.fetchall()
         return mydb, mycursor, myresult
 
+    def fldb(self):
+        mydb, mycursor=home.db(self)
+        mycursor.execute("SELECT * FROM filelist")
+        myresult = mycursor.fetchall()
+        if not myresult:
+            sql = """INSERT INTO filelist(FNo, FName) VALUES ( %s, '%s');"""
+            val = (1, "D:\Software Development\project2\dirs\Servo Electric PressBrake\ProgramList\\Program2.csv")
+
+            mycursor.executemany(sql, val)
+            mydb.commit()
+            print(mycursor.rowcount, "record inserted.")
+            mycursor.execute("SELECT * FROM filelist")
+            myresult = mycursor.fetchall()
+        return mydb, mycursor, myresult
+
 

@@ -1,0 +1,21 @@
+show tables;
+
+CREATE TABLE filelist(
+    FNo INT PRIMARY KEY,
+    FName Varchar(300)
+)
+
+;
+
+select * from filelist;
+
+drop table filelist;
+
+INSERT INTO filelist(FNo, FName) 
+VALUES ( 1, 'D:\\Software Development\\project2\\dirs\\Servo Electric PressBrake\\ProgramList\\Program2.csv');
+
+
+UPDATE file SET FName='D:\\Software Development\\project2\\dirs\\Servo Electric PressBrake\\ProgramList\\Program3.csv' 
+WHERE FNo = 1;
+
+DELETE FROM filelist;
