@@ -17,7 +17,7 @@ class benddata():
         initial = importlib.import_module("initialP")
         self.root = initial.home.start(self)
         self.root.configure(background="#b3ffe0")
-        mydbBD, mycursorBD, myresultBD=database.bddb(self)
+        # mydbBD, mycursorBD, myresultBD=database.bddb(self)
         mydbFL, mycursorFL, myresultFL=database.fldb(self)
         flt=myresultFL[0]
         FileName=flt[1]
@@ -185,7 +185,7 @@ class benddata():
                 fri=1
                 frbd=list()
                 while fri<=10:
-                    fr=csvread(2, fri)
+                    fr=csvread(fri)
                     frbd.append(fr)
                     fri+=1
                 # print(frbd)
@@ -239,7 +239,7 @@ class benddata():
                 print(e)
             pass
 
-        def csvread(pno,bdv):
+        def csvread(bdv):
             # f = 'D:\Software Development\project2\dirs\Servo Electric PressBrake\ProgramList\\Program' + str(
             #     pno) + '.csv'
             f=FileName
@@ -303,7 +303,7 @@ class benddata():
         def enterp2(event):
             csvw()
 
-        
+
         def plus():
             global bn
             global bd2
@@ -320,7 +320,7 @@ class benddata():
                     # val = [bn]
                     # mycursorBD.execute(sql, val)
                     # myresult = mycursorBD.fetchall()
-                    yy = csvread(2,bn)
+                    yy = csvread(bn)
                     pgno = yy[0]
                     pnovalue.set(pgno)
                     ag = yy[5]
@@ -375,7 +375,7 @@ class benddata():
                     # val = [bn]
                     # mycursorBD.execute(sql, val)
                     # myresult = mycursorBD.fetchall()
-                    yy = csvread(2, bn)
+                    yy = csvread(bn)
                     pgno = yy[0]
                     pnovalue.set(pgno)
                     ag = yy[5]
@@ -436,7 +436,7 @@ class benddata():
 
         # yy = myresultBD[0]
         bn=1
-        yy = csvread(2,bn)
+        yy = csvread(bn)
 
         # print(yy)
         bn = yy[4]
@@ -556,7 +556,7 @@ class benddata():
             Image.open('die.png').resize((100, 60), Image.Resampling.LANCZOS))
         Button(frame7, image=dieimg, borderwidth=0,bg="#b3ffe0").grid(row=2, column=2, padx=15, pady=19.2)
         # Button(frame7, text="-", padx=30).grid(row=2, column=1)
-        Button(frame7, command=csvw,text="Export as CSV", padx=30,bg="blue",fg="white").grid(row=3, column=1)
+        # Button(frame7, command=csvw,text="Export as CSV", padx=30,bg="blue",fg="white").grid(row=3, column=1)
         frame7.grid(row=0,column=1,ipadx=112, sticky="e")
 
         frame3.grid(row=2, column=0, ipadx=33.5, sticky="ew")
