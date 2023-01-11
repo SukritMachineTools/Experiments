@@ -8,14 +8,19 @@ from databaseP import database
 import csv
 import os
 
+global pno
+
 class benddata():
 
     def bendframe(self):
         # self.root=home.start(self)
-        # initial = importlib.import_module("initialP")
-        # self.root = initial.home.start(self)
+        initial = importlib.import_module("initialP")
+        self.root = initial.home.start(self)
         self.root.configure(background="#b3ffe0")
         mydbBD, mycursorBD, myresultBD=database.bddb(self)
+        mydbFL, mycursorFL, myresultFL=database.fldb(self)
+        flt=myresultFL[0]
+        FileName=flt[1]
 
         def pBrake():
             # self.root.destroy()
@@ -93,15 +98,51 @@ class benddata():
             pdt.punchData.punchDataFrame(self)
             pass
 
+        def csvreadpg():
+            # f = 'D:\Software Development\project2\dirs\Servo Electric PressBrake\\Program' + str(pno) + '.csv'
+            f = FileName
+            try:
+                with open(f, 'r') as file:
+                    reader = csv.reader(file)
+                    l = list()
+                    for row in reader:
+                        # print(row)
+                        l.append(row)
+                    # print(l)
+                    pgNo = l[0]
+                    pgName = l[1]
+                    thick = l[2]
+                    noBend = l[3]
+                    punchNo = l[4]
+                    dieNo = l[5]
+                    materialNo = l[6]
+                    res = l[7]
+                    # print(l)
+                    # print(pgNo[1], pgName[1], thick[1], noBend[1], punchNo[1], dieNo[1],materialNo[1],res[1])
+
+            except:
+                pgNo = ['Pg No', 0]
+                pgName = ['PgName', 'NaN']
+                thick = ['Thick', 0]
+                noBend = ['No of Bend', 0]
+                punchNo = ['Punch No', 0]
+                dieNo = ['Die No', 0]
+                materialNo = ['Material No', 0]
+                res = ['Res', 0]
+
+            frpg=[pgNo, pgName, thick, noBend, punchNo, dieNo, materialNo, res]
+            return frpg
+
         def csvw():
             try:
                 mydbBD, mycursorBD, myresultBD = database.bddb(self)
+                x = "ProgramList"
                 directory = "Servo Electric PressBrake"
                 # Parent Directory path
                 parent_dir = "D:\Software Development\project2\dirs"
 
                 # Path
-                path = os.path.join(parent_dir, directory)
+                path = os.path.join(parent_dir, directory, x)
 
                 newpath = path
                 if not os.path.exists(newpath):
@@ -110,41 +151,132 @@ class benddata():
 
                 print(path)
 
-                k = path + "\BendData.csv"
+                frpg=csvreadpg()
+                pgNo=frpg[0]
+                pgName=frpg[1]
+                thick=frpg[2]
+                noBend=frpg[3]
+                punchNo=frpg[4]
+                dieNo=frpg[5]
+                materialNo=frpg[6]
+                res=frpg[7]
+
+                fri=1
+                frbd=list()
+                while fri<=10:
+                    fr=csvread(2, fri)
+                    frbd.append(fr)
+                    fri+=1
+                print(frbd)
+                k=FileName
                 with open(k, 'w', newline='') as file:
-                    f = ['No.', 'Prog. No.', 'Prog. Name','Angle','Bend No.', 'Length', 'Force','Back Gauge','Y-Axis', 'Retract', 'Angle Corr.', 'Opening', 'Bend Mov.', 'R position', 'Dwell']
+                    writer = csv.writer(file)
+                    writer.writerow(pgNo)
+                    writer.writerow(pgName)
+                    writer.writerow(thick)
+                    writer.writerow(noBend)
+                    writer.writerow(punchNo)
+                    writer.writerow(dieNo)
+                    writer.writerow(materialNo)
+                    writer.writerow(res)
+                    writer.writerow([])
+                    writer.writerow([])
+                    f = ['No.', 'Angle', 'Length', 'Back Gauge', 'Retract', 'Angle Corr.', 'Opening', 'Bend Mov.', 'R position',
+                         'Dwell', 'Force', 'Y-Axis']
                     w = csv.DictWriter(file, fieldnames=f)
                     w.writeheader()
 
                     i = 0
                     while i < 10:
                         # print(myresultBD[i])
-                        yy = myresultBD[i]
+                        # frbd
+                        yy = frbd[i]
                         # print(yy)
-                        bn = yy[0]
-                        pgno = yy[1]
-                        pgn = yy[2]
-                        ag = yy[3]
-                        bd1 = yy[4]
-                        bd2 = yy[5]
-                        bd=str(bd1)+" / "+str(bd2)
+                        bn = yy[4]
+                        ag = yy[5]
                         lgt = yy[6]
-                        fc = yy[7]
-                        bg = yy[8]
-                        ya = yy[9]
-                        rt = yy[10]
-                        ac = yy[11]
-                        opn = yy[12]
-                        bm = yy[13]
-                        rp = yy[14]
-                        dw = yy[15]
-                        #print(bn,pgno,pgn,ag,bd1,bd2,lgt,fc,bg,ya,rt,ac,opn,bm,rp,dw)
-                        rl = [{'No.': bn, 'Prog. No.':pgno, 'Prog. Name':pgn,'Angle':ag,'Bend No.':bd, 'Length':lgt, 'Force':fc,'Back Gauge':bg,'Y-Axis':ya, 'Retract':rt, 'Angle Corr.':ac, 'Opening':opn, 'Bend Mov.': bm, 'R position':rp, 'Dwell':dw}]
+                        bg = yy[7]
+                        rt = yy[8]
+                        ac = yy[9]
+                        opn = yy[10]
+                        bm = yy[11]
+                        rp = yy[12]
+                        dw = yy[13]
+                        fc = yy[14]
+                        ya = yy[15]
+
+                        # print(bn,pgno,pgn,ag,bd1,bd2,lgt,fc,bg,ya,rt,ac,opn,bm,rp,dw)
+                        rl = [{'No.':bn, 'Angle':ag, 'Length':lgt, 'Back Gauge':bg, 'Retract':rt, 'Angle Corr.':ac, 'Opening':opn, 'Bend Mov.':bm, 'R position':rp,
+                         'Dwell':dw, 'Force':fc, 'Y-Axis':ya}]
                         w.writerows(rl)
                         i += 1
+                        ###############################################################
+
+
             except Exception as e:
                 print(e)
             pass
+
+        def csvread(pno,bdv):
+            # f = 'D:\Software Development\project2\dirs\Servo Electric PressBrake\ProgramList\\Program' + str(
+            #     pno) + '.csv'
+            f=FileName
+
+            try:
+                with open(f, 'r') as file:
+                    reader = csv.reader(file)
+                    l = list()
+                    for row in reader:
+                        # print(row)
+                        l.append(row)
+                    # print(l)
+                    # print(l[11])
+                    bdvd=10
+                    bl = l[bdvd+bdv]
+                    bn = bl[0]
+                    ag = bl[1]
+                    lgt = bl[2]
+                    bg = bl[3]
+                    rt = bl[4]
+                    ac = bl[5]
+                    opn = bl[6]
+                    bm = bl[7]
+                    rp = bl[8]
+                    dw = bl[9]
+                    fc = bl[10]
+                    ya = bl[11]
+
+                    pgNo = l[0]
+                    # print(pgNo[1])
+                    pgName = l[1]
+                    # print(pgName[1])
+                    noBend = l[3]
+                    # print(noBend[1])
+                    bd = str(bn) + " / " + str(noBend[1])
+                    # print(l)
+                    # print(pgNo[1], pgName[1], noBend[1], bd, bn, ag, lgt, bg, rt, ac, opn, bm, rp, dw, fc, ya)
+
+
+            except:
+                pgNo = ['Pg No', 0]
+                pgName = ['PgName', 'NaN']
+                noBend = ['No of Bend', 0]
+                bn = 0
+                bd = str(bn) + " / " + str(noBend[1])
+                ag = 0
+                lgt = 0
+                bg = 0
+                rt = 0
+                ac = 0
+                opn = 0
+                bm = 0
+                rp = 0
+                dw = 0
+                fc = 0
+                ya = 0
+
+            creadlist=[pgNo[1], pgName[1], noBend[1], bd, bn, ag, lgt, bg, rt, ac, opn, bm, rp, dw, fc, ya]
+            return creadlist
 
         def enterp2(event):
             update()
@@ -181,45 +313,51 @@ class benddata():
 
         def plus():
             global bn
+            global bd2
             bn = bdno.get()
+            bd=bendnov.get().split()
+            bd2=bd[2]
+            # print(bd2)
             bn = int(bn)
-            if bn < 10:
+            bd2=int(bd2)
+            if bn < bd2:
                 bn = bn + 1
                 try:
-                    sql = """SELECT * FROM benddata WHERE BdNum= %s"""
-                    val = [bn]
-                    mycursorBD.execute(sql, val)
-                    myresult = mycursorBD.fetchall()
-                    yy = myresult[0]
-                    pgno = yy[1]
+                    # sql = """SELECT * FROM benddata WHERE BdNum= %s"""
+                    # val = [bn]
+                    # mycursorBD.execute(sql, val)
+                    # myresult = mycursorBD.fetchall()
+                    yy = csvread(2,bn)
+                    pgno = yy[0]
                     pnovalue.set(pgno)
-                    ag = yy[3]
+                    ag = yy[5]
                     anglev.set(ag)
                     lgt = yy[6]
                     lengthv.set(lgt)
-                    bg = yy[8]
+                    bg = yy[7]
                     bgaugev.set(bg)
-                    rt = yy[10]
+                    rt = yy[8]
                     retractv.set(rt)
-                    opn = yy[12]
+                    opn = yy[10]
                     openingv.set(opn)
-                    rp = yy[14]
+                    rp = yy[12]
                     rpositionv.set(rp)
-                    pgn = yy[2]
+                    pgn = yy[1]
                     pnamev.set(pgn)
                     bd1 = yy[4]
-                    bd2 = yy[5]
+                    bd2 = yy[2]
                     bendnov.set(str(bd1) + " / " + str(bd2))
-                    fc = yy[7]
+                    fc = yy[14]
                     forcev.set(fc)
-                    ya = yy[9]
+                    ya = yy[15]
                     yaxisv.set(ya)
-                    ac = yy[11]
+                    ac = yy[9]
                     acorrv.set(ac)
-                    bm = yy[13]
+                    bm = yy[11]
                     bendmovv.set(bm)
-                    dw = yy[15]
+                    dw = yy[13]
                     dwellv.set(dw)
+                    pass
 
                 except Exception as e:
                     print(e)
@@ -230,45 +368,51 @@ class benddata():
 
         def minus():
             global bn
+            global bd2
             bn = bdno.get()
+            bd = bendnov.get().split()
+            bd2 = bd[2]
+            # print(bd2)
             bn = int(bn)
+            bd2 = int(bd2)
             if bn > 1:
                 bn = bn - 1
                 try:
-                    sql = """SELECT * FROM benddata WHERE BdNum= %s"""
-                    val = [bn]
-                    mycursorBD.execute(sql, val)
-                    myresult = mycursorBD.fetchall()
-                    yy = myresult[0]
-                    pgno = yy[1]
+                    # sql = """SELECT * FROM benddata WHERE BdNum= %s"""
+                    # val = [bn]
+                    # mycursorBD.execute(sql, val)
+                    # myresult = mycursorBD.fetchall()
+                    yy = csvread(2, bn)
+                    pgno = yy[0]
                     pnovalue.set(pgno)
-                    ag = yy[3]
+                    ag = yy[5]
                     anglev.set(ag)
                     lgt = yy[6]
                     lengthv.set(lgt)
-                    bg = yy[8]
+                    bg = yy[7]
                     bgaugev.set(bg)
-                    rt = yy[10]
+                    rt = yy[8]
                     retractv.set(rt)
-                    opn = yy[12]
+                    opn = yy[10]
                     openingv.set(opn)
-                    rp = yy[14]
+                    rp = yy[12]
                     rpositionv.set(rp)
-                    pgn = yy[2]
+                    pgn = yy[1]
                     pnamev.set(pgn)
                     bd1 = yy[4]
-                    bd2 = yy[5]
+                    bd2 = yy[2]
                     bendnov.set(str(bd1) + " / " + str(bd2))
-                    fc = yy[7]
+                    fc = yy[14]
                     forcev.set(fc)
-                    ya = yy[9]
+                    ya = yy[15]
                     yaxisv.set(ya)
-                    ac = yy[11]
+                    ac = yy[9]
                     acorrv.set(ac)
-                    bm = yy[13]
+                    bm = yy[11]
                     bendmovv.set(bm)
-                    dw = yy[15]
+                    dw = yy[13]
                     dwellv.set(dw)
+                    pass
 
                 except Exception as e:
                     print(e)
@@ -297,10 +441,12 @@ class benddata():
 
         frame4 = Frame(frame3, highlightbackground="blue",width=300, height=100, highlightthickness=0, bg="#b3ffe0")
 
-        yy = myresultBD[0]
+        # yy = myresultBD[0]
+        bn=1
+        yy = csvread(2,bn)
 
-        print(yy)
-        bn = yy[0]
+        # print(yy)
+        bn = yy[4]
         bdno=StringVar()
         bdno.set(bn)
 
@@ -308,13 +454,13 @@ class benddata():
         Label(frame4, text="Prog No.", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=0, column=0)
         pnovalue = StringVar()
-        pgno = yy[1]
+        pgno = yy[0]
         pnovalue.set(pgno)
         Entry(frame4, width=10, textvariable=pnovalue, font="Arial_Black 12 bold", ).grid(row=0, column=1)
         Label(frame4, text="Angle", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=1, column=0)
         anglev = StringVar()
-        ag = yy[3]
+        ag = yy[5]
         anglev.set(ag)
         Entry(frame4, width=10, textvariable=anglev, font="Arial_Black 12 bold", ).grid(row=1, column=1)
         Label(frame4, text="Length", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
@@ -326,72 +472,74 @@ class benddata():
         Label(frame4, text="Back Gauge", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=3, column=0)
         bgaugev = StringVar()
-        bg = yy[8]
+        bg = yy[7]
         bgaugev.set(bg)
         Entry(frame4, width=10, textvariable=bgaugev, font="Arial_Black 12 bold", ).grid(row=3, column=1)
         Label(frame4, text="Retract", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=4, column=0)
         retractv = StringVar()
-        rt = yy[10]
+        rt = yy[8]
         retractv.set(rt)
         Entry(frame4, width=10, textvariable=retractv, font="Arial_Black 12 bold", ).grid(row=4, column=1)
-        Label(frame4, text="Opening", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+        Label(frame4, text="Angle Corr.", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=5, column=0)
-        openingv = StringVar()
-        opn = yy[12]
-        openingv.set(opn)
-        Entry(frame4, width=10, textvariable=openingv, font="Arial_Black 12 bold", ).grid(row=5, column=1)
-        Label(frame4, text="R Position", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+        acorrv = StringVar()
+        ac = yy[9]
+        acorrv.set(ac)
+        Entry(frame4, width=10, textvariable=acorrv, font="Arial_Black 12 bold", ).grid(row=5, column=1)
+        Label(frame4, text="Opening", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=6, column=0)
-        rpositionv = StringVar()
-        rp = yy[14]
-        rpositionv.set(rp)
-        Entry(frame4, width=10, textvariable=rpositionv, font="Arial_Black 12 bold", ).grid(row=6, column=1)
+        openingv = StringVar()
+        opn = yy[10]
+        openingv.set(opn)
+        Entry(frame4, width=10, textvariable=openingv, font="Arial_Black 12 bold", ).grid(row=6, column=1)
+
         #--------------------------------------------------------
 
         Label(frame4, text="P. Name", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=0, column=2)
         pnamev = StringVar()
-        pgn = yy[2]
+        pgn = yy[1]
         pnamev.set(pgn)
         Entry(frame4, width=10, textvariable=pnamev, font="Arial_Black 12 bold", ).grid(row=0, column=3)
         Label(frame4, text="Bend No.", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=1, column=2)
         bendnov = StringVar()
         bd1 = yy[4]
-        bd2 = yy[5]
+        bd2 = yy[2]
         bendnov.set(str(bd1)+" / "+str(bd2))
         Entry(frame4, width=10, textvariable=bendnov, font="Arial_Black 12 bold", ).grid(row=1, column=3)
-        Label(frame4, text="Force", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
-              fg="blue").grid(row=2, column=2)
-        forcev = StringVar()
-        fc = yy[7]
-        forcev.set(fc)
-        Entry(frame4, width=10, textvariable=forcev, font="Arial_Black 12 bold", ).grid(row=2, column=3)
-        Label(frame4, text="Y-axis", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
-              fg="blue").grid(row=3, column=2)
-        yaxisv = StringVar()
-        ya = yy[9]
-        yaxisv.set(ya)
-        Entry(frame4, width=10, textvariable=yaxisv, font="Arial_Black 12 bold", ).grid(row=3, column=3)
-        Label(frame4, text="Angle Corr.", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
-              fg="blue").grid(row=4, column=2)
-        acorrv = StringVar()
-        ac = yy[11]
-        acorrv.set(ac)
-        Entry(frame4, width=10, textvariable=acorrv, font="Arial_Black 12 bold", ).grid(row=4, column=3)
         Label(frame4, text="Bend Mov.", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
-              fg="blue").grid(row=5, column=2)
+              fg="blue").grid(row=2, column=2)
         bendmovv = StringVar()
-        bm = yy[13]
+        bm = yy[11]
         bendmovv.set(bm)
-        Entry(frame4, width=10, textvariable=bendmovv, font="Arial_Black 12 bold", ).grid(row=5, column=3)
+        Entry(frame4, width=10, textvariable=bendmovv, font="Arial_Black 12 bold", ).grid(row=2, column=3)
+        Label(frame4, text="R Position", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+              fg="blue").grid(row=3, column=2)
+        rpositionv = StringVar()
+        rp = yy[12]
+        rpositionv.set(rp)
+        Entry(frame4, width=10, textvariable=rpositionv, font="Arial_Black 12 bold", ).grid(row=3, column=3)
         Label(frame4, text="Dwell", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
-              fg="blue").grid(row=6, column=2)
+              fg="blue").grid(row=4, column=2)
         dwellv = StringVar()
-        dw = yy[15]
+        dw = yy[13]
         dwellv.set(dw)
-        Entry(frame4, width=10, textvariable=dwellv, font="Arial_Black 12 bold", ).grid(row=6, column=3)
+        Entry(frame4, width=10, textvariable=dwellv, font="Arial_Black 12 bold", ).grid(row=4, column=3)
+        Label(frame4, text="Force", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+              fg="blue").grid(row=5, column=2)
+        forcev = StringVar()
+        fc = yy[14]
+        forcev.set(fc)
+        Entry(frame4, width=10, textvariable=forcev, font="Arial_Black 12 bold", ).grid(row=5, column=3)
+        Label(frame4, text="Y-axis", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+              fg="blue").grid(row=6, column=2)
+        yaxisv = StringVar()
+        ya = yy[15]
+        yaxisv.set(ya)
+        Entry(frame4, width=10, textvariable=yaxisv, font="Arial_Black 12 bold", ).grid(row=6, column=3)
+
 
         frame4.grid(row=0,column=0,ipadx=33.5,sticky="w")
 
