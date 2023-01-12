@@ -49,7 +49,152 @@ class program():
             pb.pressBrake.pressBrakeFrame(self)
             pass
 
-        def csvread():
+        def csvread(bdv):
+            # f = 'D:\Software Development\project2\dirs\Servo Electric PressBrake\ProgramList\\Program' + str(
+            #     pno) + '.csv'
+            f=FileName
+
+            try:
+                with open(f, 'r') as file:
+                    reader = csv.reader(file)
+                    l = list()
+                    for row in reader:
+                        # print(row)
+                        l.append(row)
+                    # print(l)
+                    # print(l[11])
+                    bdvd=10
+                    bl = l[bdvd+bdv]
+                    bn = bl[0]
+                    ag = bl[1]
+                    lgt = bl[2]
+                    bg = bl[3]
+                    rt = bl[4]
+                    ac = bl[5]
+                    opn = bl[6]
+                    bm = bl[7]
+                    rp = bl[8]
+                    dw = bl[9]
+                    fc = bl[10]
+                    ya = bl[11]
+
+                    pgNo = l[0]
+                    # print(pgNo[1])
+                    pgName = l[1]
+                    # print(pgName[1])
+                    noBend = l[3]
+                    # print(noBend[1])
+                    bd = str(bn) + " / " + str(noBend[1])
+                    # print(l)
+                    # print(pgNo[1], pgName[1], noBend[1], bd, bn, ag, lgt, bg, rt, ac, opn, bm, rp, dw, fc, ya)
+
+
+            except:
+                pgNo = ['Pg No', 0]
+                pgName = ['PgName', 'NaN']
+                noBend = ['No of Bend', 0]
+                bn = 0
+                bd = str(bn) + " / " + str(noBend[1])
+                ag = 0
+                lgt = 0
+                bg = 0
+                rt = 0
+                ac = 0
+                opn = 0
+                bm = 0
+                rp = 0
+                dw = 0
+                fc = 0
+                ya = 0
+
+            creadlist=[pgNo[1], pgName[1], noBend[1], bd, bn, ag, lgt, bg, rt, ac, opn, bm, rp, dw, fc, ya]
+            return creadlist
+
+        def csvw():
+            try:
+                frlist = csvreadpg()
+                res = frlist[7]
+                pgNo = progNum.get()
+                pgName = progName.get()
+                thick = thickNum.get()
+                noBend = bendNum.get()
+                punchNo = punNum.get()
+                dieNo = dieNum.get()
+                materialNo = materialNum.get()
+
+                x = "ProgramList"
+                directory = "Servo Electric PressBrake"
+                # Parent Directory path
+                parent_dir = "D:\Software Development\project2\dirs"
+
+                # Path
+                path = os.path.join(parent_dir, directory, x)
+
+                newpath = path
+                if not os.path.exists(newpath):
+                    os.makedirs(newpath)
+                    print("Directory '% s' created" % directory)
+
+                print(path)
+
+                fri=1
+                frbd=list()
+                while fri<=10:
+                    fr=csvread(fri)
+                    frbd.append(fr)
+                    fri+=1
+                # print(frbd)
+                # frbd[bn-1]=uplist
+                k=FileName
+                with open(k, 'w', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow(["Pg No", pgNo])
+                    writer.writerow(["PgName", pgName])
+                    writer.writerow(["Thick", thick])
+                    writer.writerow(["No of Bend", noBend])
+                    writer.writerow(["Punch No", punchNo])
+                    writer.writerow(["Die No", dieNo])
+                    writer.writerow(["Material No", materialNo])
+                    writer.writerow(["Res", res])
+                    writer.writerow([])
+                    writer.writerow([])
+                    f = ['No.', 'Angle', 'Length', 'Back Gauge', 'Retract', 'Angle Corr.', 'Opening', 'Bend Mov.', 'R position',
+                         'Dwell', 'Force', 'Y-Axis']
+                    w = csv.DictWriter(file, fieldnames=f)
+                    w.writeheader()
+
+                    i = 0
+                    while i < 10:
+                        # print(myresultBD[i])
+                        # frbd
+                        yy = frbd[i]
+                        # print(yy)
+                        bn = yy[4]
+                        ag = yy[5]
+                        lgt = yy[6]
+                        bg = yy[7]
+                        rt = yy[8]
+                        ac = yy[9]
+                        opn = yy[10]
+                        bm = yy[11]
+                        rp = yy[12]
+                        dw = yy[13]
+                        fc = yy[14]
+                        ya = yy[15]
+
+                        # print(bn,pgno,pgn,ag,bd1,bd2,lgt,fc,bg,ya,rt,ac,opn,bm,rp,dw)
+                        rl = [{'No.':bn, 'Angle':ag, 'Length':lgt, 'Back Gauge':bg, 'Retract':rt, 'Angle Corr.':ac, 'Opening':opn, 'Bend Mov.':bm, 'R position':rp,
+                         'Dwell':dw, 'Force':fc, 'Y-Axis':ya}]
+                        w.writerows(rl)
+                        i += 1
+                        ###############################################################
+
+
+            except Exception as e:
+                print(e)
+            pass
+
+        def csvreadpg():
             #f = 'D:\Software Development\project2\dirs\Servo Electric PressBrake\ProgramList\\Program' + str(pno) + '.csv'
             f= FileName
             try:
@@ -86,6 +231,9 @@ class program():
             frlist=[pgNo[1], pgName[1], thick[1], noBend[1], punchNo[1], dieNo[1], materialNo[1], res[1]]
             return frlist
 
+        def enterp2(event):
+            csvw()
+
 
         frame1 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
         logoimg = ImageTk.PhotoImage(
@@ -102,7 +250,9 @@ class program():
         frame2 = Frame(self.root, bg="blue", height=15)
         frame2.grid(row=1, ipadx=400, sticky='ew')
         frame3 = Frame(self.root, highlightbackground="blue", width=300, height=100, highlightthickness=0, bg="#b3ffe0")
-        frlist = csvread()
+        self.root.bind('<Return>', enterp2)
+
+        frlist = csvreadpg()
         pgNo = frlist[0]
         pgName = frlist[1]
         thick = frlist[2]
@@ -196,7 +346,7 @@ class program():
         frame3iii = Frame(frame3, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
         lrimg = ImageTk.PhotoImage(
             Image.open('arrow1.png').resize((130, 80), Image.Resampling.LANCZOS))
-        Button(frame3iii, text="Save",font="Arial_Black 12 bold",borderwidth=5, bg="blue",fg="white").grid(row=0,padx=15, pady=15, ipadx=5)
+        Button(frame3iii,command=csvw, text="Save",font="Arial_Black 12 bold",borderwidth=5, bg="blue",fg="white").grid(row=0,padx=15, pady=15, ipadx=5)
         lrimg = ImageTk.PhotoImage(
             Image.open('arrow1.png').resize((130, 80), Image.Resampling.LANCZOS))
         Button(frame3iii, text="Edit",font="Arial_Black 12 bold",borderwidth=5, bg="blue",fg="white").grid(row=1,padx=15, pady=15, ipadx=5)
