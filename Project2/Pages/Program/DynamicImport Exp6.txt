@@ -48,6 +48,34 @@ class program():
             pb=importlib.import_module("pressBrakeP")
             pb.pressBrake.pressBrakeFrame(self)
             pass
+        
+        def bData():
+            # self.root.destroy()
+            frame1.destroy()
+            frame2.destroy()
+            frame3.destroy()
+            frame5.destroy()
+            frame6.destroy()
+            # from bendataP import benddata
+            # o=benddata()
+            # o.bendframe()
+            bd=importlib.import_module("bendataP")
+            bd.benddata.bendframe(self)
+            pass
+
+        def pnList():
+            # self.root.destroy()
+            frame1.destroy()
+            frame2.destroy()
+            frame3.destroy()
+            frame5.destroy()
+            frame6.destroy()
+            # from punchListP import punchList
+            # pnl=punchList()
+            # pnl.punchListFrame()
+            pnl = importlib.import_module("punchListP")
+            pnl.punchList.punchListFrame(self)
+            pass
 
         def csvread(bdv):
             # f = 'D:\Software Development\project2\dirs\Servo Electric PressBrake\ProgramList\\Program' + str(
@@ -288,7 +316,7 @@ class program():
 
         Label(frame3i, text="No.", font="Calibri 10 bold", padx=12, pady=2, bg="#b3ffe0").grid(row=0, column=1)
         Label(frame3i, text="Name", font="Calibri 10 bold", padx=12, pady=2, bg="#b3ffe0").grid(row=0, column=2)
-        Button(frame3i, text="Prog List", font="Calibri 10 bold", padx=12, pady=8,relief="ridge", bg="#ff9900").grid(row=1, column=0,pady=2,padx=2,ipadx=10)
+        Button(frame3i, text="Prog List",command=pgList, font="Calibri 10 bold", padx=12, pady=8,relief="ridge", bg="#ff9900").grid(row=1, column=0,pady=2,padx=2,ipadx=10)
         x=1
 
         progNum = StringVar()
@@ -298,7 +326,7 @@ class program():
         progName.set(pgName)
         Entry(frame3i, width=10, textvariable=progName, font="Arial_Black 12 bold", ).grid(row=1, column=2)
 
-        Button(frame3i, text="Punch List", font="Calibri 10 bold", padx=12, pady=8, relief="ridge", bg="#ff9900").grid(row=2, column=0,pady=2,padx=2,ipadx=6.3)
+        Button(frame3i, text="Punch List",command=pnList, font="Calibri 10 bold", padx=12, pady=8, relief="ridge", bg="#ff9900").grid(row=2, column=0,pady=2,padx=2,ipadx=6.3)
         punNum = StringVar()
         punNum.set(punchNo)
 
@@ -330,7 +358,7 @@ class program():
         Entry(frame3i, width=10, textvariable=thickNum, font="Arial_Black 12 bold", ).grid(row=5, column=1)
         Label(frame3i, width=10, text="mm", font="Arial_Black 12 bold",bg="#b3ffe0" ).grid(row=5, column=2)
 
-        Button(frame3i, text="Bend Data", font="Calibri 10 bold", padx=12, pady=8, relief="ridge", bg="#ff9900").grid(row=6, column=0,pady=2,padx=2,ipadx=6)
+        Button(frame3i, text="Bend Data",command=bData, font="Calibri 10 bold", padx=12, pady=8, relief="ridge", bg="#ff9900").grid(row=6, column=0,pady=2,padx=2,ipadx=6)
         bendNum = StringVar()
         bendNum.set(noBend)
         Entry(frame3i, width=10, textvariable=bendNum, font="Arial_Black 12 bold", ).grid(row=6, column=1)
