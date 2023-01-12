@@ -15,11 +15,14 @@ class programList():
 
     def pglistFrame(self):
         # self.root = home.start(self)
-        # initial = importlib.import_module("initialP")
-        # self.root = initial.home.start(self)
+        initial = importlib.import_module("initialP")
+        self.root = initial.home.start(self)
         self.root.configure(background="#b3ffe0")
         # mydb, mycursor, myresult = database.pgdb(self)
         mydbBD, mycursorBD, myresultBD = database.bddb(self)
+        mydbFL, mycursorFL, myresultFL = database.fldb(self)
+        flt = myresultFL[0]
+        FileName = flt[1]
 
         def pBrake():
             # self.root.destroy()
@@ -78,6 +81,17 @@ class programList():
                            filetypes=[("All Files", "*.*"),
                                      ("Text Documents", "*.txt"),
                                       ("program","*.csv")])
+            # print(f)
+            if len(f) ==0:
+                f=FileName
+            else:
+                newf = f
+                newf = str(newf)
+                sql = """UPDATE filelist SET FName= %s WHERE FNo = %s;"""
+                result = [newf, 1]
+                mycursor.execute(sql, result)
+                mydb.commit()
+            # print("test f: ",f)
             try:
                 with open(f, 'r') as file:
                     reader = csv.reader(file)
@@ -117,8 +131,9 @@ class programList():
 
             return pgNo[1], pgName[1], thick[1], noBend[1], punchNo[1], dieNo[1], materialNo[1], res[1]
 
-        def csvread(pno):
-            f = 'D:\Software Development\project2\dirs\Servo Electric PressBrake\ProgramList\\Program' + str(pno) + '.csv'
+        def csvread():
+            #f = 'D:\Software Development\project2\dirs\Servo Electric PressBrake\ProgramList\\Program' + str(pno) + '.csv'
+            f= FileName
             try:
                 with open(f, 'r') as file:
                     reader = csv.reader(file)
@@ -128,6 +143,7 @@ class programList():
                         l.append(row)
                     # print(l)
                     pgNo = l[0]
+                    # print(pgNo[1])
                     pgName = l[1]
                     thick = l[2]
                     noBend = l[3]
@@ -153,7 +169,7 @@ class programList():
 
         def csvw():
             try:
-                mydbBD, mycursorBD, myresultBD = database.bddb(self)
+                # mydbBD, mycursorBD, myresultBD = database.bddb(self)
                 pgNo=int(plno1.get())
                 pgName=str(pln1.get())
                 thick=float(th1.get())
@@ -189,6 +205,7 @@ class programList():
                     writer.writerow(["Die No",dieNo])
                     writer.writerow(["Material No",materialNo])
                     writer.writerow(["Res",res])
+                    writer.writerow([])
                     writer.writerow([])
                     f = ['No.', 'Prog. No.', 'Prog. Name', 'Angle', 'Bend No.', 'Length', 'Force', 'Back Gauge',
                          'Y-Axis', 'Retract', 'Angle Corr.', 'Opening', 'Bend Mov.', 'R position', 'Dwell']
@@ -236,7 +253,7 @@ class programList():
                                                                                                               padx=10)
         Label(frame1, text="Program List-1",fg="#cc3300", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0, column=3,
                                                                                                         padx=10)
-        Button(frame1, text="Export To CSV", bg="blue", fg="white", relief="groove", command=csvw).grid(row=0,column=4)
+        # Button(frame1, text="Export To CSV", bg="blue", fg="white", relief="groove", command=csvw).grid(row=0,column=4)
         frame1.grid(row=0, ipadx=50, sticky="ew")
 
         frame2 = Frame(self.root, bg="blue", height=10)
@@ -282,8 +299,9 @@ class programList():
                                                                                                             column=7)
 
 
-        pgNo,pgName,thick,noBend,punchNo,dieNo,materialNo,res=csvread(1)
+        pgNo,pgName,thick,noBend,punchNo,dieNo,materialNo,res=csvread()
         plno1=StringVar()
+        plno1.set(pgNo)
         pln1 = StringVar()
         pln1.set(pgName)
         th1 = StringVar()
@@ -299,7 +317,7 @@ class programList():
         res1 = StringVar()
         res1.set(res)
 
-        plno1.set("1")
+
         Button(frame3, textvariable=plno1, command=csvselect,font="Stencil 12 bold", padx=12, pady=10, bg="#b3ffe0",fg="#e68a00").grid(row=1, column=0)
 
         Label(frame3, textvariable=pln1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=1)
