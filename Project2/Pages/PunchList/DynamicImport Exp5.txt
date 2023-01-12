@@ -12,8 +12,8 @@ class punchList():
 
     def punchListFrame(self):
         # self.root = home.start(self)
-        #initial = importlib.import_module("initialP")
-        #self.root = initial.home.start(self)
+        initial = importlib.import_module("initialP")
+        self.root = initial.home.start(self)
         self.root.configure(background="#b3ffe0")
         mydb, mycursor, myresult=database.pndb(self)
 
@@ -172,7 +172,7 @@ class punchList():
 
         frame1 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
         logoimg = ImageTk.PhotoImage(
-            Image.open('D:\Software Development\hello\sukrit_Logo.png').resize((150, 70), Image.Resampling.LANCZOS))
+            Image.open('sukrit_Logo.png').resize((150, 70), Image.Resampling.LANCZOS))
         Label(frame1, image=logoimg,bg="#b3ffe0").grid(row=0, column=0)
         Label(frame1, text="               ", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="#b3ffe0").grid(row=0,
                                                                                                               column=1,
