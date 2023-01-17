@@ -14,8 +14,8 @@ class program():
 
     def programFrame(self):
         # self.root = home.start(self)
-        initial = importlib.import_module("initialP")
-        self.root = initial.home.start(self)
+        # initial = importlib.import_module("initialP")
+        # self.root = initial.home.start(self)
         self.root.configure(background="#b3ffe0")
         mydbFL, mycursorFL, myresultFL = database.fldb(self)
         flt = myresultFL[0]
@@ -48,7 +48,7 @@ class program():
             pb=importlib.import_module("pressBrakeP")
             pb.pressBrake.pressBrakeFrame(self)
             pass
-        
+
         def bData():
             # self.root.destroy()
             frame1.destroy()
@@ -387,7 +387,7 @@ class program():
         frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
 
         pglimg = ImageTk.PhotoImage(
-            Image.open('programlist.png').resize((130, 80), Image.Resampling.LANCZOS))
+            Image.open('../User/List.bmp').resize((130, 80), Image.Resampling.LANCZOS))
         # settinglabel=Label(frame6,image=settingimg).grid(row=0,column=0,padx=50)
         Button(frame6, image=pglimg, command=pgList,borderwidth=0, bg="#b3ffe0").grid(row=0, column=0, padx=15,sticky="e")
         Label(frame6,text="                                                   ",bg="#b3ffe0").grid(row=0,column=1)
@@ -396,7 +396,7 @@ class program():
 
 
         homeimg = ImageTk.PhotoImage(
-            Image.open('home.png').resize((130, 80), Image.Resampling.LANCZOS))
+            Image.open('../User/Home-Icon.bmp').resize((130, 80), Image.Resampling.LANCZOS))
         # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
         Button(frame6, image=homeimg, command=pBrake,borderwidth=0, bg="#b3ffe0").grid(row=0, column=4, padx=15,sticky="w")
         frame6.grid(row=4, ipadx=20, sticky='ew')

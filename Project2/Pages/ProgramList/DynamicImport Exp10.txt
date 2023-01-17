@@ -15,8 +15,8 @@ class programList():
 
     def pglistFrame(self):
         # self.root = home.start(self)
-        initial = importlib.import_module("initialP")
-        self.root = initial.home.start(self)
+        # initial = importlib.import_module("initialP")
+        # self.root = initial.home.start(self)
         self.root.configure(background="#b3ffe0")
         # mydb, mycursor, myresult = database.pgdb(self)
         mydbBD, mycursorBD, myresultBD = database.bddb(self)
@@ -345,7 +345,7 @@ class programList():
 
         frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
         homeimg = ImageTk.PhotoImage(
-            Image.open('home.png').resize((130, 80), Image.Resampling.LANCZOS))
+            Image.open('../User/Home-Icon.bmp').resize((130, 80), Image.Resampling.LANCZOS))
         # settinglabel=Label(frame6,image=settingimg).grid(row=0,column=0,padx=50)
         Button(frame6, image=homeimg,command=pBrake, borderwidth=0, bg="#b3ffe0").grid(row=0, column=2, padx=15)
 
@@ -355,7 +355,7 @@ class programList():
         # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
         # Button(frame6, image=rrimg, command=pgList2, borderwidth=0, bg="#b3ffe0").grid(row=0, column=0, padx=15)
         pgimg = ImageTk.PhotoImage(
-            Image.open('program.png').resize((130, 80), Image.Resampling.LANCZOS))
+            Image.open('../User/prog3.bmp').resize((130, 80), Image.Resampling.LANCZOS))
         Button(frame6, image=pgimg, command=prog, borderwidth=0,  bg="#b3ffe0").grid(row=0, column=4, padx=15,ipadx=5)
         frame6.grid(row=4, ipadx=20, sticky='e')
 

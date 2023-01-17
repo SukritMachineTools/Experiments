@@ -12,8 +12,8 @@ class punchList():
 
     def punchListFrame(self):
         # self.root = home.start(self)
-        initial = importlib.import_module("initialP")
-        self.root = initial.home.start(self)
+        # initial = importlib.import_module("initialP")
+        # self.root = initial.home.start(self)
         self.root.configure(background="#b3ffe0")
         mydb, mycursor, myresult=database.pndb(self)
 
@@ -396,7 +396,7 @@ class punchList():
 
         frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
         homeimg = ImageTk.PhotoImage(
-            Image.open('home.png').resize((120, 80), Image.Resampling.LANCZOS))
+            Image.open('../User/Home-Icon.bmp').resize((120, 80), Image.Resampling.LANCZOS))
         # settinglabel=Label(frame6,image=settingimg).grid(row=0,column=0,padx=50)
         Button(frame6, image=homeimg, command=pBrake,bg="#b3ffe0", borderwidth=0).grid(row=0, column=0, padx=50)
         pdimg = ImageTk.PhotoImage(
@@ -404,7 +404,7 @@ class punchList():
         # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
         Button(frame6, image=pdimg, command=pnData,bg="#b3ffe0", borderwidth=0).grid(row=0, column=1, padx=50, columnspan=2)
         opimg = ImageTk.PhotoImage(
-            Image.open('operation.png').resize((120, 80), Image.Resampling.LANCZOS))
+            Image.open('../User/service1.bmp').resize((120, 80), Image.Resampling.LANCZOS))
         # pllabel=Label(frame6,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
         Button(frame6, image=opimg, command=op,bg="#b3ffe0", borderwidth=0).grid(row=0, column=4, padx=50, columnspan=2)
         frame6.grid(row=5,ipadx=20)

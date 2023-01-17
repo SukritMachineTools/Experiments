@@ -168,7 +168,9 @@ class punchData():
               fg="green").grid(row=3, column=0)
         prvalue = StringVar()
         Entry(frame3, width=10, textvariable=prvalue, font="Arial_Black 25 bold").grid(row=3, column=1)
-        Button(frame3, text="+", command=plus,bg="orange", padx=30).grid(row=0, column=3)
+        upimg = ImageTk.PhotoImage(
+            Image.open('../User/up.bmp').resize((100, 40), Image.Resampling.LANCZOS))
+        Button(frame3, image=upimg, command=plus,bg="#b3ffe0", padx=30).grid(row=0, column=3)
         Label(frame3, text=" ", fg="#b3ffe0", bg="#b3ffe0").grid(row=0, column=2)
         punch = StringVar()
         pnch = 1
@@ -187,7 +189,9 @@ class punchData():
         pr = yy[4]
         prvalue.set(pr)
         Label(frame3, textvariable=punch, font="Stencil 25 bold", fg="Black", bg="#b3ffe0").grid(row=1, column=3)
-        Button(frame3, command=minus, text="-",bg="orange", padx=30).grid(row=2, column=3)
+        downimg = ImageTk.PhotoImage(
+            Image.open('../User/dn.bmp').resize((100, 40), Image.Resampling.LANCZOS))
+        Button(frame3, command=minus, image=downimg,bg="#b3ffe0", padx=30).grid(row=2, column=3)
         Button(frame3, command=update, text="Update",relief="groove",bg="blue",fg="white" ,padx=30).grid(row=3, column=3)
         frame3.grid(row=2,ipadx=73.5)
 
@@ -197,15 +201,15 @@ class punchData():
 
         frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
         homeimg = ImageTk.PhotoImage(
-            Image.open('home.png').resize((150, 80), Image.Resampling.LANCZOS))
+            Image.open('../User/Home-Icon.bmp').resize((150, 80), Image.Resampling.LANCZOS))
         # settinglabel=Label(frame6,image=settingimg).grid(row=0,column=0,padx=50)
         Button(frame6, image=homeimg, command=pBrake, borderwidth=0,bg="#b3ffe0").grid(row=0, column=0, padx=50)
         pulimg = ImageTk.PhotoImage(
-            Image.open('puchlist.png').resize((150, 80), Image.Resampling.LANCZOS))
+            Image.open('../User/List.bmp').resize((150, 80), Image.Resampling.LANCZOS))
         # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
         Button(frame6, image=pulimg, command=pnList, borderwidth=0,bg="#b3ffe0").grid(row=0, column=1, padx=50, columnspan=2)
         opimg = ImageTk.PhotoImage(
-            Image.open('operation.png').resize((150, 80), Image.Resampling.LANCZOS))
+            Image.open('../User/service1.bmp').resize((150, 80), Image.Resampling.LANCZOS))
         # pllabel=Label(frame6,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
         Button(frame6, image=opimg, command=op,borderwidth=0,bg="#b3ffe0").grid(row=0, column=4, padx=50, columnspan=2)
         frame6.grid(row=4,ipadx=20)

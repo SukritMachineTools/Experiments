@@ -223,7 +223,7 @@ class pressBrake():
         Label(frame3, text="X", font="Algerian 42 bold", padx=15, pady=15, bg="orange", fg="red").grid(row=0, column=1,
                                                                                                        padx=10)
         larimg = ImageTk.PhotoImage(
-            Image.open('arrow1.png').resize((150, 70), Image.Resampling.LANCZOS))
+            Image.open('../User/Arrow_Lt.bmp').resize((150, 70), Image.Resampling.LANCZOS))
         # larlabel=Label(frame3,image=larimg,bg="orange").grid(row=0,column=2,padx=10)
         Button(frame3, image=larimg, bg="orange", borderwidth=0, command=xsub).grid(row=0, column=2,
                                                                                     padx=10)
@@ -232,7 +232,7 @@ class pressBrake():
               relief="solid")
         xLabel.grid(row=0, column=3, ipadx=5, padx=10)
         rarimg = ImageTk.PhotoImage(
-            Image.open('arrow.png').resize((150, 70), Image.Resampling.LANCZOS))
+            Image.open('../User/Arrow_Rt.bmp').resize((150, 70), Image.Resampling.LANCZOS))
         # rarlabel=Label(frame3,image=rarimg,bg="orange").grid(row=0,column=4,padx=10)
         Button(frame3, image=rarimg, bg="orange", borderwidth=0, command=xadd).grid(row=0, column=4,
                                                                                     padx=10)
@@ -289,11 +289,11 @@ class pressBrake():
 
         frame5 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="orange")
         loginimg = ImageTk.PhotoImage(
-            Image.open('login.png').resize((130, 70), Image.Resampling.LANCZOS))
+            Image.open('../User/LOCK.bmp').resize((130, 70), Image.Resampling.LANCZOS))
         # settinglabel=Label(frame5,image=settingimg).grid(row=0,column=0,padx=50)
         Button(frame5, image=loginimg, bg="orange", borderwidth=0).grid(row=0, column=0,padx=10,pady=10)
         primg = ImageTk.PhotoImage(
-            Image.open('program.png').resize((130, 70), Image.Resampling.LANCZOS))
+            Image.open('../User/prog3.bmp').resize((130, 70), Image.Resampling.LANCZOS))
         # pdlabel=Label(frame5,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
         Button(frame5, image=primg,command=prog,bg="orange", borderwidth=0).grid(row=0, column=1,padx=10,pady=10)
         bdimg = ImageTk.PhotoImage(
@@ -305,7 +305,7 @@ class pressBrake():
         # pllabel=Label(frame5,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
         Button(frame5, image=pdimg,command=pndata,bg="orange", borderwidth=0).grid(row=0, column=3,padx=10,pady=10)
         opimg = ImageTk.PhotoImage(
-            Image.open('operation.png').resize((130, 70), Image.Resampling.LANCZOS))
+            Image.open('../User/service1.bmp').resize((130, 70), Image.Resampling.LANCZOS))
         # pllabel=Label(frame5,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
         Button(frame5, image=opimg,command=op,bg="orange", borderwidth=0).grid(row=0, column=4,padx=10,pady=10)
         frame5.grid(row=4)
