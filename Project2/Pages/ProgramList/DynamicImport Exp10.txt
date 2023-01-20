@@ -15,8 +15,8 @@ class programList():
 
     def pglistFrame(self):
         # self.root = home.start(self)
-        # initial = importlib.import_module("initialP")
-        # self.root = initial.home.start(self)
+        initial = importlib.import_module("initialP")
+        self.root = initial.home.start(self)
         self.root.configure(background="#b3ffe0")
         # mydb, mycursor, myresult = database.pgdb(self)
         mydbBD, mycursorBD, myresultBD = database.bddb(self)
@@ -80,7 +80,7 @@ class programList():
             f = askopenfilename(defaultextension=".csv",
                            filetypes=[("All Files", "*.*"),
                                      ("Text Documents", "*.txt"),
-                                      ("program","*.csv")])
+                                      ("program","*.csv")],initialdir = "D:/Software Development/project2/dirs/Servo Electric PressBrake/ProgramList")
             # print(f)
             if len(f) ==0:
                 f=FileName
@@ -318,11 +318,11 @@ class programList():
         res1.set(res)
 
 
-        Button(frame3, textvariable=plno1, command=csvselect,font="Stencil 12 bold", padx=12, pady=10, bg="#b3ffe0",fg="#e68a00").grid(row=1, column=0)
+        Button(frame3, textvariable=plno1, command=prog, borderwidth=0,  highlightthickness = 0, font="Stencil 12 bold", padx=12, pady=10, bg="#b3ffe0",fg="#e68a00").grid(row=1, column=0)
 
         Label(frame3, textvariable=pln1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=1)
         Label(frame3, textvariable=th1, font="Calibri 12 bold", padx=12, pady=10,fg="black", bg="#b3ffe0").grid(row=1, column=2)
-        Button(frame3, textvariable=nob1,command=bData, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=3)
+        Button(frame3, textvariable=nob1,command=bData, borderwidth=0,  highlightthickness = 0, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=3)
         Label(frame3, textvariable=pun1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=4)
         Label(frame3, textvariable=die1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=5)
         Label(frame3, textvariable=mat1, font="Calibri 12 bold", padx=12, pady=10, bg="#b3ffe0").grid(row=1, column=6)
