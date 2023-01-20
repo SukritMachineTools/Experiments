@@ -433,6 +433,7 @@ class benddata():
         frame3 = Frame(self.root, highlightbackground="blue", width=300, height=100, highlightthickness=2, bg="#b3ffe0")
 
         self.root.bind('<Return>', enterp2)
+        self.root.bind('<KP_Enter>', enterp2)
 
         frame4 = Frame(frame3, highlightbackground="blue",width=300, height=100, highlightthickness=0, bg="#b3ffe0")
 
@@ -446,12 +447,12 @@ class benddata():
         bdno.set(bn)
 
 
-        Label(frame4, text="Prog No.", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+        Button(frame4, text="Prog No.", command=prog,borderwidth=0,  highlightthickness = 0, font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=0, column=0)
         pnovalue = StringVar()
         pgno = yy[0]
         pnovalue.set(pgno)
-        Entry(frame4, width=10, textvariable=pnovalue, font="Arial_Black 12 bold", ).grid(row=0, column=1)
+        Button(frame4, width=10, command=prog,borderwidth=0,  highlightthickness = 0, textvariable=pnovalue, font="Arial_Black 12 bold", bg="#b3ffe0").grid(row=0, column=1)
         Label(frame4, text="Angle", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=1, column=0)
         anglev = StringVar()
@@ -491,19 +492,19 @@ class benddata():
 
         #--------------------------------------------------------
 
-        Label(frame4, text="P. Name", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+        Button(frame4, text="P. Name", command=prog,borderwidth=0,  highlightthickness = 0, font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=0, column=2)
         pnamev = StringVar()
         pgn = yy[1]
         pnamev.set(pgn)
-        Entry(frame4, width=10, textvariable=pnamev, font="Arial_Black 12 bold", ).grid(row=0, column=3)
+        Button(frame4, width=10, textvariable=pnamev, command=prog,borderwidth=0,  highlightthickness = 0, font="Arial_Black 12 bold", bg="#b3ffe0").grid(row=0, column=3)
         Label(frame4, text="Bend No.", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=1, column=2)
         bendnov = StringVar()
         bd1 = yy[4]
         bd2 = yy[2]
         bendnov.set(str(bd1)+" / "+str(bd2))
-        Entry(frame4, width=10, textvariable=bendnov, font="Arial_Black 12 bold", ).grid(row=1, column=3)
+        Label(frame4, width=10, textvariable=bendnov, font="Arial_Black 12 bold", bg="#b3ffe0").grid(row=1, column=3)
         Label(frame4, text="Bend Mov.", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=2, column=2)
         bendmovv = StringVar()

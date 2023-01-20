@@ -187,6 +187,7 @@ class punchList():
 
         frame3 = Frame(self.root, highlightbackground="blue", highlightthickness=2, bg="#b3ffe0")
         self.root.bind('<Return>', enter)
+        self.root.bind('<KP_Enter>', enter)
         Label(frame3, text="No.", font="Stencil 15 bold", padx=5, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,
                                                                                                             column=0)
         Label(frame3, text="Name", font="Stencil 15 bold", padx=5, pady=10, bg="#ccffff", fg="#e68a00").grid(row=0,

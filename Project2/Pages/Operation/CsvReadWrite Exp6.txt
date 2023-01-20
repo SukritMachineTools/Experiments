@@ -29,6 +29,10 @@ class operation():
             frame3.destroy()
             frame5.destroy()
             frame6.destroy()
+            framei1.destroy()
+            frameB1i.destroy()
+            frameB1.destroy()
+            framei2.destroy()
             # from pressBrakeP import pressBrake
             # pb=pressBrake()
             # pb.pressBrakeFrame()
@@ -42,11 +46,33 @@ class operation():
             frame3.destroy()
             frame5.destroy()
             frame6.destroy()
+            framei1.destroy()
+            frameB1i.destroy()
+            frameB1.destroy()
+            framei2.destroy()
             # from programP import program
             # pg=program()
             # pg.programFrame()
             pg=importlib.import_module("programP")
             pg.program.programFrame(self)
+            pass
+
+        def bData():
+            # self.root.destroy()
+            frame1.destroy()
+            frame2.destroy()
+            frame3.destroy()
+            frame5.destroy()
+            frame6.destroy()
+            framei1.destroy()
+            frameB1i.destroy()
+            frameB1.destroy()
+            framei2.destroy()
+            # from bendataP import benddata
+            # o=benddata()
+            # o.bendframe()
+            bd=importlib.import_module("bendataP")
+            bd.benddata.bendframe(self)
             pass
 
         def clock():
@@ -266,7 +292,11 @@ class operation():
             return creadlist
 
         def enterp2(event):
-            csvw()
+            # csvw()
+            pass
+
+        def callbend(event):
+            bData()
             pass
 
         def update():
@@ -415,9 +445,11 @@ class operation():
 
         frame3 = Frame(self.root, highlightbackground="blue", width=300, height=100,    highlightthickness=2, bg="#b3ffe0")
 
-        self.root.bind('<Return>', enterp2)
+        # self.root.bind('<Return>', enterp2)
 
         framei1 = Frame(frame3, bg="#b3ffe0")
+        framei1.bind('<Button>',callbend)
+
         bn = 1
         yy = csvread(bn)
 
@@ -438,77 +470,77 @@ class operation():
         ya = yy[15]
         yaxisv.set(ya)
 
-        Label(framei1, text="Angle", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+        Button(framei1, text="Angle", command=bData,borderwidth=0,  highlightthickness = 0, font="Calibri 12 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=0, column=0)
         anglev = StringVar()
         ag = yy[5]
         anglev.set(ag)
-        Entry(framei1, width=10, textvariable=anglev, font="Arial_Black 12 bold", ).grid(row=0, column=1)
+        Button(framei1, width=6, textvariable=anglev, command=bData,borderwidth=0,  highlightthickness = 0, font="Arial_Black 12 bold", ).grid(row=0, column=1)
 
-        Label(framei1, text="Length", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+        Button(framei1, text="Length", command=bData,borderwidth=0,  highlightthickness = 0, font="Calibri 12 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=1, column=0)
         lengthv = StringVar()
         lgt = yy[6]
         lengthv.set(lgt)
-        Entry(framei1, width=10, textvariable=lengthv, font="Arial_Black 12 bold", ).grid(row=1, column=1)
-        Label(framei1, text="B.Gauge", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+        Button(framei1, width=6, textvariable=lengthv, command=bData,borderwidth=0,  highlightthickness = 0, font="Arial_Black 12 bold", ).grid(row=1, column=1)
+        Button(framei1, text="B.Gauge", command=bData,borderwidth=0,  highlightthickness = 0, font="Calibri 12 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=2, column=0)
         bgaugev = StringVar()
         bg = yy[7]
         bgaugev.set(bg)
-        Entry(framei1, width=10, textvariable=bgaugev, font="Arial_Black 12 bold", ).grid(row=2, column=1)
-        Label(framei1, text="Retract", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+        Button(framei1, width=6, textvariable=bgaugev, command=bData,borderwidth=0,  highlightthickness = 0, font="Arial_Black 12 bold", ).grid(row=2, column=1)
+        Button(framei1, text="Retract", command=bData,borderwidth=0,  highlightthickness = 0, font="Calibri 12 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=3, column=0)
         retractv = StringVar()
         rt = yy[8]
         retractv.set(rt)
-        Entry(framei1, width=10, textvariable=retractv, font="Arial_Black 12 bold", ).grid(row=3, column=1)
-        Label(framei1, text="Opening", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+        Button(framei1, width=6, textvariable=retractv, command=bData,borderwidth=0,  highlightthickness = 0, font="Arial_Black 12 bold", ).grid(row=3, column=1)
+        Button(framei1, text="Opening", command=bData,borderwidth=0,  highlightthickness = 0, font="Calibri 12 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=4, column=0)
         openingv = StringVar()
         opn = yy[10]
         openingv.set(opn)
-        Entry(framei1, width=10, textvariable=openingv, font="Arial_Black 12 bold", ).grid(row=4, column=1)
-        Label(framei1, text="R Position", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+        Button(framei1, width=6, textvariable=openingv, command=bData,borderwidth=0,  highlightthickness = 0, font="Arial_Black 12 bold", ).grid(row=4, column=1)
+        Button(framei1, text="R Position", command=bData,borderwidth=0,  highlightthickness = 0, font="Calibri 12 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=5, column=0)
         rpositionv = StringVar()
         rp = yy[12]
         rpositionv.set(rp)
-        Entry(framei1, width=10, textvariable=rpositionv, font="Arial_Black 12 bold", ).grid(row=5, column=1)
-        Label(framei1, text="Thick", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+        Button(framei1, width=6, textvariable=rpositionv, command=bData,borderwidth=0,  highlightthickness = 0, font="Arial_Black 12 bold", ).grid(row=5, column=1)
+        Button(framei1, text="Thick", command=bData,borderwidth=0,  highlightthickness = 0, font="Calibri 12 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=6, column=0)
         thickv = StringVar()
         pgl=csvreadpg()
         thickness=pgl[2]
         th = thickness[1]
         thickv.set(th)
-        Entry(framei1, width=10, textvariable=thickv, font="Arial_Black 12 bold", ).grid(row=6, column=1)
-        Label(framei1, text="Force", font="Calibri 13 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
+        Button(framei1, width=6, textvariable=thickv, command=bData,borderwidth=0,  highlightthickness = 0, font="Arial_Black 12 bold", ).grid(row=6, column=1)
+        Button(framei1, text="Force", command=bData,borderwidth=0,  highlightthickness = 0, font="Calibri 12 bold", padx=4.5,pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=7, column=0)
         forcev = StringVar()
         fc = yy[14]
         forcev.set(fc)
-        Entry(framei1, width=10, textvariable=forcev, font="Arial_Black 12 bold", ).grid(row=7, column=1)
+        Button(framei1, width=6, textvariable=forcev, command=bData,borderwidth=0,  highlightthickness = 0, font="Arial_Black 12 bold", ).grid(row=7, column=1)
         framei1.grid(row=0, column=0, sticky="e",ipadx=5,ipady=6)
         #-------Framei2---------------------
         framei2 = Frame(frame3, highlightbackground="blue",    highlightthickness=2, bg="#b3ffe0",width=50)
         #frameA
         frameA = Frame(framei2, bg="#b3ffe0")
-        # Label(frameA, text="Prog No.", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+        # Label(frameA, text="Prog No.", font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
         #       fg="blue").grid(row=0, column=0,sticky="e")
         # pnovalue = StringVar()
         # pgno = yy[0]
         # pnovalue.set(pgno)
-        # Label(frameA, textvariable=pnovalue, font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0", fg="#4d2600"
+        # Label(frameA, textvariable=pnovalue, font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0", fg="#4d2600"
         #       ).grid(row=0, column=1)
-        # Label(frameA, text="                       ", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+        # Label(frameA, text="                       ", font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
         #       fg="#b3ffe0").grid(row=0, column=2)
-        # Label(frameA, text="P. Name", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+        # Label(frameA, text="P. Name", font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
         #       fg="blue").grid(row=0, column=3)
         # pnamev = StringVar()
         # pgn = yy[1]
         # pnamev.set(pgn)
-        # Label(frameA, textvariable=pnamev, font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0", fg="#4d2600"
+        # Label(frameA, textvariable=pnamev, font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0", fg="#4d2600"
         #       ).grid(row=0, column=4)
         frameA.grid(row=0)
         #FrameB
@@ -516,29 +548,29 @@ class operation():
         #FrameB1
         frameB1 = Frame(frameB,  bg="#b3ffe0")
         frameB1i = Frame(frameB1,  bg="#b3ffe0")
-        Label(frameB1i, text="Prog No.", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+        Button(frameB1i, text="Prog No.", command=prog,borderwidth=0,  highlightthickness = 0, font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=0, column=0)
         pnovalue = StringVar()
         pgno = yy[0]
         pnovalue.set(pgno)
-        Label(frameB1i, textvariable=pnovalue, font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0", fg="#4d2600"
+        Button(frameB1i, textvariable=pnovalue, command=prog,borderwidth=0,  highlightthickness = 0, font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0", fg="#4d2600"
               ).grid(row=0, column=1)
-        Label(frameB1i, text="Last Force", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+        Label(frameB1i, text="Last Force", font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=1, column=0)
         lastforcev = StringVar()
         lfc = ""
         lastforcev.set(lfc)
-        Entry(frameB1i, width=10, textvariable=lastforcev, font="Arial_Black 12 bold", ).grid(row=1, column=1)
+        Label(frameB1i, width=6, textvariable=lastforcev, font="Arial_Black 12 bold", ).grid(row=1, column=1)
 
-        Label(frameB1i, text="Pinch", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+        Label(frameB1i, text="Pinch", font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=2, column=0)
         pinchv = StringVar()
         pnch = ""
         pinchv.set(pnch)
-        Entry(frameB1i, width=10, textvariable=pinchv, font="Arial_Black 12 bold", ).grid(row=2, column=1)
+        Label(frameB1i, width=6, textvariable=pinchv, font="Arial_Black 12 bold", ).grid(row=2, column=1)
         frameB1i.grid(row=0)
         frameBend = Frame(frameB1, bg="#b3ffe0")
-        Label(frameBend, text="Bend", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+        Button(frameBend, text="Bend", command=bData,borderwidth=0,  highlightthickness = 0, font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=0, column=0)
         bendv = StringVar()
         # bendnov = StringVar()
@@ -547,23 +579,23 @@ class operation():
         bd2 = yy[2]
         # bendnov.set(str(bd1) + " / " + str(bd2))
 
-        Entry(frameBend, width=3, textvariable=bendv, font="Arial_Black 12 bold", ).grid(row=0, column=1)
-        Label(frameBend, text="/", font="Calibri 8 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+        Button(frameBend, width=2, command=bData,borderwidth=0,  highlightthickness = 0, textvariable=bendv, font="Arial_Black 12 bold", bg="#b3ffe0").grid(row=0, column=1)
+        Button(frameBend, text="/", command=bData,borderwidth=0,  highlightthickness = 0, font="Calibri 8 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=0, column=2)
         bend2v = StringVar()
         bend2v.set(bd2)
-        Entry(frameBend, width=3, textvariable=bend2v, font="Arial_Black 12 bold", ).grid(row=0, column=3)
+        Button(frameBend, width=2, textvariable=bend2v, command=bData,borderwidth=0,  highlightthickness = 0, font="Arial_Black 12 bold", bg="#b3ffe0").grid(row=0, column=3)
         frameBend.grid(row=2)
         frameB1ii = Frame(frameB1, bg="#b3ffe0")
-        Label(frameB1ii, text="Dwell", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+        Label(frameB1ii, text="Dwell", font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=0, column=0)
         dwellv = StringVar()
         dw = yy[13]
         dwellv.set(dw)
-        Entry(frameB1ii, width=10, textvariable=dwellv, font="Arial_Black 12 bold", ).grid(row=0, column=1)
+        Label(frameB1ii, width=6, textvariable=dwellv, font="Arial_Black 12 bold", ).grid(row=0, column=1)
         frameB1ii.grid(row=3)
         frameB1iii = Frame(frameB1, bg="#b3ffe0")
-        Label(frameB1iii, text="X", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+        Label(frameB1iii, text="X", font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=0, column=0)
         ximg = ImageTk.PhotoImage(
             Image.open('redd.png').resize((10, 15), Image.Resampling.LANCZOS))
@@ -571,8 +603,8 @@ class operation():
         xvv = StringVar()
         xv = ""
         xvv.set(xv)
-        Entry(frameB1iii, width=10, textvariable=xvv, font="Arial_Black 12 bold", ).grid(row=0, column=2)
-        Label(frameB1iii, text="R", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+        Label(frameB1iii, width=6, textvariable=xvv, font="Arial_Black 12 bold", ).grid(row=0, column=2)
+        Label(frameB1iii, text="R", font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=1, column=0)
         rimg = ImageTk.PhotoImage(
             Image.open('bluee.png').resize((10, 15), Image.Resampling.LANCZOS))
@@ -580,8 +612,8 @@ class operation():
         rvv = StringVar()
         rv = ""
         rvv.set(rv)
-        Entry(frameB1iii, width=10, textvariable=rvv, font="Arial_Black 12 bold", ).grid(row=1, column=2)
-        Label(frameB1iii, text="Y", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+        Label(frameB1iii, width=6, textvariable=rvv, font="Arial_Black 12 bold", ).grid(row=1, column=2)
+        Label(frameB1iii, text="Y", font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=2, column=0)
         yimg = ImageTk.PhotoImage(
             Image.open('greenn.png').resize((10, 15), Image.Resampling.LANCZOS))
@@ -589,25 +621,25 @@ class operation():
         yvv = StringVar()
         yv = ""
         yvv.set(yv)
-        Entry(frameB1iii, width=10, textvariable=yvv, font="Arial_Black 12 bold", ).grid(row=2, column=2)
+        Label(frameB1iii, width=6, textvariable=yvv, font="Arial_Black 12 bold", ).grid(row=2, column=2)
         frameB1iii.grid(row=4)
         frameB1.grid(row=0,column=0, sticky="ws")
         #FrameB2
         frameB2 = Frame(frameB, bg="#b3ffe0")
         frameB2i = Frame(frameB2, bg="#b3ffe0")
-        Label(frameB2i, text="P. Name", font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
+        Button(frameB2i, text="P. Name", command=prog,borderwidth=0,  highlightthickness = 0, font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0",
               fg="blue").grid(row=0, column=0)
         pnamev = StringVar()
         pgn = yy[1]
         pnamev.set(pgn)
-        Label(frameB2i, textvariable=pnamev, font="Calibri 13 bold", padx=4.5, pady=4.5, bg="#b3ffe0", fg="#4d2600"
+        Button(frameB2i, textvariable=pnamev, command=prog,borderwidth=0,  highlightthickness = 0, font="Calibri 12 bold", padx=4.5, pady=4.5, bg="#b3ffe0", fg="#4d2600"
               ).grid(row=0, column=1)
-        Label(frameB2i, text="Act Force", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+        Label(frameB2i, text="Act Force", font="Calibri 12 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=1, column=0)
         actforcev = StringVar()
         afc = ""
         actforcev.set(afc)
-        Entry(frameB2i, width=10, textvariable=actforcev, font="Arial_Black 12 bold", ).grid(row=1, column=1)
+        Label(frameB2i, width=10, textvariable=actforcev, font="Arial_Black 12 bold", ).grid(row=1, column=1)
         Label(frameB2i, text="(Ton)", font="Calibri 8 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=1, column=2)
         frameB2i.grid(row=0,sticky='n' )
@@ -619,9 +651,9 @@ class operation():
         frameB2ii.grid(row=1)
 
         frameB2iii = Frame(frameB2, bg="#b3ffe0")
-        Label(frameB2iii, text="55.57", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+        Label(frameB2iii, text="55.57", font="Calibri 12 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=0, column=0)
-        Button(frameB2iii,text="Ok",font="Calibri 13 bold",bg="yellow").grid(row=0,column=1)
+        Button(frameB2iii,text="Ok",font="Calibri 12 bold",bg="yellow").grid(row=0,column=1)
         frameB2iii.grid(row=2, sticky="s")
         frameB2.grid(row=0, column=1 )
 
@@ -634,17 +666,17 @@ class operation():
         countv=StringVar()
         ct = ""
         countv.set(ct)
-        Entry(framei3, width=10, textvariable=countv, font="Arial_Black 12 bold", ).grid(row=2,sticky="w",pady=5,padx=5)
+        Label(framei3, width=10, textvariable=countv, font="Arial_Black 12 bold", ).grid(row=2,sticky="w",pady=5,padx=5)
         handimg = ImageTk.PhotoImage(
-            Image.open('../User/hand2.bmp').resize((150, 90), Image.Resampling.LANCZOS))
+            Image.open('../User/hand2.bmp').resize((120, 55), Image.Resampling.LANCZOS))
         Button(framei3,image=handimg,borderwidth=0,bg="#9999ff",relief="ridge").grid(row=3,sticky="w",pady=5,padx=5)
         framesp=Frame(framei3,  bg="#b3ffe0")
-        Label(framesp, text="Speed", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+        Label(framesp, text="Speed", font="Calibri 12 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=0, column=0)
         spv = StringVar()
         sp = ""
         spv.set(sp)
-        Entry(framesp, width=7, textvariable=spv, font="Arial_Black 12 bold").grid(row=0, column=1)
+        Label(framesp, width=5, textvariable=spv, font="Arial_Black 12 bold").grid(row=0, column=1)
         Label(framesp, text="(mm/s)", font="Calibri 8 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=0, column=2)
         framesp.grid(row=4,sticky="w",pady=5)
@@ -665,8 +697,8 @@ class operation():
         lrimg = ImageTk.PhotoImage(
             Image.open('../User/Arrow_Lt.bmp').resize((100, 70), Image.Resampling.LANCZOS))
         # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
-        Button(frame6, image=lrimg, command=minus,font="Calibri 13 bold", borderwidth=0, bg="#b3ffe0").grid(row=0, column=1, padx=15)
-        Label(frame6, textvariable=bdno,font="Calibri 13 bold",bg="#b3ffe0",fg="blue").grid(row=0, column=2, padx=50)
+        Button(frame6, image=lrimg, command=minus,font="Calibri 12 bold", borderwidth=0, bg="#b3ffe0").grid(row=0, column=1, padx=15)
+        Label(frame6, textvariable=bdno,font="Calibri 12 bold",bg="#b3ffe0",fg="blue").grid(row=0, column=2, padx=50)
         rrimg = ImageTk.PhotoImage(
             Image.open('../User/Arrow_Rt.bmp').resize((100, 70), Image.Resampling.LANCZOS))
         # pdlabel=Label(frame6,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)

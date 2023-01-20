@@ -151,6 +151,7 @@ class punchData():
         frame3 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
 
         self.root.bind('<Return>', enterp2)
+        self.root.bind('<KP_Enter>', enterp2)
 
         Label(frame3, text="Punch Name", font="Stencil 25 bold", padx=15, pady=15, bg="#b3ffe0",
               fg="green").grid(row=0, column=0)

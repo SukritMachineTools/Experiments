@@ -279,6 +279,7 @@ class program():
         frame2.grid(row=1, ipadx=400, sticky='ew')
         frame3 = Frame(self.root, highlightbackground="blue", width=300, height=100, highlightthickness=0, bg="#b3ffe0")
         self.root.bind('<Return>', enterp2)
+        self.root.bind('<KP_Enter>', enterp2)
 
         frlist = csvreadpg()
         pgNo = frlist[0]
