@@ -639,7 +639,7 @@ class operation():
         actforcev = StringVar()
         afc = ""
         actforcev.set(afc)
-        Label(frameB2i, width=10, textvariable=actforcev, font="Arial_Black 12 bold", ).grid(row=1, column=1)
+        Label(frameB2i, width=6, textvariable=actforcev, font="Arial_Black 12 bold", ).grid(row=1, column=1)
         Label(frameB2i, text="(Ton)", font="Calibri 8 bold", padx=7, pady=7, bg="#b3ffe0",
               fg="blue").grid(row=1, column=2)
         frameB2i.grid(row=0,sticky='n' )
