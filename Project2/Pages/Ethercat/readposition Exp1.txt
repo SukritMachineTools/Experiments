@@ -1,0 +1,189 @@
+from tkinter import *
+from PIL import Image, ImageTk
+#from tkinter import ttk
+import pysoem
+import ctypes
+import time
+from threading import Thread, Lock
+master = pysoem.Master()
+
+paraind1=0x200B
+parasub1=0x08
+#--------------------------
+#one revolution= 2^23
+paraind2=0x200B
+parasub2=0x08
+#--------------------------
+paraind3=0x200B
+parasub3=0x08
+
+
+master.open('\\Device\\NPF_{43350287-BA24-4787-A337-A02C7CE4AEA2}')
+if master.config_init() > 0:
+    for device in master.slaves:
+        print(f'Found Device {device.name}')
+        pav1 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=paraind1, subindex=parasub1)).value
+        print(pav1)
+        pav2 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=paraind2, subindex=parasub2)).value
+        pav2=round(pav2/8388608,2)
+        print(pav2)
+        pav3 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=paraind3, subindex=parasub3)).value
+        print(pav3)
+
+def upread():
+    while True:
+        if master.config_init() > 0:
+            for device in master.slaves:
+                # print(f'Found Device {device.name}')
+                pav1 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=paraind1, subindex=parasub1)).value
+                # print(pav1)
+                pav2 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=paraind2, subindex=parasub2)).value
+                pav2=round(pav2/8388608,2)
+                # print(pav2)
+                pav3 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=paraind3, subindex=parasub3)).value
+                # print(pav3)
+        global xvalue
+        global x1value
+        x1value = pav1
+        xxvalue.set(str(x1value))
+        global rvalue
+        global r1value
+        r1value = pav2
+        rrvalue.set(str(r1value))
+        global yvalue
+        global y1value
+        y1value = pav3
+        yyvalue.set(str(y1value))
+        time.sleep(0.1)
+    pass
+root = Tk()
+root.geometry("800x480")
+root.title("Sukrit Machine Tools")
+root.wm_iconbitmap('sukrit_Logo.ico')
+root.configure(background="#b3ffe0")
+frame1 = Frame(root, highlightbackground="blue", highlightthickness=0, bg="orange")
+Label(frame1, text="               ", font="Algerian 27 bold", padx=4.5, pady=4.5, bg="orange").grid(row=0,
+                                                                                                             column=1,
+                                                                                                             padx=10)
+logoimg = ImageTk.PhotoImage(
+            Image.open('sukrit_Logo.png').resize((150, 70), Image.Resampling.LANCZOS))
+Label(frame1, image=logoimg, bg="orange").grid(row=0, column=0)
+Label(frame1, text="Servo Electric PressBrake", font="Algerian 20 bold", padx=15, pady=15, bg="orange",fg="#990000").grid(
+            row=0, column=2, padx=10)
+frame1.grid(row=0, sticky="w")
+
+frame2 = Frame(root, bg="blue", height=10)
+frame2.grid(row=1,sticky="we")
+
+frame3 = Frame(root, highlightbackground="blue", highlightthickness=0, bg="orange")
+xxvalue = StringVar()
+global xvalue
+global x1value
+
+
+pav1 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=paraind1, subindex=parasub1)).value
+print(pav1)
+x1value = pav1
+xxvalue.set(str(x1value))
+redimg = ImageTk.PhotoImage(Image.open('redd.png'))
+Label(frame3, image=redimg, bg="orange").grid(row=0, column=0, padx=10)
+Label(frame3, text="X", font="Algerian 42 bold", padx=15, pady=15, bg="orange", fg="red").grid(row=0, column=1,
+                                                                                                       padx=10)
+larimg = ImageTk.PhotoImage(
+            Image.open('arrow1.png').resize((150, 70), Image.Resampling.LANCZOS))
+# larlabel=Label(frame3,image=larimg,bg="orange").grid(row=0,column=2,padx=10)
+Button(frame3, image=larimg, bg="orange", borderwidth=0).grid(row=0, column=2,
+                                                                                    padx=10)
+# xvalue= IntVar()
+xLabel=Label(frame3, textvariable=xxvalue, font="Arial_Black 17 bold", bg="orange", borderwidth=1,
+              relief="solid")
+xLabel.grid(row=0, column=3, ipadx=5, padx=10)
+rarimg = ImageTk.PhotoImage(
+            Image.open('arrow.png').resize((150, 70), Image.Resampling.LANCZOS))
+# rarlabel=Label(frame3,image=rarimg,bg="orange").grid(row=0,column=4,padx=10)
+Button(frame3, image=rarimg, bg="orange", borderwidth=0).grid(row=0, column=4,
+                                                                                    padx=10)
+
+#R
+rrvalue = StringVar()
+global rvalue
+global r1value
+
+pav2 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=paraind2, subindex=parasub2)).value
+pav2=round(pav2/83886082)
+print(pav2)
+
+# xvalue=xlist[0]
+r1value = pav2
+rrvalue.set(str(r1value))
+blueimg = ImageTk.PhotoImage(Image.open('bluee.png'))
+Label(frame3, image=blueimg, bg="orange").grid(row=1, column=0, padx=10)
+Label(frame3, text="R", font="Algerian 42 bold", padx=15, pady=15, bg="orange", fg="red").grid(row=1, column=1,
+                                                                                                       padx=10)
+# lar1label=Label(frame3,image=larimg,bg="orange").grid(row=1,column=2,padx=10)
+Button(frame3, image=larimg, bg="orange", borderwidth=0, ).grid(row=1, column=2,
+                                                                                    padx=10)
+rLabel=Label(frame3, textvariable=rrvalue, font="Arial_Black 17 bold", bg="orange", borderwidth=1,
+              relief="solid")
+rLabel.grid(row=1, column=3, ipadx=5, padx=10)
+# rar1label=Label(frame3,image=rarimg,bg="orange").grid(row=1,column=4,padx=10)
+Button(frame3, image=rarimg, bg="orange", borderwidth=0, ).grid(row=1, column=4,
+                                                                                    padx=10)
+
+# Y
+yyvalue = StringVar()
+global yvalue
+global y1value
+
+pav3 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=paraind3, subindex=parasub3)).value
+print(pav3)
+# xvalue=xlist[0]
+y1value = pav3
+yyvalue.set(str(y1value))
+greenimg = ImageTk.PhotoImage(Image.open('greenn.png'))
+Label(frame3, image=greenimg, bg="orange").grid(row=2, column=0, padx=10)
+Label(frame3, text="Y", font="Algerian 42 bold", padx=15, pady=15, bg="orange", fg="red").grid(row=2, column=1,
+                                                                                                       padx=10)
+# lar2label=Label(frame3,image=larimg,bg="orange").grid(row=2,column=2,padx=10)
+Button(frame3, image=larimg, bg="orange", borderwidth=0,).grid(row=2, column=2,
+                                                                                    padx=10)
+yLabel=Label(frame3, textvariable=yyvalue, font="Arial_Black 17 bold", bg="orange", borderwidth=1,
+              relief="solid")
+yLabel.grid(row=2, column=3, ipadx=5, padx=10)
+Label(frame3, image=rarimg, bg="orange").grid(row=2, column=4, padx=10)
+Button(frame3, image=rarimg, bg="orange", borderwidth=0,).grid(row=2, column=4,
+                                                                                    padx=10)
+frame3.grid(row=2, ipadx=56.3)
+
+frame4 = Frame(root, bg="blue", height=10)
+frame4.grid(row=3, sticky="we")
+
+frame5 = Frame(root, highlightbackground="blue", highlightthickness=0, bg="orange")
+loginimg = ImageTk.PhotoImage(
+            Image.open('login.png').resize((130, 70), Image.Resampling.LANCZOS))
+# settinglabel=Label(frame5,image=settingimg).grid(row=0,column=0,padx=50)
+Button(frame5, image=loginimg, bg="orange", borderwidth=0).grid(row=0, column=0,padx=10,pady=10)
+primg = ImageTk.PhotoImage(
+            Image.open('program.png').resize((130, 70), Image.Resampling.LANCZOS))
+# pdlabel=Label(frame5,image=pdimg).grid(row=0,column=1,padx=50,columnspan=2)
+Button(frame5, image=primg,bg="orange", borderwidth=0).grid(row=0, column=1,padx=10,pady=10)
+bdimg = ImageTk.PhotoImage(
+            Image.open('benddata.png').resize((130, 70), Image.Resampling.LANCZOS))
+# pllabel=Label(frame5,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
+Button(frame5, image=bdimg,  bg="orange", borderwidth=0).grid(row=0, column=2,padx=10,pady=10)
+pdimg = ImageTk.PhotoImage(
+            Image.open('punchdata.png').resize((130, 70), Image.Resampling.LANCZOS))
+# pllabel=Label(frame5,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
+Button(frame5, image=pdimg,bg="orange", borderwidth=0).grid(row=0, column=3,padx=10,pady=10)
+opimg = ImageTk.PhotoImage(
+            Image.open('operation.png').resize((130, 70), Image.Resampling.LANCZOS))
+# pllabel=Label(frame5,image=plimg).grid(row=0,column=4,padx=50,columnspan=2)
+Button(frame5, image=opimg,bg="orange", borderwidth=0).grid(row=0, column=4,padx=10,pady=10)
+frame5.grid(row=4)
+
+# start polling thread
+tp = Thread(target=upread)
+# set daemon: polling thread will exit if main thread exit
+tp.daemon = True
+tp.start()
+root.mainloop()
