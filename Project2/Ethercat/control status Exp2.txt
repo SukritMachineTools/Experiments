@@ -4,7 +4,6 @@ from PIL import Image, ImageTk
 import pysoem
 import ctypes
 import time
-import numpy as np
 from threading import Thread, Lock
 
 master = pysoem.Master()
@@ -178,12 +177,8 @@ def adwrite():
     adrs2valuew=adrs2value.get()
     if adrs1w!="":
         adrs1w="0x"+adrs1w
-        # print(type(adrs1w))
-        # arr = np.array([adrs1w])
-        # newarr = arr.astype(int)
-        # adrs1w = newarr[0]
-        # adrs1w=ctypes.c_uint(adrs1w)
-        adrs1w = int(adrs1w,16)
+        adrs1w = int(adrs1w,0)
+        # print(adrs1w)
         # adrs1w=hex(adrs1w)
         # adrs1w=int(adrs1w)
         adrs1valuew=int(adrs1valuew)
@@ -201,10 +196,8 @@ def adwrite():
         print(adtest1)
     if adrs2w!="":
         adrs2w = "0x"+adrs2w
+        adrs2w = int(adrs2w,0)
         # print(adrs2w)
-        adrs2w = int(adrs2w,16)
-        # adrs2w = hex(adrs2w)
-        # adrs2w = int(adrs2w)
         adrs2valuew = int(adrs2valuew)
         if master.config_init()>0:
             for device in master.slaves:
