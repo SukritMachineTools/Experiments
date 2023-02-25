@@ -249,7 +249,7 @@ bdno = StringVar()
 # bdno.set()
 
 
-Label(frame4, text="PP mode", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+Label(frame4, text="OP mode", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
       fg="blue").grid(row=0, column=0)
 opmodevalue = StringVar()
 # pgno = yy[1]
