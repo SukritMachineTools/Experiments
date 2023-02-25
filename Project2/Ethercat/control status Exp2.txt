@@ -13,9 +13,10 @@ master = pysoem.Master()
 pav = 0x6064
 sw = 0x06041
 vav = 0x606C
+opm=0x6061
 # -----------------------------------
 # Write
-ppmode = 0x6060
+opmode = 0x6060
 tpos = 0x607A
 pvel = 0x6081
 pacc = 0x6083
@@ -43,6 +44,9 @@ if master.config_init() > 0:
         vavr = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=vav, subindex=parasub)).value
         vavr = str(vavr)
         print(vavr)
+        opmr = ctypes.c_uint8.from_buffer_copy(device.sdo_read(index=opm, subindex=parasub)).value
+        opmr = str(opmr)
+        print(opmr)
 
 
 def upread():
@@ -55,10 +59,13 @@ def upread():
                 swr = str(swr)
                 vavr = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=vav, subindex=parasub)).value
                 vavr = str(vavr)
+                opmr = ctypes.c_uint8.from_buffer_copy(device.sdo_read(index=opm, subindex=parasub)).value
+                opmr = str(opmr)
 
         pavvalue.set(pavr)
         swvalue.set(swr)
         vavvalue.set(vavr)
+        opmvalue.set(opmr)
         decbinv = int(swr)
         decbinv = decimalToBinary(decbinv)
         decbinv = str(decbinv)
@@ -114,8 +121,8 @@ def upread():
 
 
 def write():
-    ppmodew = ppmodevalue.get()
-    ppmodew = int(ppmodew)
+    opmodew = opmodevalue.get()
+    opmodew = int(opmodew)
     tpw = tpvalue.get()
     tpw = int(tpw)
     pvw = pvvalue.get()
@@ -130,7 +137,7 @@ def write():
         pdw = int(pdw)
         if master.config_init() > 0:
             for device in master.slaves:
-                device.sdo_write(0x6060, 0, bytes(ctypes.c_uint8(ppmodew)))
+                device.sdo_write(0x6060, 0, bytes(ctypes.c_uint8(opmodew)))
                 device.sdo_write(0x607A, 0, bytes(ctypes.c_uint32(tpw)))
                 device.sdo_write(0x6081, 0, bytes(ctypes.c_uint32(pvw)))
                 # device.sdo_write(0x6040, 0, bytes(ctypes.c_uint16(cww)))
@@ -138,7 +145,7 @@ def write():
                 device.sdo_write(0x6084, 0, bytes(ctypes.c_uint32(pdw)))
     # while True:
 
-    print(ppmodew, tpw, pvw, pacw, pdw)
+    print(opmodew, tpw, pvw, pacw, pdw)
 
     pass
 
@@ -244,10 +251,10 @@ bdno = StringVar()
 
 Label(frame4, text="PP mode", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
       fg="blue").grid(row=0, column=0)
-ppmodevalue = StringVar()
+opmodevalue = StringVar()
 # pgno = yy[1]
 # pnovalue.set(pgno)
-Entry(frame4, width=10, textvariable=ppmodevalue, font="Arial_Black 12 bold", ).grid(row=0, column=1)
+Entry(frame4, width=10, textvariable=opmodevalue, font="Arial_Black 12 bold", ).grid(row=0, column=1)
 Label(frame4, text="Target Position", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
       fg="blue").grid(row=1, column=0)
 tpvalue = StringVar()
@@ -304,12 +311,12 @@ vavvalue = StringVar()
 # fc = yy[7]
 vavvalue.set(vavr)
 Entry(frame4, width=10, textvariable=vavvalue, font="Arial_Black 12 bold", ).grid(row=2, column=3)
-Label(frame4, text="-------", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+Label(frame4, text="Mode of Op", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
       fg="blue").grid(row=3, column=2)
-yaxisv = StringVar()
+opmvalue = StringVar()
 # ya = yy[9]
-# yaxisv.set(ya)
-Entry(frame4, width=10, textvariable=yaxisv, font="Arial_Black 12 bold", ).grid(row=3, column=3)
+opmvalue.set(opmr)
+Entry(frame4, width=10, textvariable=opmvalue, font="Arial_Black 12 bold", ).grid(row=3, column=3)
 Label(frame4, text="deci", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
       fg="blue").grid(row=4, column=2)
 decbinvalue = StringVar()
