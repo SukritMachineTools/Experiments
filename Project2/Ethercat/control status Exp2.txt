@@ -4,6 +4,7 @@ from PIL import Image, ImageTk
 import pysoem
 import ctypes
 import time
+import numpy as np
 from threading import Thread, Lock
 
 master = pysoem.Master()
@@ -168,6 +169,57 @@ def cbwrite():
             device.sdo_write(0x6040, 0, bytes(ctypes.c_uint16(cww)))
     print(cww)
     pass
+def adwrite():
+    adrs1w=adrs1.get()
+    adrsd1w=adrsd1.get()
+    adrs1valuew=adrs1value.get()
+    adrs2w=adrs2.get()
+    adrsd2w=adrsd2.get()
+    adrs2valuew=adrs2value.get()
+    if adrs1w!="":
+        adrs1w="0x"+adrs1w
+        # print(type(adrs1w))
+        # arr = np.array([adrs1w])
+        # newarr = arr.astype(int)
+        # adrs1w = newarr[0]
+        # adrs1w=ctypes.c_uint(adrs1w)
+        adrs1w = int(adrs1w,16)
+        # adrs1w=hex(adrs1w)
+        # adrs1w=int(adrs1w)
+        adrs1valuew=int(adrs1valuew)
+        if master.config_init() > 0:
+            for device in master.slaves:
+                if adrsd1w=="8":
+                    device.sdo_write(adrs1w, 0, bytes(ctypes.c_uint8(adrs1valuew)))
+                elif adrsd1w=="16":
+                    device.sdo_write(adrs1w, 0, bytes(ctypes.c_uint16(adrs1valuew)))
+                elif adrsd1w=="32":
+                    device.sdo_write(adrs1w, 0, bytes(ctypes.c_uint32(adrs1valuew)))
+                else:
+                    device.sdo_write(adrs1w, 0, bytes(ctypes.c_uint32(adrs1valuew)))
+        adtest1 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=adrs1w, subindex=parasub)).value
+        print(adtest1)
+    if adrs2w!="":
+        adrs2w = "0x"+adrs2w
+        # print(adrs2w)
+        adrs2w = int(adrs2w,16)
+        # adrs2w = hex(adrs2w)
+        # adrs2w = int(adrs2w)
+        adrs2valuew = int(adrs2valuew)
+        if master.config_init()>0:
+            for device in master.slaves:
+                if adrsd2w=="8":
+                    device.sdo_write(adrs2w, 0, bytes(ctypes.c_uint8(adrs2valuew)))
+                elif adrsd2w=="16":
+                    device.sdo_write(adrs2w, 0, bytes(ctypes.c_uint16(adrs2valuew)))
+                elif adrsd2w=="32":
+                    device.sdo_write(adrs2w, 0, bytes(ctypes.c_uint32(adrs2valuew)))
+                else:
+                    device.sdo_write(adrs2w, 0, bytes(ctypes.c_uint32(adrs2valuew)))
+
+        adtest2 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=adrs2w, subindex=parasub)).value
+        print(adtest2)
+    pass
 root = Tk()
 root.geometry("800x480")
 root.title("Sukrit Machine Tools")
@@ -278,18 +330,20 @@ decbinvalue.set(decbinv)
 # ac = yy[11]
 # acorrv.set(ac)
 Entry(frame4, width=10, textvariable=decbinvalue, font="Arial_Black 12 bold", ).grid(row=4, column=3)
-Label(frame4, text="---------", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+
+Label(frame4, width=10,text="-------", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
       fg="blue").grid(row=5, column=2)
-bendmovv = StringVar()
+# adrs1value = StringVar()
 # bm = yy[13]
 # bendmovv.set(bm)
-Entry(frame4, width=10, textvariable=bendmovv, font="Arial_Black 12 bold", ).grid(row=5, column=3)
-Label(frame4, text="------", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
+Entry(frame4, width=10, font="Arial_Black 12 bold", ).grid(row=5, column=3)
+# adrs2=StringVar()
+Label(frame4, width=10,text="-----------------", font="Calibri 13 bold", padx=7, pady=7, bg="#b3ffe0",
       fg="blue").grid(row=6, column=2)
-dwellv = StringVar()
+# adrs2value = StringVar()
 # dw = yy[15]
 # dwellv.set(dw)
-Entry(frame4, width=10, textvariable=dwellv, font="Arial_Black 12 bold", ).grid(row=6, column=3)
+Entry(frame4, width=10, font="Arial_Black 12 bold", ).grid(row=6, column=3)
 
 frame4.grid(row=0, column=0, ipadx=33.5, sticky="w")
 
@@ -444,9 +498,28 @@ frame5 = Frame(root, bg="blue", height=10)
 frame5.grid(row=3, ipadx=400, sticky='ew')
 
 frame6 = Frame(root, highlightbackground="blue", highlightthickness=0, bg="#b3ffe0")
-Button(frame6, command=write, text="Send", padx=30,pady=10, bg="blue", fg="white").grid(row=2, column=0,padx=10,pady=10)
-Button(frame6, command=cbwrite, text="Control (Bits) Send", padx=30,pady=10, bg="blue", fg="white").grid(row=2, column=1,padx=10,pady=10)
-Button(frame6, command=cwrite, text="Control (Int) Send", padx=30,pady=10, bg="blue", fg="white").grid(row=3, column=1,padx=10,pady=10)
+Button(frame6, command=write, text="Send", padx=30,pady=10, bg="blue", fg="white").grid(row=0, column=0,padx=10,pady=10)
+Button(frame6, command=cbwrite, text="Control (Bits) Send", padx=30,pady=10, bg="blue", fg="white").grid(row=0, column=1,padx=10,pady=10)
+Button(frame6, command=cwrite, text="Control (Int) Send", padx=30,pady=10, bg="blue", fg="white").grid(row=1, column=1,padx=10,pady=10)
+Button(frame6,command=adwrite, text="Write Address", padx=30,pady=10, bg="blue", fg="white").grid(row=0, column=6,padx=10,pady=10)
+Label(frame6, text="Address", font="Calibri 8 bold",  bg="#b3ffe0",
+      fg="blue").grid(row=0, column=3)
+Label(frame6, text="Datatype eg.\"8\"", font="Calibri 8 bold",  bg="#b3ffe0",
+      fg="blue").grid(row=0, column=4)
+Label(frame6, text="Value", font="Calibri 8 bold",  bg="#b3ffe0",
+      fg="blue").grid(row=0, column=5)
+adrs1=StringVar()
+Entry(frame6, width=10,textvariable=adrs1, font="Calibri 13 bold", fg="blue").grid(row=1, column=3)
+adrsd1=StringVar()
+Entry(frame6, width=10,textvariable=adrsd1, font="Calibri 13 bold", fg="blue").grid(row=1, column=4)
+adrs1value = StringVar()
+Entry(frame6, width=10, textvariable=adrs1value, font="Arial_Black 12 bold", ).grid(row=1, column=5)
+adrs2=StringVar()
+Entry(frame6, width=10,textvariable=adrs2, font="Calibri 13 bold", fg="blue").grid(row=2, column=3)
+adrsd2=StringVar()
+Entry(frame6, width=10,textvariable=adrsd2, font="Calibri 13 bold", fg="blue").grid(row=2, column=4)
+adrs2value = StringVar()
+Entry(frame6, width=10, textvariable=adrs2value, font="Arial_Black 12 bold", ).grid(row=2, column=5)
 frame6.grid(row=4, ipadx=20, sticky='ew')
 
 tp = Thread(target=upread)
