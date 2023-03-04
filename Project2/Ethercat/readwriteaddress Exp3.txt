@@ -17,6 +17,8 @@ opm=0x6061
 tav=0x6077
 regr1=0
 regr2=0
+regr3=0
+subregr3=0
 # -----------------------------------
 # Write
 opmode = 0x6060
@@ -128,10 +130,13 @@ def upread():
 def readr():
     adrs3valuer=adrs3value.get()
     adrs4valuer=adrs4value.get()
+    adrs6valuer=adrs6value.get()
+    subadrs6valuer=subadrs6value.get()
     # regv1=regvalue1.get()
     # regv2=regvalue2.get()
     adrsd3r=adrsd3.get()
     adrsd4r=adrsd4.get()
+    adrsd6r=adrsd6.get()
     if adrs3valuer!="":
         adrs3valuer = "0x" + adrs3valuer
         adrs3valuer = int(adrs3valuer, 0)
@@ -161,6 +166,45 @@ def readr():
                 else:
                     regr2 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=adrs4valuer, subindex=parasub)).value
         regvalue2.set(regr2)
+    if adrs6valuer != "":
+        adrs6valuer = "0x" + adrs6valuer
+        adrs6valuer = int(adrs6valuer, 0)
+        if subadrs6valuer !="":
+            subadrs6valuer="0x"+subadrs6valuer
+            print(subadrs6valuer)
+            subadrs6valuer= int(subadrs6valuer, 0)
+            print(subadrs6valuer)
+            if master.config_init() > 0:
+                for device in master.slaves:
+                    if adrsd6r == "8":
+                        regr3 = ctypes.c_uint8.from_buffer_copy(
+                            device.sdo_read(index=adrs6valuer, subindex=subadrs6valuer)).value
+                    elif adrsd6r == "16":
+                        regr3 = ctypes.c_uint16.from_buffer_copy(
+                            device.sdo_read(index=adrs6valuer, subindex=subadrs6valuer)).value
+                    elif adrsd6r == "32":
+                        regr3 = ctypes.c_uint32.from_buffer_copy(
+                            device.sdo_read(index=adrs6valuer, subindex=subadrs6valuer)).value
+                    else:
+                        regr3 = ctypes.c_uint32.from_buffer_copy(
+                            device.sdo_read(index=adrs6valuer, subindex=subadrs6valuer)).value
+            pass
+        else:
+            if master.config_init() > 0:
+                for device in master.slaves:
+                    if adrsd6r == "8":
+                        regr3 = ctypes.c_uint8.from_buffer_copy(
+                            device.sdo_read(index=adrs6valuer, subindex=parasub)).value
+                    elif adrsd6r == "16":
+                        regr3 = ctypes.c_uint16.from_buffer_copy(
+                            device.sdo_read(index=adrs6valuer, subindex=parasub)).value
+                    elif adrsd6r == "32":
+                        regr3 = ctypes.c_uint32.from_buffer_copy(
+                            device.sdo_read(index=adrs6valuer, subindex=parasub)).value
+                    else:
+                        regr3 = ctypes.c_uint32.from_buffer_copy(
+                            device.sdo_read(index=adrs6valuer, subindex=parasub)).value
+        regvalue3.set(regr3)
     # adtest1 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=adrs1w, subindex=parasub)).value
     pass
 
@@ -226,6 +270,10 @@ def adwrite():
     adrs2w=adrs2.get()
     adrsd2w=adrsd2.get()
     adrs2valuew=adrs2value.get()
+    adrs5w = adrs5.get()
+    adrsd5w=adrsd5.get()
+    adrs5valuew=adrs5value.get()
+    subadrs5w=subadrs5.get()
     if adrs1w!="":
         adrs1w="0x"+adrs1w
         adrs1w = int(adrs1w,0)
@@ -243,8 +291,8 @@ def adwrite():
                     device.sdo_write(adrs1w, 0, bytes(ctypes.c_uint32(adrs1valuew)))
                 else:
                     device.sdo_write(adrs1w, 0, bytes(ctypes.c_uint32(adrs1valuew)))
-        adtest1 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=adrs1w, subindex=parasub)).value
-        print(adtest1)
+        # adtest1 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=adrs1w, subindex=parasub)).value
+        # print(adtest1)
     if adrs2w!="":
         adrs2w = "0x"+adrs2w
         adrs2w = int(adrs2w,0)
@@ -260,9 +308,36 @@ def adwrite():
                     device.sdo_write(adrs2w, 0, bytes(ctypes.c_uint32(adrs2valuew)))
                 else:
                     device.sdo_write(adrs2w, 0, bytes(ctypes.c_uint32(adrs2valuew)))
-
-        adtest2 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=adrs2w, subindex=parasub)).value
-        print(adtest2)
+        # adtest2 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=adrs2w, subindex=parasub)).value
+        # print(adtest2)
+    if adrs5w!="":
+        adrs5w="0x"+adrs5w
+        adrs5w = int(adrs5w,0)
+        adrs5valuew=int(adrs5valuew)
+        if subadrs5w!="":
+            subadrs5w="0x"+subadrs5w
+            subadrs5w=int(subadrs5w,0)
+            if master.config_init() > 0:
+                for device in master.slaves:
+                    if adrsd5w == "8":
+                        device.sdo_write(adrs5w, subadrs5w, bytes(ctypes.c_uint8(adrs5valuew)))
+                    elif adrsd5w == "16":
+                        device.sdo_write(adrs5w, subadrs5w, bytes(ctypes.c_uint16(adrs5valuew)))
+                    elif adrsd5w == "32":
+                        device.sdo_write(adrs5w, subadrs5w, bytes(ctypes.c_uint32(adrs5valuew)))
+                    else:
+                        device.sdo_write(adrs5w, subadrs5w, bytes(ctypes.c_uint32(adrs5valuew)))
+        else:
+            if master.config_init() > 0:
+                for device in master.slaves:
+                    if adrsd1w == "8":
+                        device.sdo_write(adrs5w, 0, bytes(ctypes.c_uint8(adrs5valuew)))
+                    elif adrsd1w == "16":
+                        device.sdo_write(adrs5w, 0, bytes(ctypes.c_uint16(adrs5valuew)))
+                    elif adrsd1w == "32":
+                        device.sdo_write(adrs5w, 0, bytes(ctypes.c_uint32(adrs5valuew)))
+                    else:
+                        device.sdo_write(adrs5w, 0, bytes(ctypes.c_uint32(adrs5valuew)))
     pass
 root = Tk()
 root.geometry("800x480")
@@ -564,18 +639,36 @@ adrsd2=StringVar()
 Entry(frame6, width=10,textvariable=adrsd2, font="Calibri 13 bold", fg="blue").grid(row=2, column=4)
 adrs2value = StringVar()
 Entry(frame6, width=10, textvariable=adrs2value, font="Arial_Black 12 bold", ).grid(row=2, column=5)
+adrs5=StringVar()
+Entry(frame6, width=10,textvariable=adrs5, font="Calibri 13 bold", fg="blue").grid(row=3, column=3)
+adrsd5=StringVar()
+Entry(frame6, width=10,textvariable=adrsd5, font="Calibri 13 bold", fg="blue").grid(row=3, column=4)
+adrs5value = StringVar()
+Entry(frame6, width=10, textvariable=adrs5value, font="Arial_Black 12 bold", ).grid(row=3, column=5)
+Label(frame6, text="Sub Address", font="Calibri 8 bold",  bg="#b3ffe0",
+      fg="blue").grid(row=2, column=6)
+subadrs5=StringVar()
+Entry(frame6, width=10,textvariable=subadrs5, font="Calibri 13 bold", fg="blue").grid(row=3, column=6)
 Label(frame6, text="Read reg.", font="Calibri 8 bold",  bg="#b3ffe0",
       fg="blue").grid(row=0, column=7)
 adrs3value = StringVar()
 Entry(frame6, width=10, textvariable=adrs3value, font="Arial_Black 12 bold", ).grid(row=1, column=7)
 adrs4value = StringVar()
 Entry(frame6, width=10, textvariable=adrs4value, font="Arial_Black 12 bold", ).grid(row=2, column=7)
+adrs6value = StringVar()
+Entry(frame6, width=10, textvariable=adrs6value, font="Arial_Black 12 bold", ).grid(row=3, column=7)
+Label(frame6, text="Sub Address", font="Calibri 8 bold",  bg="#b3ffe0",
+      fg="blue").grid(row=2, column=10)
+subadrs6value=StringVar()
+Entry(frame6, width=10,textvariable=subadrs6value, font="Calibri 13 bold", fg="blue").grid(row=3, column=10)
 Label(frame6, text="Data Type", font="Calibri 8 bold",  bg="#b3ffe0",
       fg="blue").grid(row=0, column=8)
 adrsd3=StringVar()
 Entry(frame6, width=10,textvariable=adrsd3, font="Calibri 13 bold", fg="blue").grid(row=1, column=8)
 adrsd4=StringVar()
 Entry(frame6, width=10,textvariable=adrsd4, font="Calibri 13 bold", fg="blue").grid(row=2, column=8)
+adrsd6=StringVar()
+Entry(frame6, width=10,textvariable=adrsd6, font="Calibri 13 bold", fg="blue").grid(row=3, column=8)
 Label(frame6, text="Value", font="Calibri 8 bold",  bg="#b3ffe0",
       fg="blue").grid(row=0, column=9)
 regvalue1=StringVar()
@@ -584,6 +677,9 @@ Entry(frame6, width=10,textvariable=regvalue1, font="Calibri 13 bold", fg="blue"
 regvalue2=StringVar()
 regvalue2.set(regr2)
 Entry(frame6, width=10,textvariable=regvalue2, font="Calibri 13 bold", fg="blue").grid(row=2, column=9)
+regvalue3=StringVar()
+regvalue3.set(regr3)
+Entry(frame6, width=10,textvariable=regvalue3, font="Calibri 13 bold", fg="blue").grid(row=3, column=9)
 frame6.grid(row=4, ipadx=20, sticky='ew')
 
 tp = Thread(target=upread)
