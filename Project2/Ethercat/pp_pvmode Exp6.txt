@@ -81,6 +81,9 @@ def writejog():
     jspw = jspeedvalue.get()
     # pacw = 10000
     # pdw=10000
+    if "." in jspw:
+        jspws=jspw.split(".")
+        jspw=jspws[0]
     print(jspw)
     if jspw != "":
         jspw = int(jspw)
@@ -100,6 +103,9 @@ def writejog():
 def writeabs():
     psw= posvalue.get()
     aspw = aspeedvalue.get()
+    if '.' in aspw:
+        aspws=aspw.split(".")
+        aspw=aspws[0]
     # pacw = 20000
     # pdw=10000
     print(aspw)
