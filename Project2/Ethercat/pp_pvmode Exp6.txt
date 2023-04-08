@@ -94,11 +94,12 @@ def writejog():
     jspw = jspeedvalue.get()
     # pacw = 10000
     # pdw=10000
-    if "." in jspw:
-        jspws=jspw.split(".")
-        jspw=jspws[0]
+    # if "." in jspw:
+    #     jspws=jspw.split(".")
+    #     jspw=jspws[0]
     print(jspw)
     if jspw != "":
+        jspw=float(jspw)*1000
         jspw = int(jspw)
         if master.config_init() > 0:
             for device in master.slaves:
@@ -109,20 +110,28 @@ def writejog():
                 device.sdo_write(0x6083, 0, bytes(ctypes.c_uint32(pacw)))
                 device.sdo_write(0x6084, 0, bytes(ctypes.c_uint32(pdw)))
 
-    jspeedvalue.set(str(jspw)+".000")
+    # jspeedvalue.set(str(float(jspw/1000)))
+    jspeedvalue.set(f'{(jspw/1000):.3f}')
     print( jspw, pacw, pdw)
     pass
 
 def writeabs():
     psw= posvalue.get()
+    # psw=psw[:-3]
+    # print(psw)
     aspw = aspeedvalue.get()
-    if '.' in aspw:
-        aspws=aspw.split(".")
-        aspw=aspws[0]
+    # if '.' in psw:
+    #     psws=aspw.split(".")
+    #     psw=psws[0]
+    # if '.' in aspw:
+    #     aspws=aspw.split(".")
+    #     aspw=aspws[0]
     # pacw = 20000
     # pdw=10000
     print(aspw)
+    psw=float(psw)*1000
     psw=int(psw)
+    aspw = float(aspw) * 1000
     aspw = int(aspw)
     if master.config_init() > 0:
         for device in master.slaves:
@@ -134,7 +143,11 @@ def writeabs():
             device.sdo_write(0x6083, 0, bytes(ctypes.c_uint32(pacw)))
             device.sdo_write(0x6084, 0, bytes(ctypes.c_uint32(pdw)))
 
-    aspeedvalue.set(str(aspw)+".000")
+    # aspeedvalue.set(str(int(aspw/1000))+".000")
+    # aspt = f'{(aspw / 1000):.3f}'
+    aspeedvalue.set(f'{(aspw / 1000):.3f}')
+    # posvalue.set(str(int(psw/1000))+".000")
+    posvalue.set(f'{(psw / 1000):.3f}')
     print(psw, aspw, pacw, pdw)
     pass
 
