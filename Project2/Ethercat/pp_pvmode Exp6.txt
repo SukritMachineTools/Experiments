@@ -60,14 +60,14 @@ def upread():
                 opmr = ctypes.c_uint8.from_buffer_copy(device.sdo_read(index=opm, subindex=parasub)).value
                 opmr = str(opmr)
         if opmr=="3":
-            jbtn.configure(relief="sunken")
-            abtn.configure(relief="raised")
+            jbtn.configure(relief="sunken",bg="#3366ff")
+            abtn.configure(relief="raised",bg="blue")
         elif opmr=="1":
-            abtn.configure(relief="sunken")
-            jbtn.configure(relief="raised")
+            abtn.configure(relief="sunken",bg="#3366ff")
+            jbtn.configure(relief="raised",bg="blue")
         else:
-            jbtn.configure(relief="raised")
-            abtn.configure(relief="raised")
+            jbtn.configure(relief="raised",bg="blue")
+            abtn.configure(relief="raised",bg="blue")
         pavvalue.set(pavr)
         time.sleep(0.1)
     pass
