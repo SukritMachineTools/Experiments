@@ -84,7 +84,7 @@ class keydata():
         # Label(frame1, text="Bend Data",fg="#cc3300", font="Algerian 27 bold", padx=7, pady=7, bg="#000000").grid(row=0, column=3,
         #                                                                                                padx=10)
         equation = StringVar()
-        Dis_entry = Entry(frame1, state='readonly', textvariable=equation,fg=fgg,readonlybackground= "#000000")
+        Dis_entry = Entry(frame1, state='readonly', textvariable=equation,fg=fgg,readonlybackground= "#000000",font="15")
         Dis_entry.grid(rowspan=1, columnspan=100, ipadx=999, ipady=20)
         frame1.grid(row=0,ipadx=50,sticky="ew")
         frame2 = Frame(self.root, bg="#000000", height=15)
