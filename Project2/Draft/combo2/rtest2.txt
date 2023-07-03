@@ -1,0 +1,888 @@
+from tkinter import *
+from PIL import Image, ImageTk
+# from tkinter import ttk
+import pysoem
+import ctypes
+import time
+import threading
+from threading import Thread, Lock
+import importlib
+
+master = pysoem.Master()
+portName= '\Device\\NPF_{C34C5E96-73BF-4F62-BB45-72A16AC285AC}'
+global tp2
+# ------------------------------------
+# Read
+pav = 0x6064
+sw = 0x06041
+vav = 0x606C
+opm=0x6061
+tav=0x6077
+regr1=0
+regr2=0
+regr3=0
+subregr3=0
+# -----------------------------------
+# Write
+opmode = 0x6060
+tpos = 0x607A
+pvel = 0x6081
+pacc = 0x6083
+pdec = 0x6084
+parasub = 00
+# ----------------------------------------
+#Assumption
+ppr=1000
+freq=500
+tsec=ppr/freq
+rpm=60/tsec
+# ----------------------------------------
+
+def decimalToBinary(n):
+    return bin(n).replace("0b", "")
+    # return bin(n)
+
+def binaryToDecimal(n):
+    return int(n,2)
+#--------------------------------------------
+class MyThread(threading.Thread):
+    def __init__(self, root):
+        threading.Thread.__init__(self)
+        self.root = root
+        self.running = True
+
+    def run(self):
+        while self.running:
+            # Your thread logic here
+            print("Thread2 is running...")
+            if master.config_init() > 0:
+                for device in master.slaves:
+                    pavr = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=pav, subindex=parasub)).value
+                    pavr = str(pavr)
+                    swr = ctypes.c_uint16.from_buffer_copy(device.sdo_read(index=sw, subindex=parasub)).value
+                    swr = str(swr)
+                    vavr = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=vav, subindex=parasub)).value
+                    vavr = str(vavr)
+                    opmr = ctypes.c_uint8.from_buffer_copy(device.sdo_read(index=opm, subindex=parasub)).value
+                    opmr = str(opmr)
+                    tavr = ctypes.c_uint16.from_buffer_copy(device.sdo_read(index=tav, subindex=parasub)).value
+                    tavr = str(tavr)
+
+            pavvalue.set(pavr)
+            swvalue.set(swr)
+            vavvalue.set(vavr)
+            opmvalue.set(opmr)
+            decbinv = int(swr)
+            decbinv = decimalToBinary(decbinv)
+            decbinv = str(decbinv)
+            # rpm = round((float(pavr) / 8388608 * 10), 2)
+            rpmvalue.set(str(rpm))
+
+            # print(len(decbinv))
+            decbinvalue.set(decbinv)
+            tavvalue.set(tavr)
+
+            if len(decbinv) > 15:
+                d15value.set(decbinv[-16])
+            if len(decbinv) > 14:
+                d14value.set(decbinv[-15])
+            if len(decbinv) > 13:
+                d13value.set(decbinv[-14])
+            if len(decbinv) > 12:
+                d12value.set(decbinv[-13])
+            if len(decbinv) > 11:
+                d11value.set(decbinv[-12])
+            if len(decbinv) > 10:
+                d10value.set(decbinv[-11])
+            if len(decbinv) > 9:
+                d9value.set(decbinv[-10])
+            if len(decbinv) > 8:
+                d8value.set(decbinv[-9])
+            if len(decbinv) > 7:
+                d7value.set(decbinv[-8])
+            if len(decbinv) > 6:
+                d6value.set(decbinv[-7])
+            if len(decbinv) > 5:
+                d5value.set(decbinv[-6])
+            if len(decbinv) > 4:
+                d4value.set(decbinv[-5])
+            if len(decbinv) > 3:
+                d3value.set(decbinv[-4])
+            if len(decbinv) > 2:
+                d2value.set(decbinv[-3])
+            if len(decbinv) > 1:
+                d1value.set(decbinv[-2])
+            if len(decbinv) > 0:
+                d0value.set(decbinv[-1])
+
+            time.sleep(0.1)
+
+
+    def stop(self):
+        self.running = False
+# -------------------------------------------------
+class rtest2:
+    def rtest2Frame(self):
+
+        # initial = importlib.import_module("rtest8")
+        # self.root = initial.home.start(self)
+        # self.root.wm_iconbitmap('sukrit_Logo.ico')
+        self.root.configure(background="#ffffcc")
+
+
+        master.open(portName)
+        if master.config_init() > 0:
+            for device in master.slaves:
+                print(f'Found Device {device.name}')
+                pavr = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=pav, subindex=parasub)).value
+                print(pavr)
+                pavr = str(pavr)
+                swr = ctypes.c_uint16.from_buffer_copy(device.sdo_read(index=sw, subindex=parasub)).value
+                swr = str(swr)
+                print(swr)
+                vavr = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=vav, subindex=parasub)).value
+                vavr = str(vavr)
+                print(vavr)
+                opmr = ctypes.c_uint8.from_buffer_copy(device.sdo_read(index=opm, subindex=parasub)).value
+                opmr = str(opmr)
+                tavr = ctypes.c_uint16.from_buffer_copy(device.sdo_read(index=tav, subindex=parasub)).value
+                tavr = str(tavr)
+
+        def rtest11f():
+            # tp2.daemon=False
+            # tp2.join()
+            thread2.stop()
+            frame1.destroy()
+            frame2.destroy()
+            frame3.destroy()
+            frame4.destroy()
+            frame5.destroy()
+            frame6.destroy()
+            frame7.destroy()
+            # from pressBrakeP import pressBrake
+            # pb=pressBrake()
+            # pb.pressBrakeFrame()
+            pb = importlib.import_module("rtest11")
+            pb.rtest10.rtest10Frame(self)
+            pass
+
+        def upread():
+            while True:
+                if master.config_init() > 0:
+                    for device in master.slaves:
+                        pavr = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=pav, subindex=parasub)).value
+                        pavr = str(pavr)
+                        swr = ctypes.c_uint16.from_buffer_copy(device.sdo_read(index=sw, subindex=parasub)).value
+                        swr = str(swr)
+                        vavr = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=vav, subindex=parasub)).value
+                        vavr = str(vavr)
+                        opmr = ctypes.c_uint8.from_buffer_copy(device.sdo_read(index=opm, subindex=parasub)).value
+                        opmr = str(opmr)
+                        tavr = ctypes.c_uint16.from_buffer_copy(device.sdo_read(index=tav, subindex=parasub)).value
+                        tavr = str(tavr)
+
+                pavvalue.set(pavr)
+                swvalue.set(swr)
+                vavvalue.set(vavr)
+                opmvalue.set(opmr)
+                decbinv = int(swr)
+                decbinv = decimalToBinary(decbinv)
+                decbinv = str(decbinv)
+                # rpm = round((float(pavr) / 8388608 * 10), 2)
+                rpmvalue.set(str(rpm))
+
+                # print(len(decbinv))
+                decbinvalue.set(decbinv)
+                tavvalue.set(tavr)
+
+                if len(decbinv) > 15:
+                    d15value.set(decbinv[-16])
+                if len(decbinv) > 14:
+                    d14value.set(decbinv[-15])
+                if len(decbinv) > 13:
+                    d13value.set(decbinv[-14])
+                if len(decbinv) > 12:
+                    d12value.set(decbinv[-13])
+                if len(decbinv) > 11:
+                    d11value.set(decbinv[-12])
+                if len(decbinv) > 10:
+                    d10value.set(decbinv[-11])
+                if len(decbinv) > 9:
+                    d9value.set(decbinv[-10])
+                if len(decbinv) > 8:
+                    d8value.set(decbinv[-9])
+                if len(decbinv) > 7:
+                    d7value.set(decbinv[-8])
+                if len(decbinv) > 6:
+                    d6value.set(decbinv[-7])
+                if len(decbinv) > 5:
+                    d5value.set(decbinv[-6])
+                if len(decbinv) > 4:
+                    d4value.set(decbinv[-5])
+                if len(decbinv) > 3:
+                    d3value.set(decbinv[-4])
+                if len(decbinv) > 2:
+                    d2value.set(decbinv[-3])
+                if len(decbinv) > 1:
+                    d1value.set(decbinv[-2])
+                if len(decbinv) > 0:
+                    d0value.set(decbinv[-1])
+
+                time.sleep(0.1)
+            pass
+
+        def readr():
+            adrs3valuer = adrs3value.get()
+            adrs4valuer = adrs4value.get()
+            adrs6valuer = adrs6value.get()
+            subadrs6valuer = subadrs6value.get()
+            # regv1=regvalue1.get()
+            # regv2=regvalue2.get()
+            adrsd3r = adrsd3.get()
+            adrsd4r = adrsd4.get()
+            adrsd6r = adrsd6.get()
+            if adrs3valuer != "":
+                adrs3valuer = "0x" + adrs3valuer
+                adrs3valuer = int(adrs3valuer, 0)
+                if master.config_init() > 0:
+                    for device in master.slaves:
+                        if adrsd3r == "8":
+                            regr1 = ctypes.c_uint8.from_buffer_copy(
+                                device.sdo_read(index=adrs3valuer, subindex=parasub)).value
+                        elif adrsd3r == "16":
+                            regr1 = ctypes.c_uint16.from_buffer_copy(
+                                device.sdo_read(index=adrs3valuer, subindex=parasub)).value
+                        elif adrsd3r == "32":
+                            regr1 = ctypes.c_uint32.from_buffer_copy(
+                                device.sdo_read(index=adrs3valuer, subindex=parasub)).value
+                        else:
+                            regr1 = ctypes.c_uint32.from_buffer_copy(
+                                device.sdo_read(index=adrs3valuer, subindex=parasub)).value
+                regvalue1.set(regr1)
+            if adrs4valuer != "":
+                adrs4valuer = "0x" + adrs4valuer
+                adrs4valuer = int(adrs4valuer, 0)
+                # adrs4valuer=int(adrs4valuer)
+                if master.config_init() > 0:
+                    for device in master.slaves:
+                        if adrsd4r == "8":
+                            regr2 = ctypes.c_uint8.from_buffer_copy(
+                                device.sdo_read(index=adrs4valuer, subindex=parasub)).value
+                        elif adrsd4r == "16":
+                            regr2 = ctypes.c_uint16.from_buffer_copy(
+                                device.sdo_read(index=adrs4valuer, subindex=parasub)).value
+                        elif adrsd4r == "32":
+                            regr2 = ctypes.c_uint32.from_buffer_copy(
+                                device.sdo_read(index=adrs4valuer, subindex=parasub)).value
+                        else:
+                            regr2 = ctypes.c_uint32.from_buffer_copy(
+                                device.sdo_read(index=adrs4valuer, subindex=parasub)).value
+                regvalue2.set(regr2)
+            if adrs6valuer != "":
+                adrs6valuer = "0x" + adrs6valuer
+                adrs6valuer = int(adrs6valuer, 0)
+                if subadrs6valuer != "":
+                    subadrs6valuer = "0x" + subadrs6valuer
+                    # print(subadrs6valuer)
+                    subadrs6valuer = int(subadrs6valuer, 0)
+                    # print(subadrs6valuer)
+                    if master.config_init() > 0:
+                        for device in master.slaves:
+                            if adrsd6r == "8":
+                                regr3 = ctypes.c_uint8.from_buffer_copy(
+                                    device.sdo_read(index=adrs6valuer, subindex=subadrs6valuer)).value
+                            elif adrsd6r == "16":
+                                regr3 = ctypes.c_uint16.from_buffer_copy(
+                                    device.sdo_read(index=adrs6valuer, subindex=subadrs6valuer)).value
+                            elif adrsd6r == "32":
+                                regr3 = ctypes.c_uint32.from_buffer_copy(
+                                    device.sdo_read(index=adrs6valuer, subindex=subadrs6valuer)).value
+                            else:
+                                regr3 = ctypes.c_uint32.from_buffer_copy(
+                                    device.sdo_read(index=adrs6valuer, subindex=subadrs6valuer)).value
+                    pass
+                else:
+                    if master.config_init() > 0:
+                        for device in master.slaves:
+                            if adrsd6r == "8":
+                                regr3 = ctypes.c_uint8.from_buffer_copy(
+                                    device.sdo_read(index=adrs6valuer, subindex=parasub)).value
+                            elif adrsd6r == "16":
+                                regr3 = ctypes.c_uint16.from_buffer_copy(
+                                    device.sdo_read(index=adrs6valuer, subindex=parasub)).value
+                            elif adrsd6r == "32":
+                                regr3 = ctypes.c_uint32.from_buffer_copy(
+                                    device.sdo_read(index=adrs6valuer, subindex=parasub)).value
+                            else:
+                                regr3 = ctypes.c_uint32.from_buffer_copy(
+                                    device.sdo_read(index=adrs6valuer, subindex=parasub)).value
+                regvalue3.set(regr3)
+            # adtest1 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=adrs1w, subindex=parasub)).value
+            pass
+
+        def write():
+            opmodew = opmodevalue.get()
+            opmodew = int(opmodew)
+            tpw = tpvalue.get()
+            tpw = int(tpw)
+            pvw = pvvalue.get()
+            pvw = int(pvw)
+            # cww = cwvalue.get()
+            # cww = int(cww)
+            pacw = pacvalue.get()
+            if pacw != "":
+                pacw = int(pacw)
+            pdw = pdvalue.get()
+            if pdw != "":
+                pdw = int(pdw)
+                if master.config_init() > 0:
+                    for device in master.slaves:
+                        device.sdo_write(0x6060, 0, bytes(ctypes.c_uint8(opmodew)))
+                        device.sdo_write(0x607A, 0, bytes(ctypes.c_uint32(tpw)))
+                        device.sdo_write(0x6081, 0, bytes(ctypes.c_uint32(pvw)))
+                        # device.sdo_write(0x6040, 0, bytes(ctypes.c_uint16(cww)))
+                        device.sdo_write(0x6083, 0, bytes(ctypes.c_uint32(pacw)))
+                        device.sdo_write(0x6084, 0, bytes(ctypes.c_uint32(pdw)))
+            # while True:
+
+            print(opmodew, tpw, pvw, pacw, pdw)
+
+            pass
+
+        def cwrite():
+
+            cww = cwvalue.get()
+            cww = int(cww)
+            if master.config_init() > 0:
+                for device in master.slaves:
+                    device.sdo_write(0x6040, 0, bytes(ctypes.c_uint16(cww)))
+            print(cww)
+            pass
+
+        def cbwrite():
+            e8 = e8value.get()
+            e7 = e7value.get()
+            e6 = e6value.get()
+            e5 = e5value.get()
+            e4 = e4value.get()
+            e3 = e3value.get()
+            e2 = e2value.get()
+            e1 = e1value.get()
+            e0 = e0value.get()
+            bcww = e8 + e7 + e6 + e5 + e4 + e3 + e2 + e1 + e0
+            cww = binaryToDecimal(bcww)
+            if master.config_init() > 0:
+                for device in master.slaves:
+                    device.sdo_write(0x6040, 0, bytes(ctypes.c_uint16(cww)))
+            print(cww)
+            pass
+
+        def adwrite():
+            adrs1w = adrs1.get()
+            adrsd1w = adrsd1.get()
+            adrs1valuew = adrs1value.get()
+            adrs2w = adrs2.get()
+            adrsd2w = adrsd2.get()
+            adrs2valuew = adrs2value.get()
+            adrs5w = adrs5.get()
+            adrsd5w = adrsd5.get()
+            adrs5valuew = adrs5value.get()
+            subadrs5w = subadrs5.get()
+            if adrs1w != "":
+                adrs1w = "0x" + adrs1w
+                adrs1w = int(adrs1w, 0)
+                # print(adrs1w)
+                # adrs1w=hex(adrs1w)
+                # adrs1w=int(adrs1w)
+                adrs1valuew = int(adrs1valuew)
+                if master.config_init() > 0:
+                    for device in master.slaves:
+                        if adrsd1w == "8":
+                            device.sdo_write(adrs1w, 0, bytes(ctypes.c_uint8(adrs1valuew)))
+                        elif adrsd1w == "16":
+                            device.sdo_write(adrs1w, 0, bytes(ctypes.c_uint16(adrs1valuew)))
+                        elif adrsd1w == "32":
+                            device.sdo_write(adrs1w, 0, bytes(ctypes.c_uint32(adrs1valuew)))
+                        else:
+                            device.sdo_write(adrs1w, 0, bytes(ctypes.c_uint32(adrs1valuew)))
+                # adtest1 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=adrs1w, subindex=parasub)).value
+                # print(adtest1)
+            if adrs2w != "":
+                adrs2w = "0x" + adrs2w
+                adrs2w = int(adrs2w, 0)
+                # print(adrs2w)
+                adrs2valuew = int(adrs2valuew)
+                if master.config_init() > 0:
+                    for device in master.slaves:
+                        if adrsd2w == "8":
+                            device.sdo_write(adrs2w, 0, bytes(ctypes.c_uint8(adrs2valuew)))
+                        elif adrsd2w == "16":
+                            device.sdo_write(adrs2w, 0, bytes(ctypes.c_uint16(adrs2valuew)))
+                        elif adrsd2w == "32":
+                            device.sdo_write(adrs2w, 0, bytes(ctypes.c_uint32(adrs2valuew)))
+                        else:
+                            device.sdo_write(adrs2w, 0, bytes(ctypes.c_uint32(adrs2valuew)))
+                # adtest2 = ctypes.c_uint32.from_buffer_copy(device.sdo_read(index=adrs2w, subindex=parasub)).value
+                # print(adtest2)
+            if adrs5w != "":
+                adrs5w = "0x" + adrs5w
+                adrs5w = int(adrs5w, 0)
+                adrs5valuew = int(adrs5valuew)
+                if subadrs5w != "":
+                    subadrs5w = "0x" + subadrs5w
+                    subadrs5w = int(subadrs5w, 0)
+                    if master.config_init() > 0:
+                        for device in master.slaves:
+                            if adrsd5w == "8":
+                                device.sdo_write(adrs5w, subadrs5w, bytes(ctypes.c_uint8(adrs5valuew)))
+                            elif adrsd5w == "16":
+                                device.sdo_write(adrs5w, subadrs5w, bytes(ctypes.c_uint16(adrs5valuew)))
+                            elif adrsd5w == "32":
+                                device.sdo_write(adrs5w, subadrs5w, bytes(ctypes.c_uint32(adrs5valuew)))
+                            else:
+                                device.sdo_write(adrs5w, subadrs5w, bytes(ctypes.c_uint32(adrs5valuew)))
+                else:
+                    if master.config_init() > 0:
+                        for device in master.slaves:
+                            if adrsd1w == "8":
+                                device.sdo_write(adrs5w, 0, bytes(ctypes.c_uint8(adrs5valuew)))
+                            elif adrsd1w == "16":
+                                device.sdo_write(adrs5w, 0, bytes(ctypes.c_uint16(adrs5valuew)))
+                            elif adrsd1w == "32":
+                                device.sdo_write(adrs5w, 0, bytes(ctypes.c_uint32(adrs5valuew)))
+                            else:
+                                device.sdo_write(adrs5w, 0, bytes(ctypes.c_uint32(adrs5valuew)))
+            pass
+
+        def poweron():
+            if master.config_init() > 0:
+                for device in master.slaves:
+                    device.sdo_write(0x6040, 0, bytes(ctypes.c_uint16(0)))
+                    device.sdo_write(0x6040, 0, bytes(ctypes.c_uint16(6)))
+                    device.sdo_write(0x6040, 0, bytes(ctypes.c_uint16(7)))
+                    device.sdo_write(0x6040, 0, bytes(ctypes.c_uint16(15)))
+            pass
+
+        def startmotor():
+            if master.config_init() > 0:
+                for device in master.slaves:
+                    device.sdo_write(0x6040, 0, bytes(ctypes.c_uint16(31)))
+                    device.sdo_write(0x6040, 0, bytes(ctypes.c_uint16(47)))
+                    device.sdo_write(0x6040, 0, bytes(ctypes.c_uint16(31)))
+            pass
+
+        def quickstop():
+            if master.config_init() > 0:
+                for device in master.slaves:
+                    device.sdo_write(0x6040, 0, bytes(ctypes.c_uint16(256)))
+            pass
+
+        global pavvalue
+        global swvalue
+        global vavvalue
+        global opmvalue
+        global rpmvalue
+        global decbinvalue
+        global tavvalue
+        global d15value
+        global d14value
+        global d13value
+        global d12value
+        global d11value
+        global d10value
+        global d9value
+        global d8value
+        global d7value
+        global d6value
+        global d5value
+        global d4value
+        global d3value
+        global d2value
+        global d1value
+        global d0value
+
+
+
+        frame1 = Frame(self.root, highlightbackground="blue", highlightthickness=1, bg="#ffffcc")
+        Button(frame1, text="change",command=rtest11f, padx=30, pady=10, bg="#ff6666", fg="white").grid(row=0, column=0,
+                                                                                       padx=10,
+                                                                                       pady=10)
+        # logoimg = ImageTk.PhotoImage(
+        #     Image.open('sukrit_Logo.png').resize((150, 70), Image.Resampling.LANCZOS))
+        # Label(frame1, image=logoimg, bg="#ffffcc").grid(row=0, column=0)
+        Label(frame1, text="               ", font="Algerian 27 bold", padx=7, pady=7, bg="#ffffcc").grid(row=0,
+                                                                                                          column=1,
+                                                                                                          padx=10)
+        Entry(frame1, font="Calibri 11", width=11).grid(row=0, column=2)
+        Label(frame1, text="Ethercat R/W", fg="#cc3300", font="Algerian 27 bold", padx=7, pady=7, bg="#ffffcc").grid(
+            row=0,
+            column=3,
+            padx=10)
+        frame1.grid(row=0, ipadx=50, sticky="ew")
+        frame2 = Frame(self.root, bg="blue", height=15)
+        # wlabel=Label(frame2,text="",bg="blue",height=10).grid(row=1)
+        frame2.grid(row=1, ipadx=400, sticky='ew')
+
+        frame3 = Frame(self.root, highlightbackground="blue", width=300, height=100, highlightthickness=2, bg="#ffffcc")
+
+        frame4 = Frame(frame3, highlightbackground="blue", width=300, height=100, highlightthickness=0, bg="#ffffcc")
+
+        bdno = StringVar()
+        # bdno.set()
+
+        Label(frame4, text="OP mode", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=0, column=0)
+        opmodevalue = StringVar()
+        # pgno = yy[1]
+        # pnovalue.set(pgno)
+        Entry(frame4, width=10, textvariable=opmodevalue, font="Arial_Black 12 bold", ).grid(row=0, column=1)
+        Label(frame4, text="Target Position", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=0)
+        tpvalue = StringVar()
+        # ag = yy[3]
+        # anglev.set(ag)
+        Entry(frame4, width=10, textvariable=tpvalue, font="Arial_Black 12 bold", ).grid(row=1, column=1)
+        Label(frame4, text="Profile velocity", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=2, column=0)
+        pvvalue = StringVar()
+        # lgt = yy[6]
+        # lengthv.set(lgt)
+        Entry(frame4, width=10, textvariable=pvvalue, font="Arial_Black 12 bold", ).grid(row=2, column=1)
+        Label(frame4, text="Profile acceleration", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=3, column=0)
+        pacvalue = StringVar()
+        # bg = yy[8]
+        # bgaugev.set(bg)
+        Entry(frame4, width=10, textvariable=pacvalue, font="Arial_Black 12 bold", ).grid(row=3, column=1)
+        Label(frame4, text="Profile deceleration", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=4, column=0)
+        pdvalue = StringVar()
+        # rt = yy[10]
+        # retractv.set(rt)
+        Entry(frame4, width=10, textvariable=pdvalue, font="Arial_Black 12 bold", ).grid(row=4, column=1)
+        Label(frame4, text="Control Word", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=5, column=0)
+        cwvalue = StringVar()
+        # opn = yy[12]
+        # openingv.set(opn)
+        Entry(frame4, width=10, textvariable=cwvalue, font="Arial_Black 12 bold", ).grid(row=5, column=1)
+        Label(frame4, text="------", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=6, column=0)
+        rpositionv = StringVar()
+        # rp = yy[14]
+        # rpositionv.set(rp)
+        Entry(frame4, width=10, textvariable=rpositionv, font="Arial_Black 12 bold", ).grid(row=6, column=1)
+        # --------------------------------------------------------
+
+        Label(frame4, text="Postion Actual Value", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=0, column=2)
+        pavvalue = StringVar()
+        # pgn = yy[2]
+        pavvalue.set(pavr)
+        Entry(frame4, width=10, textvariable=pavvalue, font="Arial_Black 12 bold", ).grid(row=0, column=3)
+        Label(frame4, text="Status word", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=2)
+        swvalue = StringVar()
+
+        swvalue.set(swr)
+        Entry(frame4, width=10, textvariable=swvalue, font="Arial_Black 12 bold", ).grid(row=1, column=3)
+        Label(frame4, text="Velocity Actual Value", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=2, column=2)
+        vavvalue = StringVar()
+        # fc = yy[7]
+        vavvalue.set(vavr)
+        Entry(frame4, width=10, textvariable=vavvalue, font="Arial_Black 12 bold", ).grid(row=2, column=3)
+        Label(frame4, text="Mode of Op", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=3, column=2)
+        opmvalue = StringVar()
+        # ya = yy[9]
+        opmvalue.set(opmr)
+        Entry(frame4, width=10, textvariable=opmvalue, font="Arial_Black 12 bold", ).grid(row=3, column=3)
+        Label(frame4, text="Rpm", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=4, column=2)
+        decbinvalue = StringVar()
+        decbinv = int(swr)
+        decbinv = decimalToBinary(decbinv)
+        decbinv = str(decbinv)
+        print(len(decbinv))
+        decbinvalue.set(decbinv)
+        # print(decimalToBinary(pav6))
+        # print(len(decimalToBinary(pav6)))
+        # ac = yy[11]
+        # acorrv.set(ac)
+        rpmvalue = StringVar()
+        # rpm=round((float(pavr)/8388608*10),2)
+        rpmvalue.set(str(rpm))
+        Entry(frame4, width=10, textvariable=rpmvalue, font="Arial_Black 12 bold", ).grid(row=4, column=3)
+
+        Label(frame4, text="Torque Actual Value", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=5, column=2)
+        tavvalue = StringVar()
+        tavvalue.set(tavr)
+        Entry(frame4, textvariable=tavvalue, width=10, font="Arial_Black 12 bold", ).grid(row=5, column=3)
+        # adrs2=StringVar()
+        Label(frame4, width=10, text="------------", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=6, column=2)
+
+        Entry(frame4, width=10, font="Arial_Black 12 bold", ).grid(row=6, column=3)
+
+        frame4.grid(row=0, column=0, ipadx=33.5, sticky="w")
+
+        frame7 = Frame(frame3, highlightbackground="blue", width=300, height=100, highlightthickness=0, bg="#ffffcc")
+        Label(frame7, text="Status Word", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=0, column=0)
+        Label(frame7, text="15", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=0)
+        Label(frame7, text="14", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=1)
+        Label(frame7, text="13", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=2)
+        Label(frame7, text="12", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=3)
+        Label(frame7, text="11", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=4)
+        Label(frame7, text="10", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=5)
+        Label(frame7, text="9", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=6)
+        Label(frame7, text="8", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=7)
+        Label(frame7, text="7", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=8)
+        Label(frame7, text="6", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=9)
+        Label(frame7, text="5", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=10)
+        Label(frame7, text="4", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=11)
+        Label(frame7, text="3", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=12)
+        Label(frame7, text="2", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=13)
+        Label(frame7, text="1", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=14)
+        Label(frame7, text="0", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=1, column=15)
+        d15value = StringVar()
+        if len(decbinv) > 15:
+            d15value.set(decbinv[-16])
+        Entry(frame7, width=5, textvariable=d15value, font="Arial_Black 12 bold", ).grid(row=2, column=0)
+        d14value = StringVar()
+        if len(decbinv) > 14:
+            d14value.set(decbinv[-15])
+        Entry(frame7, width=5, textvariable=d14value, font="Arial_Black 12 bold", ).grid(row=2, column=1)
+        d13value = StringVar()
+        if len(decbinv) > 13:
+            d13value.set(decbinv[-14])
+        Entry(frame7, width=5, textvariable=d13value, font="Arial_Black 12 bold", ).grid(row=2, column=2)
+        d12value = StringVar()
+        if len(decbinv) > 12:
+            d12value.set(decbinv[-13])
+        Entry(frame7, width=5, textvariable=d12value, font="Arial_Black 12 bold", ).grid(row=2, column=3)
+        d11value = StringVar()
+        if len(decbinv) > 11:
+            d11value.set(decbinv[-12])
+        Entry(frame7, width=5, textvariable=d11value, font="Arial_Black 12 bold", ).grid(row=2, column=4)
+        d10value = StringVar()
+        if len(decbinv) > 10:
+            d10value.set(decbinv[-11])
+        Entry(frame7, width=5, textvariable=d10value, font="Arial_Black 12 bold", ).grid(row=2, column=5)
+        d9value = StringVar()
+        if len(decbinv) > 9:
+            d9value.set(decbinv[-10])
+        Entry(frame7, width=5, textvariable=d9value, font="Arial_Black 12 bold", ).grid(row=2, column=6)
+        d8value = StringVar()
+        if len(decbinv) > 8:
+            d8value.set(decbinv[-9])
+        Entry(frame7, width=5, textvariable=d8value, font="Arial_Black 12 bold", ).grid(row=2, column=7)
+        d7value = StringVar()
+        if len(decbinv) > 7:
+            d7value.set(decbinv[-8])
+        Entry(frame7, width=5, textvariable=d7value, font="Arial_Black 12 bold", ).grid(row=2, column=8)
+        d6value = StringVar()
+        if len(decbinv) > 6:
+            d6value.set(decbinv[-7])
+        Entry(frame7, width=5, textvariable=d6value, font="Arial_Black 12 bold", ).grid(row=2, column=9)
+        d5value = StringVar()
+        if len(decbinv) > 5:
+            d5value.set(decbinv[-6])
+        Entry(frame7, width=5, textvariable=d5value, font="Arial_Black 12 bold", ).grid(row=2, column=10)
+        d4value = StringVar()
+        if len(decbinv) > 4:
+            d4value.set(decbinv[-5])
+        Entry(frame7, width=5, textvariable=d4value, font="Arial_Black 12 bold", ).grid(row=2, column=11)
+        d3value = StringVar()
+        if len(decbinv) > 3:
+            d3value.set(decbinv[-4])
+        Entry(frame7, width=5, textvariable=d3value, font="Arial_Black 12 bold", ).grid(row=2, column=12)
+        d2value = StringVar()
+        if len(decbinv) > 2:
+            d2value.set(decbinv[-3])
+        Entry(frame7, width=5, textvariable=d2value, font="Arial_Black 12 bold", ).grid(row=2, column=13)
+        d1value = StringVar()
+        if len(decbinv) > 1:
+            d1value.set(decbinv[-2])
+        Entry(frame7, width=5, textvariable=d1value, font="Arial_Black 12 bold", ).grid(row=2, column=14)
+        d0value = StringVar()
+        if len(decbinv) > 0:
+            d0value.set(decbinv[-1])
+        Entry(frame7, width=5, textvariable=d0value, font="Arial_Black 12 bold", ).grid(row=2, column=15)
+        # ------------------------------------------------------------------------------------------------
+        Label(frame7, text="Control Word", font="Calibri 13 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=3, column=0)
+        Label(frame7, text="8", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=4, column=0)
+        Label(frame7, text="7", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=4, column=1)
+        Label(frame7, text="6", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=4, column=2)
+        Label(frame7, text="5", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=4, column=3)
+        Label(frame7, text="4", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=4, column=4)
+        Label(frame7, text="3", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=4, column=5)
+        Label(frame7, text="2", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=4, column=6)
+        Label(frame7, text="1", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=4, column=7)
+        Label(frame7, text="0", font="Calibri 8 bold", padx=7, pady=7, bg="#ffffcc",
+              fg="blue").grid(row=4, column=8)
+        e8value = StringVar()
+        Entry(frame7, width=5, textvariable=e8value, font="Arial_Black 12 bold", ).grid(row=5, column=0)
+        e7value = StringVar()
+        Entry(frame7, width=5, textvariable=e7value, font="Arial_Black 12 bold", ).grid(row=5, column=1)
+        e6value = StringVar()
+        Entry(frame7, width=5, textvariable=e6value, font="Arial_Black 12 bold", ).grid(row=5, column=2)
+        e5value = StringVar()
+        Entry(frame7, width=5, textvariable=e5value, font="Arial_Black 12 bold", ).grid(row=5, column=3)
+        e4value = StringVar()
+        Entry(frame7, width=5, textvariable=e4value, font="Arial_Black 12 bold", ).grid(row=5, column=4)
+        e3value = StringVar()
+        Entry(frame7, width=5, textvariable=e3value, font="Arial_Black 12 bold", ).grid(row=5, column=5)
+        e2value = StringVar()
+        Entry(frame7, width=5, textvariable=e2value, font="Arial_Black 12 bold", ).grid(row=5, column=6)
+        e1value = StringVar()
+        Entry(frame7, width=5, textvariable=e1value, font="Arial_Black 12 bold", ).grid(row=5, column=7)
+        e0value = StringVar()
+        Entry(frame7, width=5, textvariable=e0value, font="Arial_Black 12 bold", ).grid(row=5, column=8)
+
+        # Button(frame7, command=write, text="Send", padx=30, bg="blue", fg="white").grid(row=2, column=1)
+        # Button(frame7, command=cwrite, text="Control Send", padx=30, bg="blue", fg="white").grid(row=3, column=1)
+
+        frame7.grid(row=0, column=1, ipadx=112, sticky="e")
+
+        frame3.grid(row=2, column=0, ipadx=33.5, sticky="ew")
+
+        frame5 = Frame(self.root, bg="blue", height=10)
+        # wlabel=Label(frame2,text="",bg="blue",height=10).grid(row=1)
+        frame5.grid(row=3, ipadx=400, sticky='ew')
+
+        frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg="#ffffcc")
+        Button(frame6, command=write, text="Send", padx=30, pady=10, bg="blue", fg="white").grid(row=0, column=0,
+                                                                                                 padx=10, pady=10)
+        Button(frame6, command=cbwrite, text="Control (Bits) Send", padx=30, pady=10, bg="blue", fg="white").grid(row=0,
+                                                                                                                  column=1,
+                                                                                                                  padx=10,
+                                                                                                                  pady=10)
+        Button(frame6, command=cwrite, text="Control (Int) Send", padx=30, pady=10, bg="blue", fg="white").grid(row=1,
+                                                                                                                column=1,
+                                                                                                                padx=10,
+                                                                                                                pady=10)
+        Button(frame6, command=adwrite, text="Write Address", padx=30, pady=10, bg="blue", fg="white").grid(row=0,
+                                                                                                            column=6,
+                                                                                                            padx=10,
+                                                                                                            pady=10)
+        Button(frame6, command=readr, text="Read Address", padx=30, pady=10, bg="blue", fg="white").grid(row=0,
+                                                                                                         column=10,
+                                                                                                         padx=10,
+                                                                                                         pady=10)
+        Button(frame6, command=poweron, text="Power On", padx=30, pady=10, bg="green", fg="white").grid(row=2, column=0,
+                                                                                                        padx=10,
+                                                                                                        pady=10)
+        Button(frame6, command=startmotor, text="Start Motor", padx=30, pady=10, bg="yellow", fg="black").grid(row=2,
+                                                                                                               column=1,
+                                                                                                               padx=10,
+                                                                                                               pady=10)
+        Button(frame6, command=quickstop, text="Quick Stop", padx=30, pady=10, bg="red", fg="white").grid(row=2,
+                                                                                                          column=2,
+                                                                                                          padx=10,
+                                                                                                          pady=10)
+
+        Label(frame6, text="Address", font="Calibri 8 bold", bg="#ffffcc",
+              fg="blue").grid(row=0, column=3)
+        Label(frame6, text="Datatype eg.\"8\"", font="Calibri 8 bold", bg="#ffffcc",
+              fg="blue").grid(row=0, column=4)
+        Label(frame6, text="Value", font="Calibri 8 bold", bg="#ffffcc",
+              fg="blue").grid(row=0, column=5)
+        adrs1 = StringVar()
+        Entry(frame6, width=10, textvariable=adrs1, font="Calibri 13 bold", fg="blue").grid(row=1, column=3)
+        adrsd1 = StringVar()
+        Entry(frame6, width=10, textvariable=adrsd1, font="Calibri 13 bold", fg="blue").grid(row=1, column=4)
+        adrs1value = StringVar()
+        Entry(frame6, width=10, textvariable=adrs1value, font="Arial_Black 12 bold", ).grid(row=1, column=5)
+        adrs2 = StringVar()
+        Entry(frame6, width=10, textvariable=adrs2, font="Calibri 13 bold", fg="blue").grid(row=2, column=3)
+        adrsd2 = StringVar()
+        Entry(frame6, width=10, textvariable=adrsd2, font="Calibri 13 bold", fg="blue").grid(row=2, column=4)
+        adrs2value = StringVar()
+        Entry(frame6, width=10, textvariable=adrs2value, font="Arial_Black 12 bold", ).grid(row=2, column=5)
+        adrs5 = StringVar()
+        Entry(frame6, width=10, textvariable=adrs5, font="Calibri 13 bold", fg="blue").grid(row=3, column=3)
+        adrsd5 = StringVar()
+        Entry(frame6, width=10, textvariable=adrsd5, font="Calibri 13 bold", fg="blue").grid(row=3, column=4)
+        adrs5value = StringVar()
+        Entry(frame6, width=10, textvariable=adrs5value, font="Arial_Black 12 bold", ).grid(row=3, column=5)
+        Label(frame6, text="Sub Address", font="Calibri 8 bold", bg="#ffffcc",
+              fg="blue").grid(row=2, column=6)
+        subadrs5 = StringVar()
+        Entry(frame6, width=10, textvariable=subadrs5, font="Calibri 13 bold", fg="blue").grid(row=3, column=6)
+        Label(frame6, text="Read reg.", font="Calibri 8 bold", bg="#ffffcc",
+              fg="blue").grid(row=0, column=7)
+        adrs3value = StringVar()
+        Entry(frame6, width=10, textvariable=adrs3value, font="Arial_Black 12 bold", ).grid(row=1, column=7)
+        adrs4value = StringVar()
+        Entry(frame6, width=10, textvariable=adrs4value, font="Arial_Black 12 bold", ).grid(row=2, column=7)
+        adrs6value = StringVar()
+        Entry(frame6, width=10, textvariable=adrs6value, font="Arial_Black 12 bold", ).grid(row=3, column=7)
+        Label(frame6, text="Sub Address", font="Calibri 8 bold", bg="#ffffcc",
+              fg="blue").grid(row=2, column=10)
+        subadrs6value = StringVar()
+        Entry(frame6, width=10, textvariable=subadrs6value, font="Calibri 13 bold", fg="blue").grid(row=3, column=10)
+        Label(frame6, text="Data Type", font="Calibri 8 bold", bg="#ffffcc",
+              fg="blue").grid(row=0, column=8)
+        adrsd3 = StringVar()
+        Entry(frame6, width=10, textvariable=adrsd3, font="Calibri 13 bold", fg="blue").grid(row=1, column=8)
+        adrsd4 = StringVar()
+        Entry(frame6, width=10, textvariable=adrsd4, font="Calibri 13 bold", fg="blue").grid(row=2, column=8)
+        adrsd6 = StringVar()
+        Entry(frame6, width=10, textvariable=adrsd6, font="Calibri 13 bold", fg="blue").grid(row=3, column=8)
+        Label(frame6, text="Value", font="Calibri 8 bold", bg="#ffffcc",
+              fg="blue").grid(row=0, column=9)
+        regvalue1 = StringVar()
+        regvalue1.set(regr1)
+        Entry(frame6, width=10, textvariable=regvalue1, font="Calibri 13 bold", fg="blue").grid(row=1, column=9)
+        regvalue2 = StringVar()
+        regvalue2.set(regr2)
+        Entry(frame6, width=10, textvariable=regvalue2, font="Calibri 13 bold", fg="blue").grid(row=2, column=9)
+        regvalue3 = StringVar()
+        regvalue3.set(regr3)
+        Entry(frame6, width=10, textvariable=regvalue3, font="Calibri 13 bold", fg="blue").grid(row=3, column=9)
+        frame6.grid(row=4, ipadx=20, sticky='ew')
+
+
+        # tp2 = Thread(target=upread)
+        # tp2.name = 'r2t'
+        # # set daemon: polling thread will exit if main thread exit
+        # tp2.daemon = True
+        # if not tp2.is_alive():
+        #     tp2.start()
+
+        thread2 = MyThread(self.root)
+        thread2.start()
+
+        self.root.mainloop()
+
+if __name__=='__main__':
+    pl=rtest2()
+    pl.rtest2Frame()
