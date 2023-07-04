@@ -1,0 +1,17 @@
+from tkinter import *
+
+
+
+
+class home():
+    def start(self):
+        root = Tk()
+        root.geometry("800x480")
+        root.title("Sukrit Machine Tools")
+        # root.wm_iconbitmap('sukrit_Logo.ico')
+        root.configure(background="#b3ffe0")
+
+        return root
+
+
+
