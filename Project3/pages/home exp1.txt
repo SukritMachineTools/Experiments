@@ -1,12 +1,13 @@
 from tkinter import *
 from tkinter.ttk import Treeview
-
+from tkinter import filedialog
 from PIL import Image, ImageTk
 # from tkinter import ttk
 from tkinter import messagebox
 import pandas as pd
 import re
 import datetime
+import os
 
 ##########################
 #   Configuration
@@ -88,9 +89,23 @@ class home:
             newdf = pd.concat([newdf, sumrow], axis=0)
             machinedf = newdf.copy()
             machinedf = machinedf.drop(['time_difference1'], axis=1)
+            machinedf = machinedf.fillna("...")
 
             return machinedf
             pass
+
+        def exportcsv(dataframe):
+            downloads_path = os.path.join(os.path.expanduser("~"), "Downloads")
+            file_path = filedialog.asksaveasfilename(initialdir=downloads_path,
+                                                     defaultextension=".csv",
+                                                     filetypes=(("CSV files", "*.csv"),("text files", "*.txt"), ("All files", "*.*")))
+            if file_path:
+                # Perform saving operations with the selected file path
+                print("Selected file path:", file_path)
+            # Export the DataFrame to a CSV file with headers
+            dataframe.to_csv(file_path, index=False)
+            pass
+
 
         #########format check#########################################
         def check_date_format(input_string):
@@ -216,7 +231,7 @@ class home:
             frame5.grid(row=3, ipadx=400, sticky='ew')
 
             frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg=bgcolor)
-            Button(frame6, text="Export to CSV", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=0, padx=20, pady=10)
+            Button(frame6, text="Export to CSV", command=lambda: exportcsv(machinedf), padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=0, padx=20, pady=10)
             Button(frame6, text="Operator Report", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=1, padx=20, pady=10)
             Button(frame6, text="Monthly Report", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=2, padx=20, pady=10)
             Button(frame6, text="Settings", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=3, padx=20, pady=10)
