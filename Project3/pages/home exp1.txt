@@ -64,13 +64,13 @@ class home:
             df['End_Time'] = pd.to_datetime(df['End_Time'], format='%H:%M').dt.time
             df['time_difference'] = pd.to_datetime(df['time_difference'], format='%H:%M').dt.time
 
-            job = 'S.R. Shaft THD'
-            breakTime = '01:30'
-            start_date = '2023-06-01'
-            end_date = '2023-07-07'
+            # job = 'S.R. Shaft THD'
+            # breakTime = '01:30'
+            # start_date = '2023-06-01'
+            # end_date = '2023-07-07'
 
             # mask = (df['date'] > start_date) & (df['date'] <= end_date)
-            mask = (df['Date'] > start_date) & (df['Date'] <= end_date)
+            mask = (df['Date'] >= start_date) & (df['Date'] <= end_date)
             datedf = df.loc[mask]
             newdf = datedf[datedf['Job'] == job]
             newdf = newdf.reset_index(drop=True)
