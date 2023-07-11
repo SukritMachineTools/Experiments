@@ -159,40 +159,69 @@ class home:
 
             frame3 = Frame(self.root, highlightbackground="blue", width=300, height=100, highlightthickness=2,
                            bg=bgcolor)
+            machinedf = machineFunc()
+            element =job
+            # Search for the element in the specified column
+            is_present = element in machinedf['Job'].values
 
-            frame4 = Frame(frame3, highlightbackground="blue", width=300, height=100, highlightthickness=0, bg=bgcolor)
+            # Print the result
+            if is_present:
+                print(f"The element '{element}' is present in the '{'Job'}' column.")
+                frame4 = Frame(frame3, highlightbackground="blue", width=300, height=100, highlightthickness=0,
+                               bg=bgcolor)
 
-            machinedf=machineFunc()
-            dataframe=machinedf
-            # Create a Treeview widget
-            treeview = Treeview(frame4)
-            treeview["columns"] = list(dataframe.columns)
-            treeview["show"] = "headings"
+                dataframe = machinedf
+                # Create a Treeview widget
+                treeview = Treeview(frame4)
+                treeview["columns"] = list(dataframe.columns)
+                treeview["show"] = "headings"
 
-            # Add columns to the Treeview
-            for column in dataframe.columns:
-                treeview.heading(column, text=column)
-                treeview.column(column, width=100)
+                # Add columns to the Treeview
+                for column in dataframe.columns:
+                    treeview.heading(column, text=column)
+                    treeview.column(column, width=100)
 
-            # Add rows to the Treeview
-            for row in dataframe.itertuples(index=False):
-                treeview.insert("", "end", values=row)
+                # Add rows to the Treeview
+                for row in dataframe.itertuples(index=False):
+                    treeview.insert("", "end", values=row)
 
-            # Add a vertical scrollbar to the Treeview
-            scrollbar = Scrollbar(frame4, orient="vertical", command=treeview.yview)
-            treeview.configure(yscroll=scrollbar.set)
+                # Add a vertical scrollbar to the Treeview
+                scrollbar = Scrollbar(frame4, orient="vertical", command=treeview.yview)
+                treeview.configure(yscroll=scrollbar.set)
 
-            # Grid layout configuration
-            treeview.grid(row=0, column=0, sticky="nsew")
-            scrollbar.grid(row=0, column=1, sticky="ns")
+                # Grid layout configuration
+                treeview.grid(row=0, column=0, sticky="nsew")
+                scrollbar.grid(row=0, column=1, sticky="ns")
 
-            # Configure grid weights to resize properly
-            frame4.grid_rowconfigure(0, weight=1)
-            frame4.grid_columnconfigure(0, weight=1)
+                # Configure grid weights to resize properly
+                frame4.grid_rowconfigure(0, weight=1)
+                frame4.grid_columnconfigure(0, weight=1)
 
+                frame4.grid(row=0, column=0, ipadx=33.5, sticky="w")
 
-            frame4.grid(row=0, column=0, ipadx=33.5, sticky="w")
+            else:
+                print(f"The element '{element}' is not present in the '{'Job'}' column.")
+                frame4 = Frame(frame3, highlightbackground="blue", width=300, height=100, highlightthickness=0,
+                               bg=bgcolor)
+                # Cooper Black
+                searchJob=job+" : Not Found"
+                Label(frame4, text=searchJob, font="Stencil 26 bold", padx=7, pady=7, bg=bgcolor,
+                      fg="red").grid(row=0, column=0)
+                frame4.grid(row=0, column=0, ipadx=33.5, sticky="w")
+
             frame3.grid(row=2, column=0, ipadx=33.5, sticky="ew")
+
+            frame5 = Frame(self.root, bg="blue", height=10)
+            # wlabel=Label(frame2,text="",bg="blue",height=10).grid(row=1)
+            frame5.grid(row=3, ipadx=400, sticky='ew')
+
+            frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg=bgcolor)
+            Button(frame6, text="Export to CSV", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=0, padx=20, pady=10)
+            Button(frame6, text="Operator Report", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=1, padx=20, pady=10)
+            Button(frame6, text="Monthly Report", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=2, padx=20, pady=10)
+            Button(frame6, text="Settings", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=3, padx=20, pady=10)
+            frame6.grid(row=4,ipadx=20,sticky='ew')
+
             pass
 
         def submitD():
