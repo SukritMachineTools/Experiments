@@ -22,6 +22,8 @@ breakTime='01:30'
 start_date= '2023-06-01'
 end_date= '2023-07-07'
 flag=0
+targetv = 55
+incentivev = 0.70
 ############################
 
 class home:
@@ -94,6 +96,136 @@ class home:
             return machinedf
             pass
 
+        def operatorFunc():
+            try:
+                # read google sheets
+                df = pd.read_csv(
+                    'https://docs.google.com/spreadsheets/d/e/2PACX-1vT6HrGh7EOzzejrvzkG_TGUM_GoGVDuvlUq7UcYqHlESZX6Vv8Hvwatsp4FLdE4Nmff9z5LSG3KQFq9/pub?gid=1362009325&single=true&output=csv')
+            except:
+                df=pd.read_csv('./production.csv')
+
+            # renamed columns
+            df.rename(columns={'Rejection': 'M/C', 'Unnamed: 6': 'CASTING',
+                               'Unnamed: 7': 'OTHER', 'Timming': 'Start_Time', 'Unnamed: 11': 'End_Time',
+                               'Total Prod': 'Total_Prod', 'Final Prod': 'Final_Prod', 'Total Rej': 'Total_Rej'},
+                      inplace=True)
+            df = df.drop(index=0)
+            df = df.reset_index(drop=True)
+            df['Date'] = pd.to_datetime(df['Date'], format='%d-%m-%Y')
+
+            # Convert the 'time_string' column to time object
+            df['Start_Time'] = pd.to_datetime(df['Start_Time'], format='%H:%M')
+            df['End_Time'] = pd.to_datetime(df['End_Time'], format='%H:%M')
+
+            # Calculate the time difference
+
+            df['time_difference1'] = df['End_Time'] - df['Start_Time']
+            df['time_difference1'] = df['time_difference1'] - pd.Timedelta(hours=1, minutes=30)
+            df['time_difference'] = df['time_difference1'].apply(
+                lambda x: '{:02d}:{:02d}'.format(int(x.seconds // 3600), int((x.seconds // 60) % 60)))
+
+            df['Start_Time'] = pd.to_datetime(df['Start_Time'], format='%H:%M').dt.time
+            df['End_Time'] = pd.to_datetime(df['End_Time'], format='%H:%M').dt.time
+            df['time_difference'] = pd.to_datetime(df['time_difference'], format='%H:%M').dt.time
+
+            # job = 'S.R. Shaft THD'
+            # breakTime = '01:30'
+            # start_date = '2023-06-01'
+            # end_date = '2023-07-07'
+
+            # mask = (df['date'] > start_date) & (df['date'] <= end_date)
+            mask = (df['Date'] >= start_date) & (df['Date'] <= end_date)
+            datedf = df.loc[mask]
+            newdf = datedf[datedf['Job'] == job]
+            newdf = newdf.reset_index(drop=True)
+            total_time = newdf['time_difference1'].sum()
+            # df=df.drop(['time_difference1'], axis=1)
+            total_hours = total_time.total_seconds() / 3600
+            newdf = newdf.astype(
+                {'Total_Prod': 'int', 'M/C': 'int', 'CASTING': 'int', 'OTHER': 'int', 'Total_Rej': 'int',
+                 'Final_Prod': 'int'})
+            newdf['Date'] = newdf['Date'].dt.strftime('%d-%m-%Y')
+            sumrow = {'Date': 'Total', 'Total_Prod': sum(newdf['Total_Prod']), 'M/C': sum(newdf['M/C']),
+                      'CASTING': sum(newdf['CASTING']), 'OTHER': sum(newdf['OTHER']),
+                      'Final_Prod': sum(newdf['Final_Prod']),
+                      'time_difference': total_hours}
+            sumrow = pd.DataFrame(sumrow, index=['Total'])
+            newdf = pd.concat([newdf, sumrow], axis=0)
+
+            # Get the distinct values in a specific column
+            distinct_values = newdf['Operator'].unique()  # Replace 'column_name' with the actual column name
+
+            distinct_values = list(distinct_values)
+            distinct_values.pop()
+            days = []
+            total_hours = []
+            sum_prod = []
+            sum_mc = []
+            sum_cast = []
+            sum_other = []
+            sum_finalprod = []
+            avg_hourly = []
+            avg_day = []
+            for i in range(len(distinct_values)):
+                op1 = newdf[newdf['Operator'] == distinct_values[i]]
+                daysop = op1.shape[0]
+                days.append(daysop)
+                total_timeop = op1['time_difference1'].sum()
+                total_hoursop = round((total_timeop.total_seconds() / 3600), 2)
+                total_hours.append(total_hoursop)
+                sum_prodop = sum(op1['Total_Prod'])
+                sum_prod.append(sum_prodop)
+                sum_mcop = sum(op1['M/C'])
+                sum_mc.append(sum_mcop)
+                sum_castop = sum(op1['CASTING'])
+                sum_cast.append(sum_castop)
+                sum_otherop = sum(op1['OTHER'])
+                sum_other.append(sum_otherop)
+                sum_finalprodop = sum(op1['Final_Prod'])
+                sum_finalprod.append(sum_finalprodop)
+                avg_hourlyop = round((sum_prodop / total_hoursop), 2)
+                avg_hourly.append(avg_hourlyop)
+                avg_dayop = round((sum_prodop / daysop), 2)
+                avg_day.append(avg_dayop)
+            product = {
+                'Operator': distinct_values,
+                'DAYS': days,
+                'HOURS': total_hours,
+                'Total_Prod': sum_prod,
+                'M/C': sum_mc,
+                'Casting': sum_cast,
+                'Other': sum_other,
+                'Final_Prod': sum_finalprod,
+                'Hourly_Avg': avg_hourly,
+                'Day_Avg': avg_day
+            }
+            print(product)
+            prod_df = pd.DataFrame(product)
+            prod_df['Deduct_Machine_rej'] = prod_df['Total_Prod'] - prod_df['M/C']
+            prod_df['Deduct_Machine_rej'] = prod_df['Deduct_Machine_rej'].round(2)
+            # targetv = 55
+            # incentivev = 0.70
+            prod_df['Hours X Target'] = prod_df['HOURS'] * targetv
+            prod_df['Hours X Target'] = prod_df['Hours X Target'].round(2)
+            prod_df['Extra Prod'] = prod_df['Deduct_Machine_rej'] - prod_df['Hours X Target']
+            prod_df['Extra Prod'] = prod_df['Extra Prod'].round(2)
+            prod_df['Incentive'] = prod_df['Extra Prod'] * incentivev
+            prod_df['Incentive'] = prod_df['Incentive'].round(2)
+
+            sumrow2 = {'Operator': 'Total', 'DAYS': sum(prod_df['DAYS']), 'HOURS': sum(prod_df['HOURS']),
+                       'Total_Prod': sum(prod_df['Total_Prod']), 'M/C': sum(prod_df['M/C']),
+                       'Casting': sum(prod_df['Casting']),
+                       'Other': sum(prod_df['Other']), 'Final_Prod': sum(prod_df['Final_Prod']),
+                       'Hourly_Avg': round(sum(prod_df['Hourly_Avg']), 2), 'Day_Avg': round(sum(prod_df['Day_Avg']), 2),
+                       'Deduct_Machine_rej': round(sum(prod_df['Deduct_Machine_rej']), 2),
+                       'Hours X Target': round(sum(prod_df['Hours X Target']), 2),
+                       'Extra Prod': round(sum(prod_df['Extra Prod']), 2),
+                       'Incentive': round(sum(prod_df['Incentive']), 2)}
+            sumrow2 = pd.DataFrame(sumrow2, index=['Total'])
+            operatordf = pd.concat([prod_df, sumrow2], axis=0)
+
+            return (operatordf,newdf)
+
         def exportcsv(dataframe):
             downloads_path = os.path.join(os.path.expanduser("~"), "Downloads")
             file_path = filedialog.asksaveasfilename(initialdir=downloads_path,
@@ -128,9 +260,163 @@ class home:
                 err="Error"
                 return err
 
+        #######SWITCH PAGES########################################################
+        def mactoOpPage():
+            frame2.destroy()
+            frame3.destroy()
+            frame4.destroy()
+            frame5.destroy()
+            frame6.destroy()
+            Operatorpage()
+
+
+        ###########OPERATOR PAGE#####################################################
+        def Operatorpage():
+            frame2 = Frame(self.root, bg="blue", height=15)
+            Label(frame2, text="Production Records", fg="#ffffff", font="Algerian 20 bold", padx=7, pady=7,
+                  bg="blue").grid(
+                row=0,
+                column=1, sticky='n')
+            frame2i = Frame(frame2, highlightbackground="blue", width=300, height=100, highlightthickness=1, bg=bgcolor)
+            Label(frame2i, text="Start Date:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg="blue").grid(
+                row=1,
+                column=1)
+            Label(frame2i, text=start_date, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg=bgcolor).grid(
+                row=1,
+                column=2)
+            Label(frame2i, text="End Date:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg="blue").grid(
+                row=1,
+                column=3)
+            Label(frame2i, text=end_date, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg=bgcolor).grid(
+                row=1,
+                column=4)
+            Label(frame2i, text="Job:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg="blue").grid(
+                row=1,
+                column=5)
+            Label(frame2i, text=job, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg=bgcolor).grid(
+                row=1,
+                column=6)
+            Label(frame2i, text="Break Time:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg="blue").grid(
+                row=1,
+                column=7)
+            Label(frame2i, text=breakTime, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg=bgcolor).grid(
+                row=1,
+                column=8)
+            Label(frame2i, text="Target:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg="blue").grid(
+                row=1,
+                column=9)
+            Label(frame2i, text=targetv, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg=bgcolor).grid(
+                row=1,
+                column=10)
+            Label(frame2i, text="Incentive:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg="blue").grid(
+                row=1,
+                column=11)
+            Label(frame2i, text=incentivev, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg=bgcolor).grid(
+                row=1,
+                column=12)
+            frame2i.grid(row=1, column=1, ipadx=33.5, sticky="w")
+            frame2.grid(row=1, ipadx=400, sticky='ew')
+
+            frame3 = Frame(self.root, highlightbackground="blue", width=winW, height=100, highlightthickness=2,
+                           bg=bgcolor)
+            operatordf,newdf=operatorFunc()
+            element = job
+            # Search for the element in the specified column
+            is_present = element in newdf['Job'].values
+
+            # Print the result
+            if is_present:
+                print(f"The element '{element}' is present in the '{'Job'}' column.")
+                frame4 = Frame(frame3, highlightbackground="blue", width=winW, height=100, highlightthickness=0,
+                               bg=bgcolor)
+
+                dataframe = operatordf
+                # Create a canvas
+                canvas = Canvas(frame4,bg=bgcolor,width=winW)
+                canvas.grid(row=0, column=0, sticky='nsew')
+
+                # Add a horizontal scrollbar
+                scrollbar = Scrollbar(frame4, orient='horizontal', command=canvas.xview)
+                scrollbar.grid(row=1, column=0, sticky='ew')
+                canvas.configure(xscrollcommand=scrollbar.set)
+
+                # Create a frame inside the canvas
+                df_frame = Frame(canvas,bg=bgcolor)
+                canvas.create_window((0, 0), window=df_frame, anchor='nw',width=winW)
+
+                # Create a Pandas DataFrame table within the frame
+                table = Treeview(df_frame, columns=list(operatordf.columns), show='headings')
+                table.grid(row=0, column=0, sticky='nsew')
+
+                # Insert column headers
+                for column in operatordf.columns:
+                    table.heading(column, text=column)
+
+                # Insert data rows
+                for _, row in operatordf.iterrows():
+                    table.insert('', 'end', values=list(row))
+
+                # Decrease the width of all columns
+                for column in operatordf.columns:
+                    table.column(column, width=80)  # Specify the desired width
+                # Configure the grid weights
+                # self.root.grid_rowconfigure(0, weight=1)
+                # self.root.grid_columnconfigure(0, weight=1)
+                frame4.grid_rowconfigure(0, weight=1)
+                frame4.grid_columnconfigure(0, weight=1)
+                df_frame.grid_rowconfigure(0, weight=1)
+                df_frame.grid_columnconfigure(0, weight=1)
+
+                # Update the canvas scrolling region
+                canvas.update_idletasks()
+                canvas.configure(scrollregion=canvas.bbox('all'))
+
+                frame4.grid(row=0, column=0, sticky="w")
+
+            else:
+                print(f"The element '{element}' is not present in the '{'Job'}' column.")
+                frame4 = Frame(frame3, highlightbackground="blue", width=300, height=100, highlightthickness=0,
+                               bg=bgcolor)
+                # Cooper Black
+                searchJob = job + " : Not Found"
+                Label(frame4, text=searchJob, font="Stencil 26 bold", padx=7, pady=7, bg=bgcolor,
+                      fg="red").grid(row=0, column=0)
+                frame4.grid(row=0, column=0, ipadx=33.5, sticky="w")
+
+            frame3.grid(row=2, column=0, ipadx=13.5, sticky="ew")
+
+            frame5 = Frame(self.root, bg="blue", height=10)
+            # wlabel=Label(frame2,text="",bg="blue",height=10).grid(row=1)
+            frame5.grid(row=3, ipadx=400, sticky='ew')
+
+            frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg=bgcolor)
+            Button(frame6, text="Export to CSV", command=lambda: exportcsv(operatordf), padx=30, bg="#ffcc99",
+                   fg="#000000").grid(row=0, column=0, padx=20, pady=10)
+            Button(frame6, text="Machine Report", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=1, padx=20,
+                                                                                             pady=10)
+            Button(frame6, text="Monthly Report", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=2, padx=20,
+                                                                                            pady=10)
+            Button(frame6, text="Settings", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=3, padx=20, pady=10)
+            frame6.grid(row=4, ipadx=20, sticky='ew')
+            pass
+
         ###########MACHINE PAGE########################################################
         # Machine Frame
         def mpage():
+            global frame5
+            global frame6
             frame2 = Frame(self.root, bg="blue", height=15)
             Label(frame2, text="Production Records", fg="#ffffff", font="Algerian 20 bold", padx=7, pady=7,
                   bg="blue").grid(
@@ -232,7 +518,7 @@ class home:
 
             frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg=bgcolor)
             Button(frame6, text="Export to CSV", command=lambda: exportcsv(machinedf), padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=0, padx=20, pady=10)
-            Button(frame6, text="Operator Report", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=1, padx=20, pady=10)
+            Button(frame6, text="Operator Report",command=mactoOpPage, padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=1, padx=20, pady=10)
             Button(frame6, text="Monthly Report", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=2, padx=20, pady=10)
             Button(frame6, text="Settings", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=3, padx=20, pady=10)
             frame6.grid(row=4,ipadx=20,sticky='ew')
@@ -244,6 +530,8 @@ class home:
             global breakTime
             global start_date
             global end_date
+            global incentivev
+            global targetv
             flag=0
 
             if len(jobvalue.get()) > 0:
@@ -275,6 +563,25 @@ class home:
                 print("end date error")
                 messagebox.showerror("Error", "Enter correct End Date")
                 flag=1
+            if (targetvalue.get()).isdigit():
+                if int(targetvalue.get())>0:
+                    targetv=int(targetvalue.get())
+                else:
+                    messagebox.showerror("Error", "Enter valid target")
+                    flag=1
+            elif (re.match(r'^$', targetvalue.get())):
+                pass
+            else:
+                messagebox.showerror("Error", "Enter valid target")
+                flag = 1
+
+            if re.match(r'^[-+]?[0-9]*\.[0-9]+$', incentivevalue.get()):
+                incentivev=float(incentivevalue.get())
+            elif (re.match(r'^$', incentivevalue.get())):
+                pass
+            else:
+                messagebox.showerror("Error", "Enter valid incentive")
+                flag = 1
 
             if flag!=1:
                 frame2.destroy()
@@ -303,7 +610,7 @@ class home:
             column=1,sticky='n')
         Label(frame2, text="Monthly Record", fg="#000000", font="Algerian 16 bold", padx=7, pady=7, bg=bgcolor).grid(
             row=1,
-            column=1, sticky='n')
+            column=0, sticky='n')
         frame2.grid(row=1, ipadx=400, sticky='ew')
         frame3 = Frame(self.root, highlightbackground="blue", width=300, height=100, highlightthickness=2, bg=bgcolor)
 
@@ -314,13 +621,13 @@ class home:
               fg="blue").grid(row=1, column=0)
         sDatevalue = StringVar()
         Entry(frame4, width=10, textvariable=sDatevalue, font="Arial_Black 12 bold", ).grid(row=1, column=1)
-        Label(frame4, text="(2023-06-01)", font="Calibri 10 bold", padx=7, pady=7, bg=bgcolor,
+        Label(frame4, text="(YYYY-MM-DD)", font="Calibri 10 bold", padx=7, pady=7, bg=bgcolor,
               fg="#000000").grid(row=2, column=0)
         Label(frame4, text="End Date", font="Calibri 13 bold", padx=7, pady=7, bg=bgcolor,
               fg="blue").grid(row=3, column=0)
         eDatevalue = StringVar()
         Entry(frame4, width=10, textvariable=eDatevalue, font="Arial_Black 12 bold", ).grid(row=3, column=1)
-        Label(frame4, text="(2023-06-01)", font="Calibri 10 bold", padx=7, pady=7, bg=bgcolor,
+        Label(frame4, text="(YYYY-MM-DD)", font="Calibri 10 bold", padx=7, pady=7, bg=bgcolor,
               fg="#000000").grid(row=4, column=0)
         Label(frame4, text="Job", font="Calibri 13 bold", padx=7, pady=7, bg=bgcolor,
               fg="blue").grid(row=1, column=3)
@@ -332,6 +639,26 @@ class home:
         Entry(frame4, width=20, textvariable=bTimevalue, font="Arial_Black 12 bold", ).grid(row=3, column=4)
         Label(frame4, text="(1:30)", font="Calibri 10 bold", padx=7, pady=7, bg=bgcolor,
               fg="#000000").grid(row=4, column=3)
+        # Label(frame4, text="||", font="Calibri 13 bold", padx=7, pady=7, bg=bgcolor,
+        #       fg="blue").grid(row=1, column=4)
+        # Label(frame4, text="||", font="Calibri 10 bold", padx=7, pady=7, bg=bgcolor,
+        #       fg="#000000").grid(row=2, column=4)
+        # Label(frame4, text="||", font="Calibri 13 bold", padx=7, pady=7, bg=bgcolor,
+        #       fg="blue").grid(row=3, column=4)
+        # Label(frame4, text="||", font="Calibri 10 bold", padx=7, pady=7, bg=bgcolor,
+        #       fg="#000000").grid(row=4, column=4)
+        Label(frame4, text="Target", font="Calibri 13 bold", padx=7, pady=7, bg=bgcolor,
+              fg="blue").grid(row=1, column=5)
+        targetvalue = StringVar()
+        Entry(frame4, width=20, textvariable=targetvalue, font="Arial_Black 12 bold", ).grid(row=1, column=6)
+        Label(frame4, text="(55)", font="Calibri 10 bold", padx=7, pady=7, bg=bgcolor,
+              fg="#000000").grid(row=2, column=5)
+        Label(frame4, text="Incentive", font="Calibri 13 bold", padx=7, pady=7, bg=bgcolor,
+              fg="blue").grid(row=3, column=5)
+        incentivevalue = StringVar()
+        Entry(frame4, width=20, textvariable=incentivevalue, font="Arial_Black 12 bold", ).grid(row=3, column=6)
+        Label(frame4, text="(0.70)", font="Calibri 10 bold", padx=7, pady=7, bg=bgcolor,
+              fg="#000000").grid(row=4, column=5)
         Button(frame4, command=submitD, text="SUBMIT", padx=30, bg="blue", fg="white").grid(row=5, column=1)
         frame4.grid(row=0, column=0, ipadx=33.5, sticky="w")
 
