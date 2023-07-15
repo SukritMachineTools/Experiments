@@ -8,6 +8,7 @@ import pandas as pd
 import re
 import datetime
 import os
+import csv
 
 ##########################
 #   Configuration
@@ -329,6 +330,21 @@ class home:
 
             return dflist
 
+        def exportmonthly(df_list):
+            downloads_path = os.path.join(os.path.expanduser("~"), "Downloads")
+            file_path = filedialog.asksaveasfilename(initialdir=downloads_path,
+                                                     defaultextension=".csv",
+                                                     filetypes=(("CSV files", "*.csv"), ("text files", "*.txt"),
+                                                                ("All files", "*.*")))
+            if file_path:
+                # Perform saving operations with the selected file path
+                print("Selected file path:", file_path)
+            # Export the DataFrame to a CSV file with headers
+            for dframe in df_list:
+                print(type(df_list))
+                dframe.to_csv(file_path, mode='a', header=True, index=False)
+            pass
+
         def exportcsv(dataframe):
             downloads_path = os.path.join(os.path.expanduser("~"), "Downloads")
             file_path = filedialog.asksaveasfilename(initialdir=downloads_path,
@@ -477,22 +493,7 @@ class home:
                   bg=bgcolor).grid(
                 row=1,
                 column=4)
-            # Label(frame2i, text="Job:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
-            #       bg="blue").grid(
-            #     row=1,
-            #     column=5)
-            # Label(frame2i, text=job, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
-            #       bg=bgcolor).grid(
-            #     row=1,
-            #     column=6)
-            # Label(frame2i, text="Break Time:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
-            #       bg="blue").grid(
-            #     row=1,
-            #     column=7)
-            # Label(frame2i, text=breakTime, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
-            #       bg=bgcolor).grid(
-            #     row=1,
-            #     column=8)
+
             frame2i.grid(row=1, column=1, ipadx=33.5, sticky="w")
             frame2.grid(row=1, ipadx=400, sticky='ew')
 
@@ -566,7 +567,7 @@ class home:
             frame5.grid(row=3, ipadx=400, sticky='ew')
 
             frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg=bgcolor)
-            Button(frame6, text="Export to CSV", padx=30, bg="#ffcc99",
+            Button(frame6, text="Export to CSV",command=lambda: exportmonthly(datalist), padx=30, bg="#ffcc99",
                    fg="#000000").grid(row=0, column=0, padx=20, pady=10)
             Button(frame6, text="Operator Report", command=mactoOpPage, padx=30, bg="#ffcc99", fg="#000000").grid(row=0,
                                                                                                                   column=1,
