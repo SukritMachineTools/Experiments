@@ -226,6 +226,109 @@ class home:
 
             return (operatordf,newdf)
 
+        def monthlyFunc():
+            try:
+                # read google sheets
+                df = pd.read_csv(
+                    'https://docs.google.com/spreadsheets/d/e/2PACX-1vT6HrGh7EOzzejrvzkG_TGUM_GoGVDuvlUq7UcYqHlESZX6Vv8Hvwatsp4FLdE4Nmff9z5LSG3KQFq9/pub?gid=1362009325&single=true&output=csv')
+            except:
+                df=pd.read_csv('./production.csv')
+            # renamed columns
+            df.rename(columns={'Rejection': 'M/C', 'Unnamed: 6': 'CASTING',
+                               'Unnamed: 7': 'OTHER', 'Timming': 'Start_Time', 'Unnamed: 11': 'End_Time',
+                               'Total Prod': 'Total_Prod', 'Final Prod': 'Final_Prod', 'Total Rej': 'Total_Rej'},
+                      inplace=True)
+            df = df.drop(index=0)
+            df = df.reset_index(drop=True)
+            df['Date'] = pd.to_datetime(df['Date'], format='%d-%m-%Y')
+
+            # Convert the 'time_string' column to time object
+            df['Start_Time'] = pd.to_datetime(df['Start_Time'], format='%H:%M')
+            df['End_Time'] = pd.to_datetime(df['End_Time'], format='%H:%M')
+
+            # Calculate the time difference
+
+            df['time_difference1'] = df['End_Time'] - df['Start_Time']
+            df['time_difference1'] = df['time_difference1'] - pd.Timedelta(hours=1, minutes=30)
+            df['time_difference'] = df['time_difference1'].apply(
+                lambda x: '{:02d}:{:02d}'.format(int(x.seconds // 3600), int((x.seconds // 60) % 60)))
+
+            df['Start_Time'] = pd.to_datetime(df['Start_Time'], format='%H:%M').dt.time
+            df['End_Time'] = pd.to_datetime(df['End_Time'], format='%H:%M').dt.time
+            df['time_difference'] = pd.to_datetime(df['time_difference'], format='%H:%M').dt.time
+
+            # job='S.R. Shaft THD'
+            # breakTime='01:30'
+            start_date = '2023-06-01'
+            end_date = '2023-07-07'
+
+            # mask = (df['date'] > start_date) & (df['date'] <= end_date)
+            mask = (df['Date'] >= start_date) & (df['Date'] <= end_date)
+            datedf = df.loc[mask]
+            newdf = datedf[datedf['Job'] == job]
+            newdf = newdf.reset_index(drop=True)
+            total_time = newdf['time_difference1'].sum()
+            # df=df.drop(['time_difference1'], axis=1)
+            total_hours = total_time.total_seconds() / 3600
+            newdf = newdf.astype(
+                {'Total_Prod': 'int', 'M/C': 'int', 'CASTING': 'int', 'OTHER': 'int', 'Total_Rej': 'int',
+                 'Final_Prod': 'int'})
+            newdf['Date'] = newdf['Date'].dt.strftime('%d-%m-%Y')
+            sumrow = {'Date': 'Total', 'Total_Prod': sum(newdf['Total_Prod']), 'M/C': sum(newdf['M/C']),
+                      'CASTING': sum(newdf['CASTING']), 'OTHER': sum(newdf['OTHER']),
+                      'Final_Prod': sum(newdf['Final_Prod']), 'time_difference': total_hours}
+            sumrow = pd.DataFrame(sumrow, index=['Total'])
+            newdf = pd.concat([newdf, sumrow], axis=0)
+
+            # Get the distinct values in a specific column
+            distinct_values_Job = df['Job'].unique()
+            distinct_values_Job = list(distinct_values_Job)
+            distinct_values_Job.pop()
+
+            # multi table
+            machinej = []
+            t_prodj = []
+            mcj = []
+            castj = []
+            otherj = []
+            final = []
+            column_names = ['Machines', 'PRODUCT', 'Total_Prod', 'M/C', 'CASTING', 'OTHER', 'FINAL']
+            dflist = []
+            # Create an empty dataframe with the specified column names
+            jobs = pd.DataFrame(columns=column_names)
+
+            for j in range(len(distinct_values_Job)):
+                job1 = df[df['Job'] == distinct_values_Job[j]]
+                job1 = job1.loc[mask]
+                job1 = job1.reset_index(drop=True)
+                job1 = job1.astype(
+                    {'Total_Prod': 'int', 'M/C': 'int', 'CASTING': 'int', 'OTHER': 'int', 'Total_Rej': 'int',
+                     'Final_Prod': 'int'})
+                distinct_values_Mc = job1['Machines'].unique()
+                distinct_values_Mc = list(distinct_values_Mc)
+
+                jobs = pd.DataFrame(columns=column_names)
+
+                for m in range(len(distinct_values_Mc)):
+                    job2 = job1[job1['Machines'] == distinct_values_Mc[m]]
+                    job2 = job2.astype(
+                        {'Total_Prod': 'int', 'M/C': 'int', 'CASTING': 'int', 'OTHER': 'int', 'Total_Rej': 'int',
+                         'Final_Prod': 'int'})
+                    job3 = {'Machines': distinct_values_Mc[m], 'PRODUCT': distinct_values_Job[j],
+                            'Total_Prod': sum(job2['Total_Prod']), 'M/C': sum(job2['M/C']),
+                            'CASTING': sum(job2['CASTING']), 'OTHER': sum(job2['OTHER']),
+                            'FINAL': sum(job2['Final_Prod'])}
+                    job3 = pd.DataFrame(job3, index=[m])
+                    jobs = pd.concat([jobs, job3], ignore_index=True)
+                job3 = {'Machines': 'Total', 'Total_Prod': sum(jobs['Total_Prod']), 'M/C': sum(jobs['M/C']),
+                        'CASTING': sum(jobs['CASTING']), 'OTHER': sum(jobs['OTHER']), 'FINAL': sum(jobs['FINAL'])}
+                job3 = pd.DataFrame(job3, index=[0])
+                jobs = pd.concat([jobs, job3], ignore_index=True)
+                dflist.append(jobs)
+
+
+            return dflist
+
         def exportcsv(dataframe):
             downloads_path = os.path.join(os.path.expanduser("~"), "Downloads")
             file_path = filedialog.asksaveasfilename(initialdir=downloads_path,
@@ -269,11 +372,219 @@ class home:
             frame6.destroy()
             Operatorpage()
 
+        def mactoMoPage():
+            frame2.destroy()
+            frame2i.destroy()
+            frame3.destroy()
+            frame4.destroy()
+            frame5.destroy()
+            frame6.destroy()
+            monthlyPage()
+
+        def hometoMoPage():
+            global job
+            global breakTime
+            global start_date
+            global end_date
+            global incentivev
+            global targetv
+            flag = 0
+
+            if len(jobvalue.get()) > 0:
+                job = jobvalue.get()
+                print(job)
+            # else:
+            #     print("job error")
+            #     messagebox.showerror("Error", "Enter the Job")
+            #     flag = 1
+
+            if check_btime_format(bTimevalue.get()) != "Error":
+                breakTime = check_btime_format(bTimevalue.get())
+                print(breakTime)
+            else:
+                print("btime error")
+                messagebox.showerror("Error", "Enter correct Break Time")
+                flag = 1
+            if check_date_format(sDatevalue.get()) != "Error":
+                start_date = check_date_format(sDatevalue.get())
+                print(start_date)
+            else:
+                print("st date error")
+                messagebox.showerror("Error", "Enter correct Start Date")
+                flag = 1
+            if check_date_format(eDatevalue.get()) != "Error":
+                end_date = check_date_format(eDatevalue.get())
+                print(end_date)
+            else:
+                print("end date error")
+                messagebox.showerror("Error", "Enter correct End Date")
+                flag = 1
+            if (targetvalue.get()).isdigit():
+                if int(targetvalue.get()) > 0:
+                    targetv = int(targetvalue.get())
+                else:
+                    messagebox.showerror("Error", "Enter valid target")
+                    flag = 1
+            elif (re.match(r'^$', targetvalue.get())):
+                pass
+            else:
+                messagebox.showerror("Error", "Enter valid target")
+                flag = 1
+
+            if re.match(r'^[-+]?[0-9]*\.[0-9]+$', incentivevalue.get()):
+                incentivev = float(incentivevalue.get())
+            elif (re.match(r'^$', incentivevalue.get())):
+                pass
+            else:
+                messagebox.showerror("Error", "Enter valid incentive")
+                flag = 1
+
+            if flag != 1:
+                frame2.destroy()
+                frame3.destroy()
+                frame4.destroy()
+                monthlyPage()
+
+
+        #########Monthly Page#######################################################
+        def monthlyPage():
+            # global frame5
+            # global frame6
+            # global frame2i
+
+
+
+
+            frame2 = Frame(self.root, bg="blue", height=15)
+            Label(frame2, text="Monthly Production", fg="#ffffff", font="Algerian 20 bold", padx=7, pady=7,
+                  bg="blue").grid(
+                row=0,
+                column=1, sticky='n')
+            frame2i = Frame(frame2, highlightbackground="blue", width=300, height=100, highlightthickness=1, bg=bgcolor)
+            Label(frame2i, text="Start Date:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg="blue").grid(
+                row=1,
+                column=1)
+            Label(frame2i, text=start_date, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg=bgcolor).grid(
+                row=1,
+                column=2)
+            Label(frame2i, text="End Date:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg="blue").grid(
+                row=1,
+                column=3)
+            Label(frame2i, text=end_date, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+                  bg=bgcolor).grid(
+                row=1,
+                column=4)
+            # Label(frame2i, text="Job:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            #       bg="blue").grid(
+            #     row=1,
+            #     column=5)
+            # Label(frame2i, text=job, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            #       bg=bgcolor).grid(
+            #     row=1,
+            #     column=6)
+            # Label(frame2i, text="Break Time:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            #       bg="blue").grid(
+            #     row=1,
+            #     column=7)
+            # Label(frame2i, text=breakTime, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            #       bg=bgcolor).grid(
+            #     row=1,
+            #     column=8)
+            frame2i.grid(row=1, column=1, ipadx=33.5, sticky="w")
+            frame2.grid(row=1, ipadx=400, sticky='ew')
+
+            frame3 = Frame(self.root, highlightbackground="blue", width=300, height=100, highlightthickness=2,
+                           bg=bgcolor)
+            datalist=monthlyFunc()
+
+            if len(datalist)>0:
+                # Create a scrollbar
+                scrollBar = Scrollbar(frame3)
+                scrollBar.grid(row=0, column=1, sticky="ns")
+                # Configure the scrollbar to work with the Treeview widget
+                # scrollBar.config(command=treeview.yview)
+                frame4 = Frame(frame3, highlightbackground="blue", width=300, height=100, highlightthickness=0,
+                               bg=bgcolor)
+
+
+                frame4.grid(row=0, column=0, ipadx=33.5, sticky="w")
+                for i, dataframe in enumerate(datalist):
+                    # Create a new frame for each dataframe
+                    frame = Frame(frame4)
+                    frame.grid(row=i)
+                    # Create a Treeview widget
+                    treeview = Treeview(frame,yscrollcommand=scrollBar.set,height=5)
+                    treeview["columns"] = list(dataframe.columns)
+                    treeview["show"] = "headings"
+
+                    # Add columns to the Treeview
+                    for column in dataframe.columns:
+                        treeview.heading(column, text=column)
+                        treeview.column(column, width=100)
+
+                    # Add rows to the Treeview
+                    for row in dataframe.itertuples(index=False):
+                        treeview.insert("", "end", values=row)
+
+                    # Add a vertical scrollbar to the Treeview
+                    scrollbar = Scrollbar(frame, orient="vertical", command=treeview.yview)
+                    treeview.configure(yscroll=scrollbar.set)
+
+                    # Grid layout configuration within the Frame
+                    treeview.grid(row=0, column=0, sticky="nsew")
+                    scrollbar.grid(row=0, column=1, sticky="ns")
+                    scrollBar.config(command=treeview.yview)
+
+                    # Configure grid weights within the Frame to resize properly
+                    frame.grid_rowconfigure(0, weight=1)
+                    frame.grid_columnconfigure(0, weight=1)
+
+
+
+
+
+
+            else:
+                frame4 = Frame(frame3, highlightbackground="blue", width=300, height=100, highlightthickness=0,
+                               bg=bgcolor)
+                # Cooper Black
+                searchJob = job + " : Not Found"
+                Label(frame4, text=searchJob, font="Stencil 26 bold", padx=7, pady=7, bg=bgcolor,
+                      fg="red").grid(row=0, column=0)
+                frame4.grid(row=0, column=0, ipadx=33.5, sticky="w")
+
+
+
+
+            frame3.grid(row=2, column=0, ipadx=33.5, sticky="ew")
+
+            frame5 = Frame(self.root, bg="blue", height=10)
+            # wlabel=Label(frame2,text="",bg="blue",height=10).grid(row=1)
+            frame5.grid(row=3, ipadx=400, sticky='ew')
+
+            frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg=bgcolor)
+            Button(frame6, text="Export to CSV", padx=30, bg="#ffcc99",
+                   fg="#000000").grid(row=0, column=0, padx=20, pady=10)
+            Button(frame6, text="Operator Report", command=mactoOpPage, padx=30, bg="#ffcc99", fg="#000000").grid(row=0,
+                                                                                                                  column=1,
+                                                                                                                  padx=20,
+                                                                                                                  pady=10)
+            Button(frame6, text="Monthly Report", padx=30, bg="#ffcc99", fg="#000000").grid(row=0,
+                                                                                                                 column=2,
+                                                                                                                 padx=20,
+                                                                                                                 pady=10)
+            Button(frame6, text="Settings", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=3, padx=20, pady=10)
+            frame6.grid(row=4, ipadx=20, sticky='ew')
+            pass
+
 
         ###########OPERATOR PAGE#####################################################
         def Operatorpage():
             frame2 = Frame(self.root, bg="blue", height=15)
-            Label(frame2, text="Production Records", fg="#ffffff", font="Algerian 20 bold", padx=7, pady=7,
+            Label(frame2, text="Operator's Records", fg="#ffffff", font="Algerian 20 bold", padx=7, pady=7,
                   bg="blue").grid(
                 row=0,
                 column=1, sticky='n')
@@ -415,8 +726,12 @@ class home:
         ###########MACHINE PAGE########################################################
         # Machine Frame
         def mpage():
+            global frame2
+            global frame3
+            global frame4
             global frame5
             global frame6
+            global frame2i
             frame2 = Frame(self.root, bg="blue", height=15)
             Label(frame2, text="Production Records", fg="#ffffff", font="Algerian 20 bold", padx=7, pady=7,
                   bg="blue").grid(
@@ -519,11 +834,13 @@ class home:
             frame6 = Frame(self.root, highlightbackground="blue", highlightthickness=0, bg=bgcolor)
             Button(frame6, text="Export to CSV", command=lambda: exportcsv(machinedf), padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=0, padx=20, pady=10)
             Button(frame6, text="Operator Report",command=mactoOpPage, padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=1, padx=20, pady=10)
-            Button(frame6, text="Monthly Report", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=2, padx=20, pady=10)
+            Button(frame6, text="Monthly Report",command=mactoMoPage , padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=2, padx=20, pady=10)
             Button(frame6, text="Settings", padx=30, bg="#ffcc99", fg="#000000").grid(row=0, column=3, padx=20, pady=10)
             frame6.grid(row=4,ipadx=20,sticky='ew')
 
             pass
+
+
 
         def submitD():
             global job
@@ -586,6 +903,7 @@ class home:
             if flag!=1:
                 frame2.destroy()
                 frame3.destroy()
+                frame4.destroy()
                 mpage()
             pass
 
@@ -605,7 +923,7 @@ class home:
             column=2)
         frame1.grid(row=0, ipadx=600, sticky="ew")
         frame2 = Frame(self.root, bg="blue", height=15)
-        Label(frame2, text="Production Records", fg="#ffffff", font="Algerian 20 bold", padx=7, pady=7, bg="blue").grid(
+        Label(frame2, text="Production Soft", fg="#ffffff", font="Algerian 20 bold", padx=7, pady=7, bg="blue").grid(
             row=0,
             column=1,sticky='n')
         Label(frame2, text="Monthly Record", fg="#000000", font="Algerian 16 bold", padx=7, pady=7, bg=bgcolor).grid(
@@ -660,6 +978,7 @@ class home:
         Label(frame4, text="(0.70)", font="Calibri 10 bold", padx=7, pady=7, bg=bgcolor,
               fg="#000000").grid(row=4, column=5)
         Button(frame4, command=submitD, text="SUBMIT", padx=30, bg="blue", fg="white").grid(row=5, column=1)
+        Button(frame4, command=hometoMoPage, text="Monthly Report", padx=30, bg="blue", fg="white").grid(row=5, column=4)
         frame4.grid(row=0, column=0, ipadx=33.5, sticky="w")
 
         frame3.grid(row=2, column=0, ipadx=33.5, sticky="ew")
