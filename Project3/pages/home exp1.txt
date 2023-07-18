@@ -591,56 +591,56 @@ class home:
         ###########OPERATOR PAGE#####################################################
         def Operatorpage():
             frame2 = Frame(self.root, bg="blue", height=15)
-            Label(frame2, text="Operator's Records", fg="#ffffff", font="Algerian 20 bold", padx=7, pady=7,
+            Label(frame2, text="Operator's Records", fg="#ffffff", font="Elephant 20 bold", padx=7, pady=7,
                   bg="blue").grid(
                 row=0,
                 column=1, sticky='n')
             frame2i = Frame(frame2, highlightbackground="blue", width=300, height=100, highlightthickness=1, bg=bgcolor)
-            Label(frame2i, text="Start Date:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text="Start Date:", fg="#000000", font="Algerian 14 bold", padx=7, pady=7,
                   bg="blue").grid(
                 row=1,
                 column=1)
-            Label(frame2i, text=start_date, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text=start_date, fg="#000000", font="Algerian 14 bold", padx=7, pady=7,
                   bg=bgcolor).grid(
                 row=1,
                 column=2)
-            Label(frame2i, text="End Date:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text="End Date:", fg="#000000", font="Algerian 14 bold", padx=7, pady=7,
                   bg="blue").grid(
                 row=1,
                 column=3)
-            Label(frame2i, text=end_date, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text=end_date, fg="#000000", font="Algerian 14 bold", padx=7, pady=7,
                   bg=bgcolor).grid(
                 row=1,
                 column=4)
-            Label(frame2i, text="Job:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text="Job:", fg="#000000", font="Algerian 14 bold", padx=7, pady=7,
                   bg="blue").grid(
                 row=1,
                 column=5)
-            Label(frame2i, text=job, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text=job, fg="#000000", font="Algerian 14 bold", padx=7, pady=7,
                   bg=bgcolor).grid(
                 row=1,
                 column=6)
-            Label(frame2i, text="Break Time:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text="Break Time:", fg="#000000", font="Algerian 14 bold", padx=7, pady=7,
                   bg="blue").grid(
                 row=1,
                 column=7)
-            Label(frame2i, text=breakTime, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text=breakTime, fg="#000000", font="Algerian 14 bold", padx=7, pady=7,
                   bg=bgcolor).grid(
                 row=1,
                 column=8)
-            Label(frame2i, text="Target:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text="Target:", fg="#000000", font="Algerian 14 bold", padx=7, pady=7,
                   bg="blue").grid(
                 row=1,
                 column=9)
-            Label(frame2i, text=targetv, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text=targetv, fg="#000000", font="Algerian 14 bold", padx=7, pady=7,
                   bg=bgcolor).grid(
                 row=1,
                 column=10)
-            Label(frame2i, text="Incentive:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text="Incentive:", fg="#000000", font="Algerian 14 bold", padx=7, pady=7,
                   bg="blue").grid(
                 row=1,
                 column=11)
-            Label(frame2i, text=incentivev, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text=incentivev, fg="#000000", font="Algerian 14 bold", padx=7, pady=7,
                   bg=bgcolor).grid(
                 row=1,
                 column=12)
@@ -745,35 +745,35 @@ class home:
                 row=0,
                 column=1, sticky='n')
             frame2i = Frame(frame2, highlightbackground="blue", width=300, height=100, highlightthickness=1, bg=bgcolor)
-            Label(frame2i, text="Start Date:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text="Start Date:", fg="#000000", font="Elephant 16 bold", padx=7, pady=7,
                   bg="blue").grid(
                 row=1,
                 column=1)
-            Label(frame2i, text=start_date, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text=start_date, fg="#000000", font="Elephant 16 bold", padx=7, pady=7,
                   bg=bgcolor).grid(
                 row=1,
                 column=2)
-            Label(frame2i, text="End Date:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text="End Date:", fg="#000000", font="Elephant 16 bold", padx=7, pady=7,
                   bg="blue").grid(
                 row=1,
                 column=3)
-            Label(frame2i, text=end_date, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text=end_date, fg="#000000", font="Elephant 16 bold", padx=7, pady=7,
                   bg=bgcolor).grid(
                 row=1,
                 column=4)
-            Label(frame2i, text="Job:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text="Job:", fg="#000000", font="Elephant 16 bold", padx=7, pady=7,
                   bg="blue").grid(
                 row=1,
                 column=5)
-            Label(frame2i, text=job, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text=job, fg="#000000", font="Elephant 16 bold", padx=7, pady=7,
                   bg=bgcolor).grid(
                 row=1,
                 column=6)
-            Label(frame2i, text="Break Time:", fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text="Break Time:", fg="#000000", font="Elephant 16 bold", padx=7, pady=7,
                   bg="blue").grid(
                 row=1,
                 column=7)
-            Label(frame2i, text=breakTime, fg="#000000", font="Algerian 16 bold", padx=7, pady=7,
+            Label(frame2i, text=breakTime, fg="#000000", font="Elephant 16 bold", padx=7, pady=7,
                   bg=bgcolor).grid(
                 row=1,
                 column=8)
