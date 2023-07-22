@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sukrit Production form</title>
+</head>
+
+<body>
+    <h1>Sukrit Productions</h1>
+    <form id="myForm">
+        <!-- <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required> -->
+        <table>
+            <tr>
+                <td>Date:</td>
+                <td> <input type="text" name="date" /></td>
+            </tr>
+            <tr>
+                <td>Machine:</td>
+                <td> <input type="text" name="machines" /></td>
+            </tr>
+            <tr>
+                <td>Operator:</td>
+                <td> <input type="text" name="operator" /></td>
+            </tr>
+            <tr>
+                <td>Job:</td>
+                <td> <input type="text" name="job" /></td>
+            </tr>
+            <tr>
+                <td>Total Prod:</td>
+                <td> <input type="text" name="totalProd" /></td>
+            </tr>
+            <tr>
+                <td>M/C:</td>
+                <td> <input type="text" name="mc" /></td>
+            </tr>
+            <tr>
+                <td>Casting:</td>
+                <td> <input type="text" name="casting" /></td>
+            </tr>
+            <tr>
+                <td>Other:</td>
+                <td> <input type="text" name="other" /></td>
+            </tr>
+            <tr>
+                <td>Total Rej.:</td>
+                <td> <input type="text" name="totalRej" /></td>
+            </tr>
+            <tr>
+                <td>Final Prod:</td>
+                <td> <input type="text" name="finalProd" /></td>
+            </tr>
+            <tr>
+                <td>Start Time:</td>
+                <td> <input type="text" name="startTime" /></td>
+            </tr>
+            <tr>
+                <td>End Time:</td>
+                <td> <input type="text" name="endTime" /></td>
+            </tr>
+        </table>
+        <button type="submit">Submit</button>
+        <button type="Reset">Reset</button>
+    </form>
+
+    <script>
+        document.getElementById("myForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            const formData = new FormData(event.target); // Get form data
+            const url = "https://script.google.com/macros/s/AKfycbw3ZSJOcrNmmpXHPCLYT0C2QVISKGQfgkstxWYYIMpas8CBZN14DIE2G1E1Q2D1yxcL/exec"; // Replace with your API endpoint URL
+
+            fetch(url, {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Response:", data);
+                    // Handle the response data here as needed
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    // Handle any errors that occurred during the request
+                });
+        });
+    </script>
+</body>
+
+</html>

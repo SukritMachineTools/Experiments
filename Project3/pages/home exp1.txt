@@ -265,8 +265,8 @@ class home:
 
             # job='S.R. Shaft THD'
             # breakTime='01:30'
-            start_date = '2023-06-01'
-            end_date = '2023-07-07'
+            # start_date = '2023-06-01'
+            # end_date = '2023-07-07'
 
             # mask = (df['date'] > start_date) & (df['date'] <= end_date)
             mask = (df['Date'] >= start_date) & (df['Date'] <= end_date)
@@ -523,7 +523,7 @@ class home:
                     frame = Frame(frame4)
                     frame.grid(row=i)
                     # Create a Treeview widget
-                    treeview = Treeview(frame,yscrollcommand=scrollBar.set,height=5)
+                    treeview = Treeview(frame,yscrollcommand=scrollBar.set,height=(20//len(datalist)))
                     treeview["columns"] = list(dataframe.columns)
                     treeview["show"] = "headings"
 
