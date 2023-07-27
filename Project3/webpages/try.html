@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sukrit Production form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #008080;
+            color: white;
+            margin: 0;
+        }
+
+        #myForm {
+            max-width: 500px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #008080;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="reset"] {
+            background-color: #f44336;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Sukrit Productions</h1>
+    <form id="myForm">
+        <label for="date">Date:</label>
+        <input type="text" id="date" name="date" required>
+
+        <label for="machines">Machine:</label>
+        <input type="text" id="machines" name="machines" required>
+
+        <label for="operator">Operator:</label>
+        <input type="text" id="operator" name="operator" required>
+
+        <label for="job">Job:</label>
+        <input type="text" id="job" name="job" required>
+
+        <label for="totalProd">Total Prod:</label>
+        <input type="text" id="totalProd" name="totalProd" required>
+
+        <label for="mc">M/C:</label>
+        <input type="text" id="mc" name="mc" required>
+
+        <label for="casting">Casting:</label>
+        <input type="text" id="casting" name="casting" required>
+
+        <label for="other">Other:</label>
+        <input type="text" id="other" name="other">
+
+        <label for="totalRej">Total Rej.:</label>
+        <input type="text" id="totalRej" name="totalRej">
+
+        <label for="finalProd">Final Prod:</label>
+        <input type="text" id="finalProd" name="finalProd" required>
+
+        <label for="startTime">Start Time:</label>
+        <input type="text" id="startTime" name="startTime" required>
+
+        <label for="endTime">End Time:</label>
+        <input type="text" id="endTime" name="endTime" required>
+
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+    </form>
+
+    <script>
+        document.getElementById("myForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            const formData = new FormData(event.target); // Get form data
+            const url = "https://script.google.com/macros/s/AKfycbw3ZSJOcrNmmpXHPCLYT0C2QVISKGQfgkstxWYYIMpas8CBZN14DIE2G1E1Q2D1yxcL/exec"; // Replace with your API endpoint URL
+
+            fetch(url, {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Response:", data);
+                    // Handle the response data here as needed
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    // Handle any errors that occurred during the request
+                });
+        });
+    </script>
+</body>
+
+</html>
