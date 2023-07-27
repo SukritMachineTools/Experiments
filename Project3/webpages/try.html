@@ -103,6 +103,7 @@
     <script>
         document.getElementById("myForm").addEventListener("submit", function (event) {
             event.preventDefault(); // Prevent form submission
+            calculateTotalRej(); // Calculate and update Total Rej. before form submission
 
             const formData = new FormData(event.target); // Get form data
             const url = "https://script.google.com/macros/s/AKfycbw3ZSJOcrNmmpXHPCLYT0C2QVISKGQfgkstxWYYIMpas8CBZN14DIE2G1E1Q2D1yxcL/exec"; // Replace with your API endpoint URL
@@ -121,6 +122,15 @@
                     // Handle any errors that occurred during the request
                 });
         });
+
+        function calculateTotalRej() {
+            const mcValue = parseFloat(document.getElementById("mc").value) || 0;
+            const castingValue = parseFloat(document.getElementById("casting").value) || 0;
+            const otherValue = parseFloat(document.getElementById("other").value) || 0;
+
+            const totalRejValue = mcValue + castingValue + otherValue;
+            document.getElementById("totalRej").value = totalRejValue;
+        }
     </script>
 </body>
 
